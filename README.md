@@ -34,7 +34,7 @@ The future of wealth management, featuring:
 Overall architecture for Wealth and Financial Advisor Demo Platform
 ![alt text](images/overall_architecture.png)
 
-## Tech Stack & AWS Services
+## Tech Stack & AWS Services:
 
 ### Frontend
 
