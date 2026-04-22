@@ -450,7 +450,7 @@ Auto-discovers all configuration from SSM Parameter Store (region, VPC, subnets,
 
 To edit later, modify `.env` directly — see `.env.example` for all available options.
 
-### **Step 1**:Load Runtime Config
+### **Step 1**: Load Runtime Config
 
 Download Cognito and API config for local auth (one-time, or after redeployment):
 
