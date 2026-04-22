@@ -321,13 +321,16 @@ scripts/                     # Utility and test scripts
   - Anthropic Claude Sonnet 4.5 (`us.anthropic.claude-sonnet-4-5-20250929-v1:0`)
   - Anthropic Claude Haiku 4.5 (`us.anthropic.claude-haiku-4-5-20251001-v1:0`)
   - Amazon Nova Sonic (`amazon.nova-2-sonic-v1:0`)
-- Create Tavily API key (optional): Visit [Tavily](https://www.tavily.com/) and create an API key. Required only for the web search and market insights features — the core application works without it.
+- Create Tavily API key (optional): Visit [Tavily](https://www.tavily.com/) and create an API key. Required for the web search and market insights features in the smart chat
 
 ### Deployment
+<div style="background-color: #cee8f6ff; padding: 12px; border-left: 4px solid #3407ffff; color: #000000;">
+⚠️ A full deployment requires AdministratorAccess permissions on your AWS CLI account.
+</div>
 
 Two CodeBuild projects automate the full deployment. A developer can go from a fresh AWS account to a running application with minimal manual intervention.
 
-#### Step 1: Configure SSM Parameters
+#### **Step 1**: Configure SSM Parameters
 
 ```bash
 ./scripts/setup-ssm-params.sh
@@ -335,7 +338,7 @@ Two CodeBuild projects automate the full deployment. A developer can go from a f
 
 The script prompts for app name, env name, regions, and other settings — with smart defaults for each. It also creates the `Admin` IAM role for Lake Formation if it doesn't exist.
 
-#### Step 2: Deploy CI Infrastructure
+#### **Step 2**: Deploy CI Infrastructure
 
 ```bash
 pnpm install
@@ -346,7 +349,7 @@ pnpm nx deploy @wealth-management-portal/ci-infra
 
 This creates two CodeBuild projects: `wealth-mgmt-platform-deploy` (data platform) and `wealth-mgmt-deploy` (application).
 
-#### Step 3: Upload Source and Deploy Data Platform
+#### **Step 3**: Upload Source and Deploy Data Platform
 
 ```bash
 ./scripts/upload-source.sh
@@ -361,7 +364,7 @@ Takes ~45 minutes. Deploys VPC, Redshift, Glue data lake, SageMaker, Lake Format
 
 > This is the only manual step in the entire deployment. No API exists for IDC password resets.
 
-#### Step 4: Deploy Application
+#### **Step 4**: Deploy Application
 
 ```bash
 ./scripts/trigger-build.sh wealth-mgmt-deploy buildspec-app.yml
@@ -369,9 +372,11 @@ Takes ~45 minutes. Deploys VPC, Redshift, Glue data lake, SageMaker, Lake Format
 
 Takes ~30 minutes. Deploys Lambda functions, API Gateway, Neptune, Cognito, CloudFront, and runs all post-deploy steps (Lake Formation grants, Redshift grants, Neptune data load, test user creation).
 
-#### Step 5: Access the Application
+#### **Step 5**: Access the Application
 
-Open the CloudFront URL from the Step 4 build output and sign in with the test user credentials. You can also retrieve the URL:
+Open the CloudFront URL from the Step 4 build output and sign in with the test user credentials. You can also retrieve the URL by running following command on CLI. You are all set and login to the CloudFront URL and explore the solution. 
+
+You can use the ID and password that you added in the Step 1. If you lost it, you can go to AWS Console and reset password.
 
 ```bash
 aws cloudformation describe-stacks --region ${AWS_REGION:-us-west-2} \
@@ -445,7 +450,7 @@ Auto-discovers all configuration from SSM Parameter Store (region, VPC, subnets,
 
 To edit later, modify `.env` directly — see `.env.example` for all available options.
 
-### Load Runtime Config
+### **Step 1**:Load Runtime Config
 
 Download Cognito and API config for local auth (one-time, or after redeployment):
 
@@ -453,7 +458,7 @@ Download Cognito and API config for local auth (one-time, or after redeployment)
 pnpm nx load:runtime-config @wealth-management-portal/ui
 ```
 
-### Grant Local Permissions
+### **Step 3**: Grant Local Permissions
 
 Grant Lake Formation and Redshift permissions to your current IAM role (one-time, or after role changes):
 
@@ -462,7 +467,7 @@ node scripts/grant-lf-permissions.mjs --self
 node scripts/grant-redshift-permissions.mjs --self
 ```
 
-### Start the Application Locally
+### **Step 3**: Start the Application Locally
 
 Add local Redshift overrides to `.env`:
 
@@ -471,7 +476,7 @@ REDSHIFT_HOST=localhost
 REDSHIFT_PORT=5439
 ```
 
-Then start everything:
+### **Step 4**: Then start everything. It will take ~2 minutes for initial setup and configuration, then http://localhost:4200 will appear for exploring the solution in your local :
 
 ```sh
 pnpm nx serve-local @wealth-management-portal/ui
