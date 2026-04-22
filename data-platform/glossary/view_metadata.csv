@@ -1,0 +1,6 @@
+view_name,business_name,description,tags
+advisor_dashboard_summary,Advisor Dashboard Summary,Comprehensive advisor performance dashboard with AUM fees and client metrics,Dashboard;Analytics;Advisor
+advisor_monthly_aum,Advisor Monthly AUM,Monthly assets under management trends by advisor,AUM;Trends;Advisor
+client_list,Client List,Client listing with portfolio and performance summary,Client;Portfolio;Summary
+client_search,Client Search,Comprehensive client search view with all related data,Client;Search;Analytics
+investor_monthly_aum,Investor Monthly AUM,Monthly assets under management trends by client,AUM;Trends;Client

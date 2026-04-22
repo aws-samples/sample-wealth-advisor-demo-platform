@@ -1,0 +1,80 @@
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# compiled output
+dist
+tmp
+out-tsc
+*.tsbuildinfo
+# Python
+__pycache__/
+*.pyc
+# dependencies
+node_modules
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+.coverage
+*.log
+/typings
+# System Files
+.DS_Store
+Thumbs.db
+.nx/cache
+.nx/workspace-data
+vitest.config.*.timestamp*
+runtime-config.json
+/reports
+vite.config.*.timestamp*
+.env
+.kiro/
+# Nx Plugin analysis documents
+NX_PLUGIN_SUMMARY.md
+NX_PLUGIN_ALIGNMENT.md
+ACTION_PLAN.md
+project-graph.html
+static/
+# Local documentation files (migration/session notes)
+AGENTCORE_MIGRATION_COMPLETE.md
+AGENTCORE_MIGRATION_SESSION_SUMMARY.md
+DEPLOYMENT_GUIDE.md
+TESTING_GUIDE.md
+TESTING_SUMMARY.md
+TEST_RESULTS_SUMMARY.md
+THEME_SCHEDULER_DEPLOYMENT_STATUS.md
+WEB_CRAWLER_AGENTCORE_MIGRATION.md.worktrees/
+.worktrees/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+**/.terraform.lock.hcl
+
+.claude/worktrees
+.claude/settings.local.json
+
+# Python test cache
+.pytest_cache/
+
+# Binary artifacts
+session-manager-plugin.pkg
+*.zip
+*.terraform.lock.hcl
+response.json
+*.backup
+mfa_response.json

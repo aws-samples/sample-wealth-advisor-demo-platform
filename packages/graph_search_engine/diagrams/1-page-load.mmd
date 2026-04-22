@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant User
+    participant UI as UI (React)
+    participant API as graph_search_api :8005
+    participant Engine as graph_search_engine
+    participant Neptune as Neptune Analytics
+
+    User->>UI: Navigate to /graph-search
+    UI->>UI: Load vis.js script
+    UI->>API: GET /api/config
+    API->>Engine: Read graph_config.yaml
+    Engine-->>API: colors, icons, sizes, examples
+    API-->>UI: ServerConfig JSON
+
+    Note over UI: Spinner: Loading graph data...
+
+    UI->>API: GET /api/graph?limit=500
+    API->>Engine: get_graph_data(limit)
+    Engine->>Neptune: openCypher MATCH query
+    Neptune-->>Engine: nodes + edges
+    Engine-->>API: GraphData
+    API-->>UI: { nodes, edges }
+
+    Note over UI: Spinner: Rendering 150 nodes...
+
+    UI->>UI: vis.js Network created
+    UI->>UI: Physics stabilization
+
+    Note over UI: stabilizationIterationsDone → Graph visible

@@ -1,0 +1,241 @@
+[
+  {
+    "name": "list_clients",
+    "description": "List all available clients from Redshift.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "get_client_report_data",
+    "description": "Fetch all data required for a client report.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string"
+        }
+      },
+      "required": ["client_id"]
+    }
+  },
+  {
+    "name": "save_report",
+    "description": "Save a report record to the client_reports table.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "report_id": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "s3_path": {
+          "type": "string"
+        },
+        "generated_date": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "report_id",
+        "client_id",
+        "s3_path",
+        "generated_date",
+        "status"
+      ]
+    }
+  },
+  {
+    "name": "save_article",
+    "description": "Save an article to the articles table.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "content_hash": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "published_date": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "file_path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content_hash",
+        "url",
+        "title",
+        "content",
+        "summary",
+        "published_date",
+        "source"
+      ]
+    }
+  },
+  {
+    "name": "get_existing_article_hashes",
+    "description": "Get all existing article content hashes for duplicate detection.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "get_existing_article_urls",
+    "description": "Get all existing article URLs for URL-based duplicate detection.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "get_recent_articles",
+    "description": "Get recent articles within the specified hours.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "hours": {
+          "type": "integer",
+          "default": 48
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100
+        }
+      }
+    }
+  },
+  {
+    "name": "save_theme",
+    "description": "Save a theme to the themes table.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "theme_id": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "sentiment": {
+          "type": "string"
+        },
+        "article_count": {
+          "type": "integer"
+        },
+        "sources": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "rank": {
+          "type": "integer"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "score_breakdown": {
+          "type": "string"
+        },
+        "relevance_score": {
+          "type": "number"
+        },
+        "combined_score": {
+          "type": "number"
+        },
+        "matched_tickers": {
+          "type": "string"
+        },
+        "relevance_reasoning": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "theme_id",
+        "client_id",
+        "title",
+        "sentiment",
+        "article_count",
+        "sources",
+        "summary",
+        "score",
+        "rank"
+      ]
+    }
+  },
+  {
+    "name": "save_theme_article_association",
+    "description": "Save a theme-article association.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "theme_id": {
+          "type": "string"
+        },
+        "article_hash": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": "string"
+        }
+      },
+      "required": ["theme_id", "article_hash", "client_id"]
+    }
+  },
+  {
+    "name": "get_top_holdings_by_aum",
+    "description": "Get top holdings by AUM value for a client.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "default": 5
+        }
+      },
+      "required": ["client_id"]
+    }
+  },
+  {
+    "name": "get_active_clients",
+    "description": "Get list of active client IDs.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  }
+]

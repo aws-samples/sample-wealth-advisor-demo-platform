@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant User
+    participant Insight as Insight Box
+    participant Tooltip as SelectionTooltip
+    participant Sidebar as Sidebar
+    participant API as graph_search_api
+
+    User->>Insight: Select text in reasoning
+    Insight-->>Tooltip: mouseup in .insight-box
+    Note over Tooltip: Floating popup appears<br/>Selected: [text]<br/>Input: Analyze [text] in more detail
+
+    alt Ask
+        User->>Tooltip: Click Ask / press Enter
+        Tooltip->>Sidebar: onSearch(query)
+        Sidebar->>API: POST /api/nl-search-enriched-stream
+        Note over API: Full AI Search flow runs
+        API-->>Sidebar: SSE stream → new results
+    else Cancel
+        User->>Tooltip: Click Cancel / press Escape
+        Tooltip->>Tooltip: Hide
+    end

@@ -1,0 +1,111 @@
+variables:
+  GIT_DEPTH: 0
+  NX_BASE:
+    value: ""
+    description: "NX affected base ref"
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      variables:
+        NX_BASE: "origin/main"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        NX_BASE: "HEAD~1"
+
+stages:
+  - check
+  - deploy
+
+.node_setup: &node_setup
+  image:
+    name: public.ecr.aws/docker/library/node:22-slim
+    entrypoint: [""]
+  before_script:
+    - corepack enable
+    - apt-get update && apt-get install -y git python3 python3-venv curl
+    - curl -LsSf https://astral.sh/uv/install.sh | sh
+    - export PATH="$HOME/.local/bin:$PATH"
+    - pnpm install --frozen-lockfile
+    - uv sync --frozen
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .pnpm-store
+      - .nx
+
+lint:
+  <<: *node_setup
+  stage: check
+  script:
+    - pnpm nx affected --target=lint --base=$NX_BASE --head=HEAD
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - arch:amd64
+    - size:medium
+
+test:
+  <<: *node_setup
+  stage: check
+  script:
+    - pnpm nx affected --target=test --base=$NX_BASE --head=HEAD
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - arch:amd64
+    - size:large
+
+compile:
+  <<: *node_setup
+  stage: check
+  script:
+    - pnpm nx affected --target=compile --base=$NX_BASE --head=HEAD
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - arch:amd64
+    - size:medium
+
+deploy:
+  stage: deploy
+  image:
+    name: public.ecr.aws/aws-cli/aws-cli:latest
+    entrypoint: [""]
+  before_script:
+    - yum install -y zip
+  script:
+    - cd $CI_PROJECT_DIR && zip -qr /tmp/source.zip .
+    - aws s3 cp /tmp/source.zip s3://$SOURCE_BUCKET/source-$CI_PIPELINE_ID.zip
+    - |
+      BUILDSPEC=$(cat buildspec-app.yml)
+      BUILD_OUTPUT=$(aws codebuild start-build \
+        --project-name "$CODEBUILD_PROJECT" \
+        --source-type-override S3 \
+        --source-location-override "$SOURCE_BUCKET/source-$CI_PIPELINE_ID.zip" \
+        --buildspec-override "$BUILDSPEC" \
+        --environment-variables-override "name=STAGE_NAME,value=sandbox,type=PLAINTEXT")
+      BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -o '"id": "[^"]*"' | head -1 | cut -d'"' -f4)
+      echo "CodeBuild Build ID: $BUILD_ID"
+      echo "https://console.aws.amazon.com/codesuite/codebuild/projects/$CODEBUILD_PROJECT/build/$BUILD_ID"
+    - |
+      while true; do
+        BUILD_STATUS=$(aws codebuild batch-get-builds --ids "$BUILD_ID" --query 'builds[0].buildStatus' --output text)
+        echo "Build status: $BUILD_STATUS"
+        case "$BUILD_STATUS" in
+          SUCCEEDED) echo "Build succeeded"; exit 0 ;;
+          FAILED|STOPPED) echo "Build $BUILD_STATUS"; exit 1 ;;
+          *) sleep 10 ;;
+        esac
+      done
+  resource_group: deploy-production
+  timeout: 35 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+  tags:
+    - arch:amd64
+    - size:small

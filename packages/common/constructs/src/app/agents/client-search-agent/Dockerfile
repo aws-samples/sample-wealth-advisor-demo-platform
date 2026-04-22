@@ -1,0 +1,1 @@
+FROM wealth-management-portal-client-search-agent:latest

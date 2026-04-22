@@ -1,0 +1,1 @@
+FROM wealth-management-portal-graph-search-agent:latest

@@ -1,0 +1,7 @@
+[
+    "bucketName=###APP_NAME###-###ENV_NAME###-tf-back-end",
+    "secondaryRegion=###AWS_PRIMARY_REGION###",
+    "enableCRR=true",
+    "enableLocking=false",
+    "enableBucketAccessLogs=false"
+]

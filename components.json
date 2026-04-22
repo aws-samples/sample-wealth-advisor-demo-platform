@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "packages/common/shadcn/src/styles/globals.css",
+    "baseColor": "zinc",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": ":wealth-management-portal/common-shadcn/components",
+    "utils": ":wealth-management-portal/common-shadcn/lib/utils",
+    "hooks": ":wealth-management-portal/common-shadcn/hooks",
+    "lib": ":wealth-management-portal/common-shadcn/lib",
+    "ui": ":wealth-management-portal/common-shadcn/components/ui"
+  }
+}

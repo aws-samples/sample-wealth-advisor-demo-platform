@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blue rounded background matching app theme -->
+  <rect width="32" height="32" rx="6" fill="#1d4ed8"/>
+  <!-- Upward trend line representing wealth growth -->
+  <polyline points="6,22 12,17 18,19 26,10" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Arrow tip on the trend line -->
+  <polyline points="22,10 26,10 26,14" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

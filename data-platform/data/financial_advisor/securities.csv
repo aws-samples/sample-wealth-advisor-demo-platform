@@ -1,0 +1,170 @@
+security_id,ticker,security_name,security_type,asset_class,sector,current_price,price_date
+SEC00002,AAPL,AAPL Inc.,Stock,Equity,Technology,278.38,2025-12-08
+SEC00052,ABBV,ABBV Inc.,Stock,Equity,Utilities,140.97,2025-12-13
+SEC00139,ABT,ABT Inc.,Stock,Equity,Healthcare,319.05,2025-12-14
+SEC00115,ACN,ACN Inc.,Stock,Equity,Energy,43.34,2025-12-08
+SEC00110,ADBE,ADBE Inc.,Stock,Equity,Consumer Discretionary,386.19,2025-12-10
+SEC00086,AGG,AGG ETF,ETF,Alternative,,160.06,2025-12-14
+SEC00037,AMT,AMT Inc.,Stock,Equity,Aerospace & Defense,495.94,2025-12-09
+SEC00047,AMZN,AMZN Inc.,Stock,Equity,Communication Services,374.63,2025-12-09
+SEC00136,AUKKP,AUKKP Exchange Traded Fund,ETF,Equity,Materials,340.23,2025-12-13
+SEC00081,AVGO,AVGO Inc.,Stock,Equity,Financial Services,194.78,2025-12-14
+SEC00124,AXP,AXP Inc.,Stock,Equity,Industrials,25.29,2025-12-12
+SEC00005,BKNG,BKNG Inc.,Stock,Equity,Utilities,434.73,2025-12-13
+SEC00100,BND,BND ETF,ETF,Equity,Aerospace & Defense,338.10,2025-12-11
+SEC00159,BUC,BUC Exchange Traded Fund,ETF,Fixed Income,,207.03,2025-12-11
+SEC00019,CAT,CAT Inc.,Stock,Equity,Real Estate,364.18,2025-12-14
+SEC00108,CB,CB Inc.,Stock,Equity,Consumer Discretionary,464.95,2025-12-09
+SEC00040,CRM,CRM Inc.,Stock,Equity,Healthcare,345.76,2025-12-13
+SEC00017,CSX,CSX Inc.,Stock,Equity,Consumer Discretionary,97.10,2025-12-10
+SEC00169,CVX,CVX Inc.,Stock,Equity,Real Estate,211.14,2025-12-11
+SEC00051,DIS,DIS Inc.,Stock,Equity,Utilities,95.10,2025-12-10
+SEC00119,DUK,DUK Inc.,Stock,Equity,Materials,373.70,2025-12-11
+SEC00161,DWPXQ,DWPXQ Exchange Traded Fund,ETF,Alternative,,295.15,2025-12-09
+SEC00073,EEM,EEM ETF,ETF,Equity,Real Estate,161.71,2025-12-14
+SEC00032,EFA,EFA ETF,ETF,Alternative,,88.90,2025-12-09
+SEC00114,EYPEZ,EYPEZ Exchange Traded Fund,ETF,Alternative,,48.10,2025-12-11
+SEC00054,FENY,FENY Fund,Mutual Fund,Fixed Income,,165.23,2025-12-14
+SEC00009,FHLC,FHLC Fund,Mutual Fund,Fixed Income,,94.49,2025-12-10
+SEC00029,FLOT,FLOT Bond Fund,Bond,Fixed Income,,54.40,2025-12-11
+SEC00103,FREL,FREL Fund,Mutual Fund,Fixed Income,,135.10,2025-12-10
+SEC00013,FXNAX,FXNAX Fund,Mutual Fund,Fixed Income,,175.84,2025-12-08
+SEC00156,GDO,GDO Exchange Traded Fund,ETF,Equity,Materials,112.27,2025-12-08
+SEC00097,GILD,GILD Inc.,Stock,Equity,Communication Services,318.72,2025-12-14
+SEC00129,GJKWX,GJKWX Exchange Traded Fund,ETF,Equity,Communication Services,24.76,2025-12-11
+SEC00008,GLD,GLD ETF,ETF,Equity,Financial Services,106.25,2025-12-08
+SEC00127,GLK,GLK Exchange Traded Fund,ETF,Alternative,,149.39,2025-12-08
+SEC00120,GOOGL,GOOGL Inc.,Stock,Equity,Energy,332.06,2025-12-09
+SEC00039,GOVT,GOVT Bond Fund,Bond,Fixed Income,,77.66,2025-12-14
+SEC00048,GS,GS Inc.,Stock,Equity,Consumer Staples,350.85,2025-12-14
+SEC00154,GXZC,GXZC Exchange Traded Fund,ETF,Fixed Income,,221.55,2025-12-14
+SEC00112,HD,HD Inc.,Stock,Equity,Healthcare,466.32,2025-12-12
+SEC00130,HJGYH,HJGYH Exchange Traded Fund,ETF,Alternative,,194.19,2025-12-13
+SEC00010,HYG,HYG ETF,ETF,Fixed Income,,160.24,2025-12-10
+SEC00042,IEF,IEF ETF,ETF,Alternative,,87.46,2025-12-08
+SEC00076,IGIB,IGIB Bond Fund,Bond,Fixed Income,,112.24,2025-12-13
+SEC00132,IGLB,IGLB Bond Fund,Bond,Fixed Income,,15.67,2025-12-11
+SEC00011,IGSB,IGSB Bond Fund,Bond,Fixed Income,,48.12,2025-12-13
+SEC00080,INTC,INTC Inc.,Stock,Equity,Utilities,214.91,2025-12-11
+SEC00049,ITW,ITW Inc.,Stock,Equity,Consumer Staples,453.74,2025-12-14
+SEC00105,IWM,IWM ETF,ETF,Equity,Real Estate,173.88,2025-12-13
+SEC00064,IYC,IYC ETF,ETF,Alternative,,67.47,2025-12-11
+SEC00062,IYE,IYE ETF,ETF,Equity,Industrials,101.75,2025-12-13
+SEC00065,IYF,IYF ETF,ETF,Fixed Income,,289.72,2025-12-12
+SEC00031,IYH,IYH ETF,ETF,Fixed Income,,51.91,2025-12-11
+SEC00070,IYJ,IYJ ETF,ETF,Equity,Materials,213.23,2025-12-11
+SEC00099,IYK,IYK ETF,ETF,Fixed Income,,214.93,2025-12-10
+SEC00057,IYM,IYM ETF,ETF,Equity,Materials,198.33,2025-12-10
+SEC00053,IYR,IYR ETF,ETF,Fixed Income,,90.26,2025-12-08
+SEC00025,IYW,IYW ETF,ETF,Equity,Financial Services,70.41,2025-12-14
+SEC00003,IYZ,IYZ ETF,ETF,Equity,Consumer Staples,200.93,2025-12-10
+SEC00162,JMXO,JMXO Exchange Traded Fund,ETF,Alternative,,191.52,2025-12-11
+SEC00107,JNK,JNK ETF,ETF,Equity,Communication Services,331.40,2025-12-10
+SEC00126,JPST,JPST Bond Fund,Bond,Fixed Income,,115.08,2025-12-10
+SEC00077,KO,KO Inc.,Stock,Equity,Real Estate,473.20,2025-12-12
+SEC00143,KZF,KZF Exchange Traded Fund,ETF,Equity,Financial Services,196.76,2025-12-14
+SEC00147,LIN,LIN Inc.,Stock,Equity,Consumer Discretionary,68.80,2025-12-08
+SEC00155,LIYQH,LIYQH Exchange Traded Fund,ETF,Fixed Income,,217.71,2025-12-13
+SEC00116,LLY,LLY Inc.,Stock,Equity,Technology,129.49,2025-12-13
+SEC00067,LOW,LOW Inc.,Stock,Equity,Technology,233.05,2025-12-09
+SEC00035,LQD,LQD ETF,ETF,Fixed Income,,229.57,2025-12-10
+SEC00135,LXSJ,LXSJ Exchange Traded Fund,ETF,Equity,Industrials,126.39,2025-12-14
+SEC00125,MA,MA Inc.,Stock,Equity,Energy,176.15,2025-12-10
+SEC00021,MDLZ,MDLZ Inc.,Stock,Equity,Energy,136.54,2025-12-11
+SEC00060,META,META Inc.,Stock,Equity,Consumer Staples,6.60,2025-12-09
+SEC00038,MINT,MINT Bond Fund,Bond,Fixed Income,,99.97,2025-12-12
+SEC00168,MKL,MKL Bond,Bond,Fixed Income,,85.47,2025-12-13
+SEC00144,MMM,MMM Inc.,Stock,Equity,Energy,493.47,2025-12-10
+SEC00016,MO,MO Inc.,Stock,Equity,Aerospace & Defense,229.42,2025-12-10
+SEC00044,MRK,MRK Inc.,Stock,Equity,Real Estate,143.63,2025-12-14
+SEC00061,MSFT,MSFT Inc.,Stock,Equity,Technology,302.79,2025-12-13
+SEC00145,MUB,MUB Bond Fund,Bond,Fixed Income,,74.82,2025-12-08
+SEC00160,MYFV,MYFV Exchange Traded Fund,ETF,Fixed Income,,165.66,2025-12-14
+SEC00123,NEAR,NEAR Bond Fund,Bond,Fixed Income,,99.41,2025-12-13
+SEC00166,NFLX,NFLX Inc.,Stock,Equity,Industrials,42.43,2025-12-10
+SEC00142,NHJVQ,NHJVQ Exchange Traded Fund,ETF,Equity,Aerospace & Defense,141.06,2025-12-12
+SEC00084,NKE,NKE Inc.,Stock,Equity,Financial Services,361.13,2025-12-10
+SEC00104,NSC,NSC Inc.,Stock,Equity,Consumer Staples,276.15,2025-12-12
+SEC00069,NVDA,NVDA Inc.,Stock,Equity,Industrials,131.44,2025-12-12
+SEC00117,OYKS,OYKS Exchange Traded Fund,ETF,Alternative,,250.43,2025-12-10
+SEC00079,PFE,PFE Inc.,Stock,Equity,Materials,309.55,2025-12-14
+SEC00152,PG,PG Inc.,Stock,Equity,Energy,238.25,2025-12-12
+SEC00138,PLD,PLD Inc.,Stock,Equity,Communication Services,101.36,2025-12-12
+SEC00121,PM,PM Inc.,Stock,Equity,Financial Services,94.78,2025-12-11
+SEC00098,PYPL,PYPL Inc.,Stock,Equity,Materials,471.56,2025-12-13
+SEC00041,QQQ,QQQ ETF,ETF,Fixed Income,,177.31,2025-12-08
+SEC00137,QWQPK,QWQPK Exchange Traded Fund,ETF,Fixed Income,,347.74,2025-12-11
+SEC00090,REIT,REIT ETF,ETF,Equity,Technology,343.98,2025-12-13
+SEC00096,SCHA,SCHA Bond Fund,Bond,Fixed Income,,60.76,2025-12-08
+SEC00072,SCHB,SCHB Bond Fund,Bond,Fixed Income,,72.73,2025-12-08
+SEC00131,SCHC,SCHC Bond Fund,Bond,Fixed Income,,33.38,2025-12-10
+SEC00093,SCHE,SCHE Bond Fund,Bond,Fixed Income,,90.99,2025-12-14
+SEC00018,SCHF,SCHF Bond Fund,Bond,Fixed Income,,25.30,2025-12-13
+SEC00022,SCHM,SCHM Bond Fund,Bond,Fixed Income,,83.34,2025-12-11
+SEC00066,SCHO,SCHO Bond Fund,Bond,Fixed Income,,107.30,2025-12-12
+SEC00020,SCHR,SCHR Bond Fund,Bond,Fixed Income,,93.70,2025-12-14
+SEC00058,SCHZ,SCHZ Bond Fund,Bond,Fixed Income,,113.89,2025-12-11
+SEC00006,SHY,SHY ETF,ETF,Fixed Income,,47.75,2025-12-12
+SEC00071,SLV,SLV ETF,ETF,Alternative,,59.41,2025-12-11
+SEC00133,SO,SO Inc.,Stock,Equity,Consumer Staples,408.85,2025-12-09
+SEC00118,SPGI,SPGI Inc.,Stock,Equity,Energy,55.73,2025-12-10
+SEC00102,SPY,SPY ETF,ETF,Equity,Technology,55.90,2025-12-10
+SEC00134,STIP,STIP Bond Fund,Bond,Fixed Income,,67.65,2025-12-11
+SEC00014,SWAGX,SWAGX Fund,Mutual Fund,Alternative,,56.70,2025-12-10
+SEC00163,SWISX,SWISX Fund,Mutual Fund,Fixed Income,,188.04,2025-12-13
+SEC00094,SWLBX,SWLBX Fund,Mutual Fund,Alternative,,169.01,2025-12-14
+SEC00024,SWPPX,SWPPX Fund,Mutual Fund,Equity,,86.65,2025-12-13
+SEC00164,SWSCX,SWSCX Fund,Mutual Fund,Alternative,,61.39,2025-12-11
+SEC00158,SWSSX,SWSSX Fund,Mutual Fund,Alternative,,178.74,2025-12-08
+SEC00149,SWYHX,SWYHX Fund,Mutual Fund,Alternative,,77.62,2025-12-09
+SEC00046,SYK,SYK Inc.,Stock,Equity,Industrials,409.69,2025-12-09
+SEC00167,SYT,SYT Bond,Bond,Fixed Income,,90.67,2025-12-11
+SEC00078,T,T Inc.,Stock,Equity,Consumer Discretionary,132.26,2025-12-09
+SEC00030,TFI,TFI Bond Fund,Bond,Fixed Income,,10.81,2025-12-09
+SEC00089,TFLO,TFLO Bond Fund,Bond,Fixed Income,,95.15,2025-12-08
+SEC00088,TIPS,TIPS Bond Fund,Bond,Fixed Income,,68.50,2025-12-09
+SEC00063,TJX,TJX Inc.,Stock,Equity,Materials,332.26,2025-12-14
+SEC00026,TLT,TLT ETF,ETF,Alternative,,133.22,2025-12-10
+SEC00140,TMO,TMO Inc.,Stock,Equity,Utilities,215.74,2025-12-14
+SEC00001,TSLA,TSLA Inc.,Stock,Equity,Financial Services,150.75,2025-12-11
+SEC00128,TTNQP,TTNQP Exchange Traded Fund,ETF,Fixed Income,,372.57,2025-12-12
+SEC00095,TXN,TXN Inc.,Stock,Equity,Materials,176.07,2025-12-09
+SEC00004,UPS,UPS Inc.,Stock,Equity,Consumer Discretionary,95.98,2025-12-09
+SEC00059,USFR,USFR Bond Fund,Bond,Fixed Income,,96.17,2025-12-11
+SEC00151,V,V Inc.,Stock,Equity,Aerospace & Defense,487.84,2025-12-12
+SEC00083,VCIT,VCIT Bond Fund,Bond,Fixed Income,,102.28,2025-12-13
+SEC00087,VCSH,VCSH Bond Fund,Bond,Fixed Income,,30.05,2025-12-08
+SEC00023,VEA,VEA ETF,ETF,Alternative,,260.71,2025-12-10
+SEC00055,VFIFX,VFIFX Fund,Mutual Fund,Alternative,,106.93,2025-12-14
+SEC00092,VGIT,VGIT Bond Fund,Bond,Fixed Income,,74.66,2025-12-09
+SEC00085,VGLT,VGLT Bond Fund,Bond,Fixed Income,,114.25,2025-12-11
+SEC00015,VGSH,VGSH Bond Fund,Bond,Fixed Income,,89.22,2025-12-08
+SEC00007,VMBS,VMBS Bond Fund,Bond,Fixed Income,,104.65,2025-12-12
+SEC00111,VNQ,VNQ ETF,ETF,Equity,Financial Services,164.02,2025-12-13
+SEC00036,VRTX,VRTX Inc.,Stock,Equity,Energy,270.06,2025-12-08
+SEC00027,VTEB,VTEB Bond Fund,Bond,Fixed Income,,22.04,2025-12-09
+SEC00113,VTI,VTI ETF,ETF,Fixed Income,,237.57,2025-12-14
+SEC00082,VTIAX,VTIAX Fund,Mutual Fund,Equity,,24.40,2025-12-11
+SEC00056,VTMGX,VTMGX Fund,Mutual Fund,Equity,,29.26,2025-12-11
+SEC00028,VTTSX,VTTSX Fund,Mutual Fund,Equity,,176.81,2025-12-10
+SEC00146,VTTVX,VTTVX Fund,Mutual Fund,Alternative,,133.42,2025-12-12
+SEC00141,VTWAX,VTWAX Fund,Mutual Fund,Alternative,,144.79,2025-12-14
+SEC00068,VWO,VWO ETF,ETF,Equity,Utilities,313.95,2025-12-13
+SEC00091,VZ,VZ Inc.,Stock,Equity,Financial Services,498.90,2025-12-10
+SEC00034,WM,WM Inc.,Stock,Equity,Consumer Discretionary,496.94,2025-12-12
+SEC00148,WMGBY,WMGBY Bond,Bond,Fixed Income,,27.60,2025-12-08
+SEC00050,XLB,XLB ETF,ETF,Fixed Income,,126.12,2025-12-14
+SEC00106,XLE,XLE ETF,ETF,Equity,Aerospace & Defense,379.38,2025-12-10
+SEC00101,XLF,XLF ETF,ETF,Alternative,,215.97,2025-12-12
+SEC00043,XLI,XLI ETF,ETF,Equity,Energy,213.39,2025-12-12
+SEC00012,XLK,XLK ETF,ETF,Alternative,,118.33,2025-12-13
+SEC00033,XLP,XLP ETF,ETF,Fixed Income,,208.15,2025-12-11
+SEC00045,XLRE,XLRE ETF,ETF,Fixed Income,,107.92,2025-12-14
+SEC00109,XLU,XLU ETF,ETF,Equity,Healthcare,281.77,2025-12-10
+SEC00074,XLV,XLV ETF,ETF,Alternative,,250.67,2025-12-11
+SEC00075,XLY,XLY ETF,ETF,Equity,Real Estate,194.79,2025-12-12
+SEC00165,YGL,YGL Bond,Bond,Fixed Income,,30.79,2025-12-08
+SEC00153,YQQNR,YQQNR Exchange Traded Fund,ETF,Equity,Communication Services,245.01,2025-12-14
+SEC00157,YXYM,YXYM Bond,Bond,Fixed Income,,80.36,2025-12-09
+SEC00150,ZLI,ZLI Exchange Traded Fund,ETF,Equity,Consumer Discretionary,59.51,2025-12-09
+SEC00122,ZTS,ZTS Inc.,Stock,Equity,Consumer Discretionary,367.61,2025-12-11

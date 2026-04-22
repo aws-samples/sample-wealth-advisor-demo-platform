@@ -1,0 +1,129 @@
+{
+  "name": "wealth_management_portal.neptune_analytics_server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/neptune_analytics_server/wealth_management_portal_neptune_analytics_server",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project"
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle-arm"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/neptune_analytics_server"
+      }
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/neptune_analytics_server/build"
+      ],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/neptune_analytics_server/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": [
+          "wealth_management_portal_neptune_analytics_server",
+          "tests"
+        ]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": [
+          "wealth_management_portal_neptune_analytics_server",
+          "tests"
+        ]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    },
+    "bundle-arm": {
+      "cache": true,
+      "inputs": ["default", { "runtime": "node -e \"console.log(process.platform)\"" }],
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/neptune_analytics_server/bundle-arm"
+      ],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/neptune_analytics_server --package wealth_management_portal.neptune_analytics_server -o dist/packages/neptune_analytics_server/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/neptune_analytics_server/bundle-arm -r dist/packages/neptune_analytics_server/bundle-arm/requirements.txt",
+          "find dist/packages/neptune_analytics_server/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "neptune-analytics-server-serve-stdio": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run -m wealth_management_portal_neptune_analytics_server.neptune_analytics_server.stdio"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    }
+  }
+}

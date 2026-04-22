@@ -1,0 +1,4 @@
+# Dependencies for MSK data generator (excluding packages already in Lambda runtime)
+kafka-python==2.2.11
+aws-msk-iam-sasl-signer-python==1.0.2
+faker==19.6.2

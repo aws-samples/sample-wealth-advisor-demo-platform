@@ -1,0 +1,100 @@
+portfolio_id,account_id,portfolio_name,investment_model,target_allocation,benchmark,inception_date
+PF000064,AC000061,Conservative Growth Portfolio,Conservative,"70% Fixed Income, 30% Equity",Conservative Balanced Index,2025-06-09
+PF000026,AC000033,Aggressive Growth Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-10-04
+PF000074,AC000024,Balanced Portfolio,Moderate,"55% Equity, 35% Fixed Income, 10% Cash",S&P 500,2024-07-29
+PF000053,AC000099,Cameron Evans & Thomas Joint Account Investment Portfolio,Moderate,"60% Equity, 40% Fixed Income",S&P 500,2024-02-09
+PF000002,AC000017,Charles Perry Individual Account Portfolio,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",High Yield Bond Index,2025-11-22
+PF000031,AC000012,Hector Davidson & Julie Joint Account Portfolio,Aggressive,"80% Equity, 20% Fixed Income",MSCI World Index,2025-08-10
+PF000038,AC000048,Lisa Moyer Individual Account Portfolio,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",Dividend Aristocrats Index,2025-08-20
+PF000060,AC000006,Natasha Johnston IRA Investment Portfolio,Moderate,"50% Stocks, 40% Bonds, 10% Alternatives",S&P 500,2024-07-13
+PF000008,AC000066,Portfolio - Jesse Scott Individual Account,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Conservative Balanced Index,2025-04-20
+PF000012,AC000075,Theresa Stephenson Living Trust Investment Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Conservative Balanced Index,2025-11-20
+PF000084,AC000093,Dennis Stewart Individual Account Portfolio,Moderate,"60% Equity, 40% Fixed Income",,2025-12-14
+PF000068,AC000096,Bryan Brown Individual Account Portfolio,Aggressive,"80% Equity, 20% Fixed Income",S&P 500,2025-06-27
+PF000046,AC000090,Portfolio - Gary Lee Individual Account,Aggressive,"90% Equity, 10% Fixed Income",MSCI World Index,2025-08-27
+PF000081,AC000064,Molly Young & Elizabeth Joint Account Investment Portfolio,Aggressive,"80% Equity, 20% Fixed Income",Russell 3000,2025-09-30
+PF000075,AC000019,Bryan Brown & William Joint Account Portfolio,Moderate,"50% Stocks, 40% Bonds, 10% Alternatives",Balanced Index,2024-12-23
+PF000027,AC000052,Lisa Moyer Individual Account Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2024-11-27
+PF000009,AC000054,Portfolio - Kelly White IRA,Income,"45% Dividend Equity, 45% Fixed Income, 10% Cash",,2024-12-25
+PF000004,AC000095,Charles Perry & Robert Joint Account Investment Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-09-16
+PF000007,AC000026,Natalie Allen & Tiffany Joint Account Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",S&P 500,2025-05-13
+PF000056,AC000091,Portfolio - Natasha Johnston IRA,Moderate,"60% Equity, 40% Fixed Income",Balanced Index,2025-07-24
+PF000006,AC000027,Balanced Portfolio,Moderate,"50% Stocks, 40% Bonds, 10% Alternatives",,2025-03-20
+PF000040,AC000079,Ryan Castillo & Kenneth Joint Account Portfolio,Conservative,"70% Fixed Income, 30% Equity",Conservative Balanced Index,2025-09-25
+PF000011,AC000074,Dennis Stewart & Cheryl Joint Account Portfolio,Moderate,"50% Stocks, 40% Bonds, 10% Alternatives",Balanced Index,2024-08-08
+PF000013,AC000062,Molly Young & Derek Joint Account Investment Portfolio,Aggressive,"80% Equity, 20% Fixed Income",Russell 3000,2025-10-09
+PF000047,AC000059,Income Portfolio,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",High Yield Bond Index,2025-11-28
+PF000085,AC000067,Derrick Molina & Shaun Joint Account Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-06-26
+PF000035,AC000056,Charles Perry Individual Account Portfolio,Aggressive,"90% Equity, 10% Fixed Income",S&P 500,2023-04-07
+PF000052,AC000015,Portfolio - Natasha Johnston IRA,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Conservative Balanced Index,2025-05-10
+PF000021,AC000004,Christopher Lynch Individual Account Portfolio,Conservative,"70% Fixed Income, 30% Equity",Conservative Balanced Index,2024-08-15
+PF000023,AC000080,Natasha Johnston Living Trust Investment Portfolio,Income,"30% Equity, 60% Fixed Income, 10% Alternatives",,2024-10-02
+PF000073,AC000098,Tina Lewis Individual Account Portfolio,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Barclays Aggregate Bond Index,2025-04-04
+PF000090,AC000009,Portfolio - Cameron Evans Individual Account,Income,"45% Dividend Equity, 45% Fixed Income, 10% Cash",,2025-09-23
+PF000058,AC000078,Joseph Anderson & Robert Joint Account Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",MSCI World Index,2022-12-30
+PF000076,AC000088,Brittney Wright IRA Portfolio,Income,"30% Equity, 60% Fixed Income, 10% Alternatives",Dividend Aristocrats Index,2025-10-18
+PF000042,AC000041,Portfolio - Joseph Anderson & Travis Joint Account,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Conservative Balanced Index,2025-03-05
+PF000094,AC000042,Aggressive Growth Portfolio,Aggressive,"90% Equity, 10% Fixed Income",MSCI World Index,2023-07-16
+PF000098,AC000070,Income Portfolio,Income,"45% Dividend Equity, 45% Fixed Income, 10% Cash",Dividend Aristocrats Index,2024-10-09
+PF000078,AC000050,Derrick Molina Living Trust Portfolio,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Barclays Aggregate Bond Index,2025-03-07
+PF000041,AC000068,Portfolio - Kelly White Individual Account,Aggressive,"80% Equity, 20% Fixed Income",MSCI World Index,2025-12-05
+PF000092,AC000083,Portfolio - Bryan Brown & Sandra Joint Account,Conservative,"65% Bonds, 25% Stocks, 10% Cash",,2024-08-27
+PF000001,AC000076,Portfolio - Dylan Harper IRA,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Barclays Aggregate Bond Index,2025-08-06
+PF000005,AC000089,Aggressive Growth Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-09-06
+PF000028,AC000039,John Thomas Individual Account Portfolio,Aggressive,"90% Equity, 10% Fixed Income",Russell 3000,2023-05-21
+PF000034,AC000008,Conservative Growth Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Conservative Balanced Index,2025-04-05
+PF000014,AC000077,Portfolio - Brittney Wright Individual Account,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",S&P 500,2025-12-03
+PF000091,AC000094,Theresa Stephenson Individual Account Investment Portfolio,Aggressive,"80% Equity, 20% Fixed Income",S&P 500,2024-06-07
+PF000010,AC000031,Portfolio - Logan Hall & Albert Joint Account,Aggressive,"90% Equity, 10% Fixed Income",,2025-07-30
+PF000087,AC000065,Conservative Growth Portfolio,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Conservative Balanced Index,2024-12-29
+PF000048,AC000013,Timothy Boyer Individual Account Investment Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Barclays Aggregate Bond Index,2025-08-11
+PF000097,AC000040,Portfolio - Susan Douglas Individual Account,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",MSCI World Index,2025-11-13
+PF000079,AC000003,Portfolio - Steven Jackson & Wendy Joint Account,Income,"30% Equity, 60% Fixed Income, 10% Alternatives",,2024-03-17
+PF000051,AC000073,Portfolio - Rebecca Villarreal Living Trust,Income,"45% Dividend Equity, 45% Fixed Income, 10% Cash",Dividend Aristocrats Index,2025-11-04
+PF000025,AC000018,Joseph Anderson & Julie Joint Account Portfolio,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",Dividend Aristocrats Index,2025-11-27
+PF000044,AC000021,Balanced Portfolio,Moderate,"60% Equity, 40% Fixed Income",,2024-09-12
+PF000030,AC000002,James Phillips Individual Account Investment Portfolio,Moderate,"55% Equity, 35% Fixed Income, 10% Cash",60/40 Portfolio,2025-12-06
+PF000029,AC000072,Aggressive Growth Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-10-30
+PF000017,AC000045,Steven Jackson & Jessica Joint Account Portfolio,Aggressive,"90% Equity, 10% Fixed Income",S&P 500,2025-05-03
+PF000039,AC000005,Portfolio - Rebecca Villarreal IRA,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Conservative Balanced Index,2025-06-06
+PF000095,AC000036,Molly Young IRA Portfolio,Moderate,"60% Equity, 40% Fixed Income",60/40 Portfolio,2024-02-03
+PF000069,AC000046,Aggressive Growth Portfolio,Aggressive,"80% Equity, 20% Fixed Income",MSCI World Index,2025-11-25
+PF000033,AC000023,Hector Davidson & Thomas Joint Account Portfolio,Aggressive,"90% Equity, 10% Fixed Income",S&P 500,2025-10-21
+PF000015,AC000038,Income Portfolio,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",Dividend Aristocrats Index,2025-09-09
+PF000054,AC000028,Portfolio - Lisa Garner Individual Account,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Conservative Balanced Index,2025-12-09
+PF000070,AC000010,Aggressive Growth Portfolio,Aggressive,"80% Equity, 20% Fixed Income",,2025-10-07
+PF000067,AC000058,Dylan Baker IRA Investment Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-10-11
+PF000096,AC000016,Portfolio - Hector Davidson Individual Account,Moderate,"50% Stocks, 40% Bonds, 10% Alternatives",Balanced Index,2025-05-03
+PF000072,AC000034,Hector Davidson Individual Account Portfolio,Aggressive,"90% Equity, 10% Fixed Income",S&P 500,2024-06-19
+PF000022,AC000092,Portfolio - Tina Lewis Individual Account,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Conservative Balanced Index,2025-10-18
+PF000062,AC000063,Aggressive Growth Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",S&P 500,2024-06-06
+PF000082,AC000057,Gary Lee Individual Account Portfolio,Moderate,"60% Equity, 40% Fixed Income",,2025-03-18
+PF000088,AC000001,Portfolio - Rebecca Villarreal & Sarah Joint Account,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",,2024-11-29
+PF000063,AC000086,Tina Buchanan Individual Account Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-12-14
+PF000018,AC000053,Portfolio - Susan Douglas Individual Account,Income,"45% Dividend Equity, 45% Fixed Income, 10% Cash",Dividend Aristocrats Index,2025-11-20
+PF000045,AC000037,Portfolio - Lisa Garner Individual Account,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Conservative Balanced Index,2025-08-28
+PF000055,AC000084,Bryan Brown & Mary Joint Account Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",MSCI World Index,2024-08-13
+PF000066,AC000029,Portfolio - Brittney Wright & Melissa Joint Account,Moderate,"60% Equity, 40% Fixed Income",S&P 500,2025-11-09
+PF000050,AC000085,Kelly White Individual Account Portfolio,Conservative,"70% Fixed Income, 30% Equity",Conservative Balanced Index,2025-11-30
+PF000093,AC000022,Melissa Boyd Individual Account Investment Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Barclays Aggregate Bond Index,2025-09-14
+PF000043,AC000035,Aggressive Growth Portfolio,Aggressive,"80% Equity, 20% Fixed Income",Russell 3000,2025-10-14
+PF000086,AC000030,Balanced Portfolio,Moderate,"60% Equity, 40% Fixed Income",S&P 500,2025-12-14
+PF000065,AC000043,Melissa Boyd & Jamie Joint Account Investment Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",S&P 500,2025-05-28
+PF000071,AC000014,Hector Davidson & Daniel Joint Account Portfolio,Income,"30% Equity, 60% Fixed Income, 10% Alternatives",High Yield Bond Index,2024-09-21
+PF000057,AC000047,Lisa Garner Individual Account Investment Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Barclays Aggregate Bond Index,2025-12-04
+PF000061,AC000044,Portfolio - Molly Young Individual Account,Moderate,"55% Equity, 35% Fixed Income, 10% Cash",S&P 500,2024-06-15
+PF000020,AC000069,Income Portfolio,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",High Yield Bond Index,2025-11-05
+PF000016,AC000060,Logan Hall & Breanna Joint Account Investment Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",,2025-07-08
+PF000032,AC000007,Grace Johnson Individual Account Portfolio,Aggressive,"90% Equity, 10% Fixed Income",MSCI World Index,2025-10-07
+PF000099,AC000011,Dylan Baker & Elizabeth Joint Account Investment Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Conservative Balanced Index,2025-09-18
+PF000089,AC000055,Conservative Growth Portfolio,Conservative,"70% Fixed Income, 30% Equity",,2025-12-09
+PF000003,AC000087,Portfolio - Lisa Moyer Individual Account,Income,"45% Dividend Equity, 45% Fixed Income, 10% Cash",High Yield Bond Index,2025-07-19
+PF000059,AC000097,Aggressive Growth Portfolio,Aggressive,"80% Equity, 20% Fixed Income",S&P 500,2025-11-19
+PF000077,AC000081,John Thomas Individual Account Investment Portfolio,Income,"30% Equity, 60% Fixed Income, 10% Alternatives",Dividend Aristocrats Index,2024-05-22
+PF000049,AC000020,Christopher Lynch & Ryan Joint Account Investment Portfolio,Moderate,"60% Equity, 40% Fixed Income",Balanced Index,2025-12-07
+PF000037,AC000082,Balanced Portfolio,Moderate,"60% Equity, 40% Fixed Income",Balanced Index,2025-10-09
+PF000080,AC000051,Portfolio - Brittney Wright Individual Account,Income,"40% Dividend Stocks, 50% Bonds, 10% REITs",Dividend Aristocrats Index,2025-08-26
+PF000036,AC000032,James Phillips Individual Account Portfolio,Conservative,"60% Fixed Income, 35% Equity, 5% Alternatives",Barclays Aggregate Bond Index,2025-06-07
+PF000083,AC000049,Dylan Baker Individual Account Investment Portfolio,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",MSCI World Index,2025-08-01
+PF000024,AC000025,Portfolio - Susan Douglas & Whitney Joint Account,Aggressive,"85% Stocks, 10% Alternatives, 5% Cash",Russell 3000,2025-03-14
+PF000019,AC000071,Conservative Growth Portfolio,Conservative,"65% Bonds, 25% Stocks, 10% Cash",Conservative Balanced Index,2025-11-18

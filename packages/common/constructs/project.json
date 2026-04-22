@@ -1,0 +1,112 @@
+{
+  "name": "@wealth-management-portal/common-constructs",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/common/constructs/src",
+  "projectType": "library",
+  "tags": [],
+  "metadata": {
+    "generator": "ts#project"
+  },
+  "targets": {
+    "build": {
+      "dependsOn": [
+        "lint",
+        "compile",
+        "test",
+        "wealth_management_portal.api:build",
+        "@wealth-management-portal/website:build",
+        "@wealth-management-portal/ui:build",
+        "wealth_management_portal.report:build",
+        "wealth_management_portal.market_events_coordinator:build",
+        "wealth_management_portal.graph_search:build",
+        "wealth_management_portal.portfolio_data_server:build",
+        "wealth_management_portal.scheduler_tools:build",
+        "wealth_management_portal.intelligence_api:build",
+        "wealth_management_portal.web_crawler:build",
+        "wealth_management_portal.client_search:build",
+        "wealth_management_portal.graph_search_api:build",
+        "wealth_management_portal.graph_search_engine:build",
+        "wealth_management_portal.neptune_analytics_server:build",
+        "wealth_management_portal.redshift_data_access:build",
+        "wealth_management_portal.scheduler_mcp:build",
+        "wealth_management_portal.email_sender_mcp:build",
+        "wealth_management_portal.scheduler_executor:build",
+        "wealth_management_portal.advisor_chat:build"
+      ]
+    },
+    "compile": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/common/constructs/tsc"],
+      "options": {
+        "command": "tsc --build tsconfig.lib.json",
+        "cwd": "{projectRoot}"
+      },
+      "dependsOn": [
+        "generate:api-metadata",
+        "generate:intelligence-api-metadata",
+        "generate:graph-search-api-metadata"
+      ]
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "{projectRoot}/../../../coverage/packages/common/constructs"
+      }
+    },
+    "generate:api-metadata": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": [
+        {
+          "dependentTasksOutputFiles": "**/*.json"
+        }
+      ],
+      "outputs": [
+        "{workspaceRoot}/packages/common/constructs/src/generated/api"
+      ],
+      "options": {
+        "commands": [
+          "nx g @aws/nx-plugin:open-api#ts-metadata --openApiSpecPath=\"dist/packages/api/openapi/openapi.json\" --outputPath=\"packages/common/constructs/src/generated/api\" --no-interactive"
+        ]
+      },
+      "dependsOn": ["wealth_management_portal.api:openapi"]
+    },
+    "generate:intelligence-api-metadata": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": [
+        {
+          "dependentTasksOutputFiles": "**/*.json"
+        }
+      ],
+      "outputs": [
+        "{workspaceRoot}/packages/common/constructs/src/generated/intelligence-api"
+      ],
+      "options": {
+        "commands": [
+          "nx g @aws/nx-plugin:open-api#ts-metadata --openApiSpecPath=\"dist/packages/intelligence_api/openapi/openapi.json\" --outputPath=\"packages/common/constructs/src/generated/intelligence-api\" --no-interactive"
+        ]
+      },
+      "dependsOn": ["wealth_management_portal.intelligence_api:openapi"]
+    },
+    "generate:graph-search-api-metadata": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": [
+        {
+          "dependentTasksOutputFiles": "**/*.json"
+        }
+      ],
+      "outputs": [
+        "{workspaceRoot}/packages/common/constructs/src/generated/graph-search-api"
+      ],
+      "options": {
+        "commands": [
+          "nx g @aws/nx-plugin:open-api#ts-metadata --openApiSpecPath=\"dist/packages/graph_search_api/openapi/openapi.json\" --outputPath=\"packages/common/constructs/src/generated/graph-search-api\" --no-interactive"
+        ]
+      },
+      "dependsOn": ["wealth_management_portal.graph_search_api:openapi"]
+    }
+  }
+}

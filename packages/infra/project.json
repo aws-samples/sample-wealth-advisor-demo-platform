@@ -1,0 +1,124 @@
+{
+  "name": "@wealth-management-portal/infra",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/infra/src",
+  "projectType": "application",
+  "tags": [],
+  "metadata": {
+    "generator": "ts#infra"
+  },
+  "targets": {
+    "bootstrap": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk bootstrap"
+      }
+    },
+    "create-user": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/create-user.mjs",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "grant-lf-permissions": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/grant-lf-permissions.mjs",
+        "cwd": "."
+      }
+    },
+    "grant-redshift-permissions": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/grant-redshift-permissions.mjs",
+        "cwd": "."
+      }
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "synth", "checkov"]
+    },
+    "cdk": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk"
+      }
+    },
+    "checkov": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": ["{workspaceRoot}/dist/{projectRoot}/cdk.out"],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}/checkov"],
+      "dependsOn": ["synth"],
+      "options": {
+        "command": "uvx --with pycares==4.11.0 checkov==3.2.500 --config-file packages/infra/checkov.yml --directory dist/packages/infra/cdk.out --framework cloudformation"
+      }
+    },
+    "compile": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/infra/tsc"],
+      "options": {
+        "command": "tsc --build tsconfig.lib.json",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "compile"],
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk deploy --require-approval=never \"wealth-management-portal-infra-*/**\""
+      }
+    },
+    "deploy-ci": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk deploy --require-approval=never --app ../../dist/packages/infra/cdk.out \"wealth-management-portal-infra-*/**\""
+      }
+    },
+    "destroy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "compile"],
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk destroy --require-approval=never"
+      }
+    },
+    "destroy-ci": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk destroy --require-approval=never --app ../../dist/packages/infra/cdk.out \"wealth-management-portal-infra-*/**\""
+      }
+    },
+    "destroy-ci-test": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "compile"],
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk destroy --require-approval=never -c stageName=ci-test --all"
+      }
+    },
+    "synth": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": ["default"],
+      "outputs": ["{workspaceRoot}/dist/packages/infra/cdk.out"],
+      "dependsOn": ["^build", "compile"],
+      "options": {
+        "cwd": "packages/infra",
+        "command": "cdk synth"
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "{projectRoot}/../../coverage/packages/infra"
+      }
+    }
+  }
+}

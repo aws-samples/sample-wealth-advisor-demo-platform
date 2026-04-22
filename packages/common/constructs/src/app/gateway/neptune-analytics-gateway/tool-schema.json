@@ -1,0 +1,65 @@
+[
+  {
+    "name": "execute_cypher",
+    "description": "Execute a raw openCypher query against Neptune Analytics.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The openCypher query string to execute."
+        }
+      },
+      "required": ["query"]
+    }
+  },
+  {
+    "name": "test_connection",
+    "description": "Test the connection to Neptune Analytics.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "find_similar_clients",
+    "description": "Find similar clients using Neptune graph similarity algorithms. Algorithms: jaccard, overlap, common, total.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": "The client node ID to find similar clients for."
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Similarity algorithm: jaccard, overlap, common, or total. Defaults to jaccard."
+        },
+        "min_score": {
+          "type": "number",
+          "description": "Minimum similarity score threshold. Defaults to 0.0."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of similar clients to return. Defaults to 10."
+        }
+      },
+      "required": ["client_id"]
+    }
+  },
+  {
+    "name": "compute_degree_centrality",
+    "description": "Compute degree centrality for a list of node IDs.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "node_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of node IDs to compute degree centrality for (max 20)."
+        }
+      },
+      "required": ["node_ids"]
+    }
+  }
+]

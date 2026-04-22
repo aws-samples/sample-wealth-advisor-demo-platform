@@ -1,0 +1,239 @@
+interaction_id,client_id,advisor_id,interaction_type,interaction_date,subject,summary,sentiment,duration_minutes
+INT00000122,CL00004,ADV002,Call,2024-12-30,Investment Opportunity Call,Informational session about market conditions and economic outlook.,Neutral,27
+INT00000088,CL00004,ADV002,Call,2025-03-01,Transaction Confirmation,Client appreciated the market insights and investment recommendations provided.,Positive,24
+INT00000156,CL00004,ADV002,Call,2025-03-31,Portfolio Rebalancing Discussion,Routine check-in to review account status and recent transactions.,Neutral,55
+INT00000036,CL00004,ADV002,Call,2025-04-24,Follow-up Call,,Positive,7
+INT00000110,CL00004,ADV002,Meeting,2025-05-05,Investment Performance Review,Standard quarterly review covering portfolio performance and allocations.,Neutral,113
+INT00000106,CL00004,ADV002,Meeting,2025-05-18,Quarterly Portfolio Review,Client showed enthusiasm for new investment opportunities discussed.,Positive,118
+INT00000107,CL00004,ADV002,Call,2025-09-10,Market Volatility Discussion,Client appreciated the market insights and investment recommendations provided.,Positive,55
+INT00000011,CL00004,ADV002,Call,2025-09-25,Transaction Confirmation,,Neutral,27
+INT00000116,CL00004,ADV002,Meeting,2025-10-07,Investment Strategy Discussion,,Positive,44
+INT00000018,CL00036,ADV005,Call,2025-02-06,Follow-up Call,,Neutral,49
+INT00000165,CL00036,ADV005,Meeting,2025-02-11,Estate Planning Discussion,,Positive,92
+INT00000208,CL00036,ADV005,Call,2025-05-12,Transaction Confirmation,Positive feedback on service quality and communication frequency.,Positive,12
+INT00000056,CL00036,ADV005,Call,2025-09-28,Account Balance Inquiry,,Neutral,31
+INT00000090,CL00007,ADV007,Meeting,2025-02-22,Goal Setting Meeting,Constructive conversation about portfolio diversification strategies.,Positive,73
+INT00000238,CL00007,ADV007,Meeting,2025-04-16,Tax Planning Session,Positive feedback on service quality and communication frequency.,Positive,32
+INT00000176,CL00007,ADV007,Call,2025-07-21,Account Status Update,Administrative discussion regarding account documentation and compliance.,Neutral,41
+INT00000114,CL00007,ADV007,Meeting,2025-10-29,Investment Performance Review,Constructive conversation about portfolio diversification strategies.,Positive,94
+INT00000168,CL00007,ADV007,Meeting,2025-11-02,Investment Strategy Discussion,,Positive,82
+INT00000055,CL00005,ADV001,Chat,2025-01-21,Password Reset Request,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000220,CL00005,ADV001,Meeting,2025-01-25,Financial Planning Session,Client confident in current investment approach and advisor guidance.,Positive,94
+INT00000229,CL00005,ADV001,Call,2025-02-07,Account Balance Inquiry,,Neutral,16
+INT00000160,CL00005,ADV001,Email,2025-03-13,Portfolio Performance Update,,Positive,
+INT00000049,CL00005,ADV001,Call,2025-03-29,Account Balance Inquiry,,Positive,56
+INT00000237,CL00005,ADV001,Chat,2025-05-21,Quick Question,,Positive,
+INT00000134,CL00005,ADV001,Email,2025-06-13,Compliance Update,Positive feedback on service quality and communication frequency.,Positive,
+INT00000030,CL00005,ADV001,Meeting,2025-08-26,Investment Strategy Discussion,Standard review of investment policy statement and objectives.,Neutral,78
+INT00000041,CL00026,ADV005,Meeting,2024-12-16,Risk Assessment Review,Productive discussion about long-term financial goals and retirement planning.,Positive,82
+INT00000105,CL00026,ADV005,Call,2025-05-13,Market Volatility Discussion,,Neutral,38
+INT00000008,CL00026,ADV005,Email,2025-11-29,Document Request,,Negative,
+INT00000059,CL00008,ADV004,Meeting,2024-12-30,Investment Performance Review,,Positive,94
+INT00000166,CL00008,ADV004,Meeting,2025-01-24,Market Update Discussion,Standard review of investment policy statement and objectives.,Neutral,104
+INT00000196,CL00008,ADV004,Meeting,2025-01-27,Financial Planning Session,Constructive conversation about portfolio diversification strategies.,Positive,111
+INT00000040,CL00008,ADV004,Call,2025-04-13,Portfolio Rebalancing Discussion,Positive feedback on service quality and communication frequency.,Positive,18
+INT00000140,CL00008,ADV004,Call,2025-04-14,Account Status Update,Client expressed concerns about recent portfolio performance and volatility.,Negative,25
+INT00000209,CL00008,ADV004,Email,2025-06-12,Compliance Update,Constructive conversation about portfolio diversification strategies.,Positive,
+INT00000044,CL00008,ADV004,Call,2025-07-24,Portfolio Rebalancing Discussion,Productive discussion about long-term financial goals and retirement planning.,Positive,59
+INT00000215,CL00008,ADV004,Email,2025-11-26,Market Commentary,Successful review of investment objectives and risk tolerance alignment.,Positive,
+INT00000004,CL00008,ADV004,Meeting,2025-12-03,Estate Planning Discussion,Client showed enthusiasm for new investment opportunities discussed.,Positive,63
+INT00000129,CL00001,ADV001,Call,2025-01-19,Market Update Call,Standard quarterly review covering portfolio performance and allocations.,Neutral,41
+INT00000042,CL00001,ADV001,Meeting,2025-02-02,Market Update Discussion,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,104
+INT00000189,CL00001,ADV001,Email,2025-03-14,Account Update Notification,,Neutral,
+INT00000077,CL00001,ADV001,Call,2025-04-06,Investment Opportunity Call,,Positive,33
+INT00000203,CL00001,ADV001,Call,2025-05-01,Account Status Update,,Positive,10
+INT00000170,CL00013,ADV004,Meeting,2025-01-06,Investment Strategy Discussion,Successful review of investment objectives and risk tolerance alignment.,Positive,100
+INT00000178,CL00013,ADV004,Meeting,2025-03-19,Estate Planning Discussion,Constructive conversation about portfolio diversification strategies.,Positive,70
+INT00000210,CL00013,ADV004,Meeting,2025-06-20,Investment Strategy Discussion,,Positive,88
+INT00000093,CL00013,ADV004,Call,2025-08-07,Transaction Confirmation,,Positive,8
+INT00000072,CL00013,ADV004,Call,2025-09-21,Portfolio Rebalancing Discussion,Standard review of investment policy statement and objectives.,Neutral,43
+INT00000052,CL00013,ADV004,Email,2025-10-06,Monthly Statement Review,,Positive,
+INT00000141,CL00013,ADV004,Meeting,2025-10-17,Retirement Planning Meeting,Standard review of investment policy statement and objectives.,Neutral,115
+INT00000092,CL00013,ADV004,Chat,2025-10-21,Technical Support,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,
+INT00000198,CL00013,ADV004,Email,2025-11-10,Monthly Statement Review,,Positive,
+INT00000086,CL00031,ADV001,Email,2024-12-21,Investment Recommendation,Successful review of investment objectives and risk tolerance alignment.,Positive,
+INT00000194,CL00031,ADV001,Email,2025-03-18,Tax Document Delivery,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000148,CL00031,ADV001,Email,2025-04-15,Market Commentary,Client appreciated the market insights and investment recommendations provided.,Positive,
+INT00000021,CL00031,ADV001,Call,2025-05-08,Market Update Call,Constructive conversation about portfolio diversification strategies.,Positive,55
+INT00000207,CL00031,ADV001,Call,2025-05-15,Follow-up Call,Constructive conversation about portfolio diversification strategies.,Positive,58
+INT00000161,CL00031,ADV001,Call,2025-06-09,Quick Check-in Call,Positive feedback on service quality and communication frequency.,Positive,54
+INT00000091,CL00031,ADV001,Meeting,2025-08-31,Risk Assessment Review,Client confident in current investment approach and advisor guidance.,Positive,56
+INT00000047,CL00032,ADV005,Call,2025-09-05,Investment Question,Standard quarterly review covering portfolio performance and allocations.,Neutral,51
+INT00000154,CL00032,ADV005,Call,2025-12-09,Transaction Confirmation,Client showed enthusiasm for new investment opportunities discussed.,Positive,41
+INT00000228,CL00035,ADV002,Call,2024-12-22,Transaction Confirmation,,Positive,35
+INT00000013,CL00035,ADV002,Meeting,2025-01-09,Market Update Discussion,Successful review of investment objectives and risk tolerance alignment.,Positive,71
+INT00000233,CL00035,ADV002,Meeting,2025-01-25,Goal Setting Meeting,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,37
+INT00000117,CL00014,ADV001,Call,2025-02-20,Portfolio Rebalancing Discussion,Routine communication regarding upcoming tax reporting requirements.,Neutral,45
+INT00000130,CL00014,ADV001,Call,2025-04-15,Market Volatility Discussion,Constructive conversation about portfolio diversification strategies.,Positive,24
+INT00000185,CL00014,ADV001,Email,2025-04-30,Tax Document Delivery,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,
+INT00000075,CL00035,ADV002,Meeting,2025-05-02,Risk Assessment Review,Client questioned investment decisions and requested strategy review.,Negative,73
+INT00000007,CL00035,ADV002,Email,2025-05-04,Document Request,Routine check-in to review account status and recent transactions.,Neutral,
+INT00000073,CL00014,ADV001,Call,2025-07-05,Quick Check-in Call,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,7
+INT00000060,CL00035,ADV002,Call,2025-08-29,Market Update Call,Informational session about market conditions and economic outlook.,Neutral,49
+INT00000187,CL00014,ADV001,Meeting,2025-09-11,Financial Planning Session,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,37
+INT00000221,CL00035,ADV002,Call,2025-09-18,Quick Check-in Call,Productive discussion about long-term financial goals and retirement planning.,Positive,25
+INT00000003,CL00014,ADV001,Email,2025-09-28,Compliance Update,Procedural discussion about account maintenance and reporting.,Neutral,
+INT00000051,CL00014,ADV001,Call,2025-11-07,Quick Check-in Call,Procedural discussion about account maintenance and reporting.,Neutral,33
+INT00000126,CL00017,ADV004,Call,2024-12-20,Account Status Update,Regular update on investment performance and fee structures.,Neutral,7
+INT00000069,CL00017,ADV004,Email,2025-01-12,Compliance Update,Routine communication regarding upcoming tax reporting requirements.,Neutral,
+INT00000212,CL00017,ADV004,Meeting,2025-01-12,Financial Planning Session,Client appreciated the market insights and investment recommendations provided.,Positive,87
+INT00000038,CL00017,ADV004,Email,2025-04-07,Document Request,Constructive conversation about portfolio diversification strategies.,Positive,
+INT00000120,CL00017,ADV004,Call,2025-04-08,Portfolio Rebalancing Discussion,Client appreciated the market insights and investment recommendations provided.,Positive,28
+INT00000076,CL00017,ADV004,Call,2025-05-23,Quick Check-in Call,Client expressed concerns about recent portfolio performance and volatility.,Negative,25
+INT00000108,CL00017,ADV004,Meeting,2025-05-23,Estate Planning Discussion,Successful review of investment objectives and risk tolerance alignment.,Positive,110
+INT00000139,CL00017,ADV004,Call,2025-06-17,Market Volatility Discussion,,Positive,40
+INT00000031,CL00017,ADV004,Email,2025-07-03,Meeting Confirmation,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,
+INT00000121,CL00017,ADV004,Call,2025-08-05,Transaction Confirmation,Client showed enthusiasm for new investment opportunities discussed.,Positive,54
+INT00000098,CL00017,ADV004,Email,2025-08-17,Investment Research Sharing,,Positive,
+INT00000200,CL00017,ADV004,Call,2025-09-08,Investment Opportunity Call,Client showed enthusiasm for new investment opportunities discussed.,Positive,29
+INT00000219,CL00015,ADV003,Call,2024-12-22,Follow-up Call,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,55
+INT00000095,CL00015,ADV003,Meeting,2025-03-02,Investment Strategy Discussion,Constructive conversation about portfolio diversification strategies.,Positive,96
+INT00000054,CL00015,ADV003,Call,2025-05-19,Investment Opportunity Call,Successful review of investment objectives and risk tolerance alignment.,Positive,16
+INT00000183,CL00015,ADV003,Call,2025-06-26,Investment Question,Standard review of investment policy statement and objectives.,Neutral,39
+INT00000100,CL00015,ADV003,Call,2025-07-20,Market Update Call,Positive feedback on service quality and communication frequency.,Positive,10
+INT00000133,CL00015,ADV003,Email,2025-09-15,Meeting Confirmation,,Neutral,
+INT00000118,CL00015,ADV003,Email,2025-11-08,Monthly Statement Review,,Positive,
+INT00000167,CL00025,ADV005,Meeting,2025-05-22,Tax Planning Session,Client showed enthusiasm for new investment opportunities discussed.,Positive,115
+INT00000186,CL00025,ADV005,Call,2025-06-25,Market Update Call,Informational session about market conditions and economic outlook.,Neutral,54
+INT00000213,CL00025,ADV005,Meeting,2025-07-06,Investment Performance Review,,Positive,75
+INT00000045,CL00025,ADV005,Email,2025-07-21,Monthly Statement Review,,Positive,
+INT00000046,CL00025,ADV005,Meeting,2025-08-06,Financial Planning Session,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,92
+INT00000062,CL00025,ADV005,Call,2025-10-19,Market Volatility Discussion,Productive discussion about long-term financial goals and retirement planning.,Positive,6
+INT00000147,CL00025,ADV005,Call,2025-11-16,Market Update Call,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,41
+INT00000128,CL00025,ADV005,Call,2025-11-29,Market Update Call,Regular update on investment performance and fee structures.,Neutral,59
+INT00000068,CL00025,ADV005,Call,2025-12-03,Follow-up Call,,Positive,26
+INT00000033,CL00025,ADV005,Chat,2025-12-12,Investment Query,Client confident in current investment approach and advisor guidance.,Positive,
+INT00000193,CL00034,ADV001,Meeting,2025-02-17,Risk Assessment Review,,Positive,47
+INT00000180,CL00034,ADV001,Call,2025-08-25,Quick Check-in Call,,Positive,27
+INT00000227,CL00034,ADV001,Email,2025-09-22,Tax Document Delivery,Standard review of investment policy statement and objectives.,Neutral,
+INT00000101,CL00019,ADV003,Meeting,2025-05-29,Market Update Discussion,Standard review of investment policy statement and objectives.,Neutral,90
+INT00000224,CL00019,ADV003,Call,2025-07-29,Portfolio Rebalancing Discussion,Client appreciated the market insights and investment recommendations provided.,Positive,53
+INT00000080,CL00019,ADV003,Call,2025-10-14,Investment Opportunity Call,Administrative discussion regarding account documentation and compliance.,Neutral,17
+INT00000058,CL00028,ADV002,Email,2024-12-14,Account Update Notification,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,
+INT00000103,CL00016,ADV008,Call,2025-01-04,Investment Opportunity Call,Routine communication regarding upcoming tax reporting requirements.,Neutral,27
+INT00000197,CL00028,ADV002,Call,2025-01-28,Quick Check-in Call,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,24
+INT00000226,CL00016,ADV008,Call,2025-02-27,Market Volatility Discussion,Client confident in current investment approach and advisor guidance.,Positive,13
+INT00000145,CL00028,ADV002,Call,2025-02-28,Follow-up Call,Client showed enthusiasm for new investment opportunities discussed.,Positive,7
+INT00000214,CL00016,ADV008,Call,2025-03-05,Market Volatility Discussion,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,17
+INT00000132,CL00028,ADV002,Call,2025-04-10,Transaction Confirmation,Standard quarterly review covering portfolio performance and allocations.,Neutral,11
+INT00000113,CL00028,ADV002,Meeting,2025-04-26,Risk Assessment Review,,Positive,33
+INT00000184,CL00016,ADV008,Call,2025-04-27,Investment Question,Constructive conversation about portfolio diversification strategies.,Positive,45
+INT00000151,CL00028,ADV002,Meeting,2025-05-27,Estate Planning Discussion,Client confident in current investment approach and advisor guidance.,Positive,52
+INT00000097,CL00016,ADV008,Meeting,2025-06-27,Quarterly Portfolio Review,Productive discussion about long-term financial goals and retirement planning.,Positive,109
+INT00000149,CL00016,ADV008,Call,2025-07-21,Portfolio Rebalancing Discussion,Client confident in current investment approach and advisor guidance.,Positive,34
+INT00000079,CL00028,ADV002,Call,2025-09-04,Market Volatility Discussion,Productive discussion about long-term financial goals and retirement planning.,Positive,20
+INT00000159,CL00016,ADV008,Email,2025-09-16,Meeting Confirmation,,Positive,
+INT00000006,CL00028,ADV002,Meeting,2025-10-11,Risk Assessment Review,Client showed enthusiasm for new investment opportunities discussed.,Positive,82
+INT00000175,CL00016,ADV008,Email,2025-10-18,Tax Document Delivery,,Neutral,
+INT00000142,CL00016,ADV008,Meeting,2025-12-11,Estate Planning Discussion,Successful review of investment objectives and risk tolerance alignment.,Positive,109
+INT00000172,CL00021,ADV002,Call,2025-06-03,Account Status Update,Client showed enthusiasm for new investment opportunities discussed.,Positive,46
+INT00000216,CL00021,ADV002,Email,2025-09-01,Meeting Confirmation,Client confident in current investment approach and advisor guidance.,Positive,
+INT00000174,CL00018,ADV005,Call,2025-01-31,Investment Question,Regular update on investment performance and fee structures.,Neutral,44
+INT00000001,CL00018,ADV005,Meeting,2025-02-17,Retirement Planning Meeting,Routine check-in to review account status and recent transactions.,Neutral,96
+INT00000188,CL00018,ADV005,Call,2025-02-28,Account Status Update,Discussion about investment losses and risk management strategies.,Negative,11
+INT00000123,CL00018,ADV005,Email,2025-04-11,Monthly Statement Review,Addressed client complaints about transaction processing delays.,Negative,
+INT00000109,CL00018,ADV005,Call,2025-05-08,Portfolio Rebalancing Discussion,Constructive conversation about portfolio diversification strategies.,Positive,29
+INT00000002,CL00018,ADV005,Chat,2025-05-16,Meeting Scheduling,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000016,CL00018,ADV005,Meeting,2025-05-30,Goal Setting Meeting,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,62
+INT00000222,CL00018,ADV005,Call,2025-08-15,Follow-up Call,,Positive,51
+INT00000039,CL00018,ADV005,Call,2025-09-19,Portfolio Rebalancing Discussion,Client appreciated the market insights and investment recommendations provided.,Positive,34
+INT00000169,CL00012,ADV003,Meeting,2024-12-15,Financial Planning Session,Regular update on investment performance and fee structures.,Neutral,68
+INT00000061,CL00012,ADV003,Call,2025-01-13,Investment Opportunity Call,,Positive,57
+INT00000037,CL00012,ADV003,Call,2025-04-07,Quick Check-in Call,Productive discussion about long-term financial goals and retirement planning.,Positive,35
+INT00000131,CL00012,ADV003,Meeting,2025-04-18,Retirement Planning Meeting,Client appreciated the market insights and investment recommendations provided.,Positive,87
+INT00000144,CL00012,ADV003,Call,2025-05-04,Market Volatility Discussion,Constructive conversation about portfolio diversification strategies.,Positive,42
+INT00000138,CL00012,ADV003,Call,2025-06-18,Transaction Confirmation,Constructive conversation about portfolio diversification strategies.,Positive,9
+INT00000218,CL00012,ADV003,Meeting,2025-07-30,Tax Planning Session,Regular update on investment performance and fee structures.,Neutral,44
+INT00000217,CL00024,ADV008,Email,2024-12-28,Tax Document Delivery,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,
+INT00000137,CL00024,ADV008,Email,2025-02-10,Meeting Confirmation,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000035,CL00024,ADV008,Meeting,2025-03-10,Market Update Discussion,,Neutral,72
+INT00000158,CL00024,ADV008,Email,2025-03-30,Compliance Update,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000223,CL00024,ADV008,Call,2025-04-15,Account Status Update,Productive discussion about long-term financial goals and retirement planning.,Positive,41
+INT00000082,CL00024,ADV008,Call,2025-05-08,Market Volatility Discussion,Constructive conversation about portfolio diversification strategies.,Positive,17
+INT00000050,CL00024,ADV008,Meeting,2025-05-19,Investment Strategy Discussion,,Positive,70
+INT00000143,CL00024,ADV008,Email,2025-06-09,Tax Document Delivery,Constructive conversation about portfolio diversification strategies.,Positive,
+INT00000192,CL00024,ADV008,Call,2025-07-30,Investment Question,Administrative discussion regarding account documentation and compliance.,Neutral,48
+INT00000182,CL00024,ADV008,Email,2025-08-24,Tax Document Delivery,Client confident in current investment approach and advisor guidance.,Positive,
+INT00000104,CL00024,ADV008,Call,2025-08-28,Account Balance Inquiry,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,35
+INT00000231,CL00024,ADV008,Meeting,2025-09-03,Financial Planning Session,Positive feedback on service quality and communication frequency.,Positive,79
+INT00000078,CL00024,ADV008,Meeting,2025-09-04,Investment Strategy Discussion,Productive discussion about long-term financial goals and retirement planning.,Positive,54
+INT00000034,CL00024,ADV008,Call,2025-09-05,Account Status Update,Standard review of investment policy statement and objectives.,Neutral,27
+INT00000152,CL00024,ADV008,Call,2025-10-02,Portfolio Rebalancing Discussion,,Positive,31
+INT00000010,CL00024,ADV008,Call,2025-10-27,Market Update Call,Client showed enthusiasm for new investment opportunities discussed.,Positive,56
+INT00000163,CL00023,ADV007,Call,2024-12-27,Market Volatility Discussion,Productive discussion about long-term financial goals and retirement planning.,Positive,54
+INT00000020,CL00023,ADV007,Meeting,2025-02-04,Goal Setting Meeting,Client appreciated the market insights and investment recommendations provided.,Positive,30
+INT00000067,CL00009,ADV004,Email,2025-02-14,Portfolio Performance Update,Routine check-in to review account status and recent transactions.,Neutral,
+INT00000234,CL00009,ADV004,Meeting,2025-02-23,Market Update Discussion,,Positive,87
+INT00000150,CL00009,ADV004,Call,2025-03-31,Investment Opportunity Call,Successful review of investment objectives and risk tolerance alignment.,Positive,36
+INT00000032,CL00033,ADV002,Call,2025-04-04,Account Balance Inquiry,,Neutral,40
+INT00000199,CL00023,ADV007,Call,2025-06-11,Follow-up Call,,Neutral,54
+INT00000019,CL00033,ADV002,Email,2025-06-18,Document Request,,Neutral,
+INT00000024,CL00009,ADV004,Meeting,2025-06-25,Risk Assessment Review,Administrative discussion regarding account documentation and compliance.,Neutral,31
+INT00000081,CL00023,ADV007,Meeting,2025-09-26,Investment Strategy Discussion,,Positive,108
+INT00000112,CL00023,ADV007,Email,2025-10-02,Tax Document Delivery,,Positive,
+INT00000063,CL00033,ADV002,Call,2025-10-03,Market Update Call,Routine communication regarding upcoming tax reporting requirements.,Neutral,25
+INT00000012,CL00009,ADV004,Call,2025-10-24,Follow-up Call,Standard review of investment policy statement and objectives.,Neutral,14
+INT00000099,CL00023,ADV007,Meeting,2025-10-24,Investment Strategy Discussion,Informational session about market conditions and economic outlook.,Neutral,79
+INT00000027,CL00009,ADV004,Meeting,2025-10-31,Investment Strategy Discussion,Client showed enthusiasm for new investment opportunities discussed.,Positive,76
+INT00000202,CL00009,ADV004,Meeting,2025-11-05,Quarterly Portfolio Review,Client showed enthusiasm for new investment opportunities discussed.,Positive,96
+INT00000177,CL00009,ADV004,Chat,2025-12-01,Contact Information Update,Client appreciated the market insights and investment recommendations provided.,Positive,
+INT00000127,CL00022,ADV001,Meeting,2025-08-29,Estate Planning Discussion,Positive feedback on service quality and communication frequency.,Positive,79
+INT00000190,CL00022,ADV001,Call,2025-09-06,Account Status Update,Client appreciated the market insights and investment recommendations provided.,Positive,29
+INT00000009,CL00022,ADV001,Meeting,2025-09-26,Investment Performance Review,Client confident in current investment approach and advisor guidance.,Positive,72
+INT00000191,CL00002,ADV007,Meeting,2024-12-26,Financial Planning Session,Procedural discussion about account maintenance and reporting.,Neutral,68
+INT00000043,CL00002,ADV007,Meeting,2024-12-27,Investment Performance Review,,Positive,92
+INT00000236,CL00002,ADV007,Email,2025-02-28,Account Update Notification,,Neutral,
+INT00000029,CL00002,ADV007,Meeting,2025-05-04,Market Update Discussion,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,103
+INT00000023,CL00002,ADV007,Meeting,2025-06-15,Financial Planning Session,,Negative,65
+INT00000048,CL00002,ADV007,Call,2025-09-17,Market Volatility Discussion,Client showed enthusiasm for new investment opportunities discussed.,Positive,47
+INT00000173,CL00010,ADV008,Call,2024-12-16,Transaction Confirmation,,Positive,53
+INT00000136,CL00010,ADV008,Call,2024-12-29,Investment Question,Productive discussion about long-term financial goals and retirement planning.,Positive,9
+INT00000115,CL00010,ADV008,Meeting,2025-01-12,Investment Strategy Discussion,,Negative,42
+INT00000096,CL00010,ADV008,Email,2025-01-17,Market Commentary,Client showed enthusiasm for new investment opportunities discussed.,Positive,
+INT00000070,CL00010,ADV008,Call,2025-08-03,Market Update Call,Standard quarterly review covering portfolio performance and allocations.,Neutral,55
+INT00000162,CL00010,ADV008,Chat,2025-09-18,Meeting Scheduling,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000111,CL00010,ADV008,Meeting,2025-09-20,Risk Assessment Review,Procedural discussion about account maintenance and reporting.,Neutral,64
+INT00000026,CL00029,ADV004,Call,2025-04-05,Market Update Call,Standard review of investment policy statement and objectives.,Neutral,56
+INT00000171,CL00029,ADV004,Email,2025-04-15,Account Update Notification,Informational session about market conditions and economic outlook.,Neutral,
+INT00000204,CL00029,ADV004,Email,2025-06-08,Investment Recommendation,,Positive,
+INT00000235,CL00029,ADV004,Email,2025-06-22,Document Request,Client confident in current investment approach and advisor guidance.,Positive,
+INT00000153,CL00029,ADV004,Email,2025-07-30,Portfolio Performance Update,,Positive,
+INT00000071,CL00030,ADV002,Email,2025-02-07,Account Update Notification,Positive feedback on service quality and communication frequency.,Positive,
+INT00000066,CL00030,ADV002,Call,2025-04-25,Account Status Update,Client showed enthusiasm for new investment opportunities discussed.,Positive,21
+INT00000053,CL00030,ADV002,Call,2025-05-02,Market Update Call,Client appreciated the market insights and investment recommendations provided.,Positive,38
+INT00000015,CL00030,ADV002,Call,2025-05-03,Account Status Update,Productive discussion about long-term financial goals and retirement planning.,Positive,54
+INT00000057,CL00030,ADV002,Meeting,2025-11-12,Market Update Discussion,Positive feedback on service quality and communication frequency.,Positive,94
+INT00000195,CL00030,ADV002,Meeting,2025-12-01,Investment Performance Review,,Positive,60
+INT00000089,CL00011,ADV002,Call,2025-02-21,Account Status Update,,Positive,49
+INT00000022,CL00011,ADV002,Call,2025-03-05,Quick Check-in Call,Informational session about market conditions and economic outlook.,Neutral,38
+INT00000017,CL00011,ADV002,Call,2025-04-07,Follow-up Call,Client expressed satisfaction with portfolio performance and investment strategy.,Positive,53
+INT00000146,CL00011,ADV002,Call,2025-07-13,Market Update Call,Client confident in current investment approach and advisor guidance.,Positive,56
+INT00000102,CL00020,ADV004,Call,2025-01-05,Investment Opportunity Call,Positive feedback on service quality and communication frequency.,Positive,40
+INT00000124,CL00020,ADV004,Call,2025-01-30,Account Status Update,Client appreciated the market insights and investment recommendations provided.,Positive,15
+INT00000225,CL00020,ADV004,Email,2025-02-14,Market Commentary,Client confident in current investment approach and advisor guidance.,Positive,
+INT00000205,CL00020,ADV004,Chat,2025-07-09,Meeting Scheduling,Administrative discussion regarding account documentation and compliance.,Neutral,
+INT00000087,CL00020,ADV004,Email,2025-07-13,Portfolio Performance Update,,Positive,
+INT00000025,CL00020,ADV004,Email,2025-07-27,Market Commentary,Constructive conversation about portfolio diversification strategies.,Positive,
+INT00000083,CL00020,ADV004,Meeting,2025-09-02,Financial Planning Session,Standard review of investment policy statement and objectives.,Neutral,60
+INT00000028,CL00020,ADV004,Meeting,2025-10-01,Goal Setting Meeting,Client showed enthusiasm for new investment opportunities discussed.,Positive,103
+INT00000014,CL00020,ADV004,Call,2025-10-13,Market Update Call,Administrative discussion regarding account documentation and compliance.,Neutral,59
+INT00000074,CL00020,ADV004,Call,2025-11-26,Investment Question,Standard review of investment policy statement and objectives.,Neutral,60
+INT00000135,CL00003,ADV002,Call,2024-12-14,Market Volatility Discussion,Client confident in current investment approach and advisor guidance.,Positive,21
+INT00000206,CL00003,ADV002,Call,2025-01-09,Investment Opportunity Call,Successful review of investment objectives and risk tolerance alignment.,Positive,32
+INT00000065,CL00003,ADV002,Meeting,2025-01-22,Risk Assessment Review,,Positive,111
+INT00000232,CL00003,ADV002,Call,2025-02-04,Follow-up Call,,Positive,53
+INT00000157,CL00003,ADV002,Email,2025-02-13,Investment Recommendation,Client showed enthusiasm for new investment opportunities discussed.,Positive,
+INT00000201,CL00003,ADV002,Chat,2025-02-19,Investment Query,Productive discussion about long-term financial goals and retirement planning.,Positive,
+INT00000119,CL00003,ADV002,Call,2025-03-04,Portfolio Rebalancing Discussion,Productive discussion about long-term financial goals and retirement planning.,Positive,44
+INT00000164,CL00003,ADV002,Meeting,2025-03-15,Estate Planning Discussion,Regular update on investment performance and fee structures.,Neutral,104
+INT00000085,CL00003,ADV002,Email,2025-11-06,Document Request,Client showed enthusiasm for new investment opportunities discussed.,Positive,
+INT00000211,CL00003,ADV002,Call,2025-12-08,Follow-up Call,Standard quarterly review covering portfolio performance and allocations.,Neutral,25
+INT00000064,CL00006,ADV007,Meeting,2024-12-27,Market Update Discussion,Constructive conversation about portfolio diversification strategies.,Positive,95
+INT00000179,CL00027,ADV002,Call,2025-02-11,Follow-up Call,Client showed enthusiasm for new investment opportunities discussed.,Positive,34
+INT00000181,CL00006,ADV007,Call,2025-02-21,Market Update Call,Client showed enthusiasm for new investment opportunities discussed.,Positive,45
+INT00000230,CL00027,ADV002,Call,2025-02-21,Account Balance Inquiry,Routine communication regarding upcoming tax reporting requirements.,Neutral,10
+INT00000005,CL00027,ADV002,Chat,2025-03-13,Password Reset Request,,Positive,
+INT00000094,CL00006,ADV007,Email,2025-03-13,Investment Research Sharing,Client confident in current investment approach and advisor guidance.,Positive,
+INT00000084,CL00006,ADV007,Meeting,2025-05-21,Tax Planning Session,Client appreciated the market insights and investment recommendations provided.,Positive,59
+INT00000125,CL00027,ADV002,Meeting,2025-05-31,Quarterly Portfolio Review,,Positive,40
+INT00000155,CL00006,ADV007,Call,2025-11-23,Portfolio Rebalancing Discussion,Positive feedback on service quality and communication frequency.,Positive,55

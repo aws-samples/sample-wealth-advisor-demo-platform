@@ -1,0 +1,25 @@
+table_name,business_name,description,tags,data_classification
+clients,Client Information,Client master data including demographics risk profile and advisor assignment,Master Data;Client;PII,Sensitive
+advisors,Advisor Information,Financial advisor information including credentials and specialization,Master Data;Advisor,Internal
+accounts,Investment Accounts,Client investment accounts with balances and status,Transactional;Account,Confidential
+portfolios,Investment Portfolios,Investment portfolios with allocation strategies,Portfolio;Investment,Confidential
+securities,Securities Master,Security master data including ticker symbol and pricing,Master Data;Securities,Public
+transactions,Transaction History,Investment transaction records including buys sells and transfers,Transactional;Trading,Confidential
+holdings,Portfolio Holdings,Current portfolio holdings and positions,Holdings;Position,Confidential
+market_data,Market Data,Historical market prices and trading volumes,Market Data;Pricing,Public
+performance,Portfolio Performance,Portfolio performance metrics over time,Performance;Analytics,Confidential
+fees,Fee Records,Advisory fees and billing information,Fees;Billing,Confidential
+goals,Client Goals,Client financial goals and funding status,Goals;Planning,Confidential
+interactions,Client Interactions,Client-advisor interaction history and notes,Interactions;CRM,Confidential
+documents,Client Documents,Client document repository with metadata,Documents;Storage,Confidential
+compliance,Compliance Records,Client compliance status and review dates,Compliance;Regulatory,Restricted
+research,Research Reports,Security research and analyst recommendations,Research;Analysis,Internal
+articles,News Articles,Financial news and market articles,Content;News,Public
+client_income_expense,Income Expense Analysis,Client income expense and sustainability analysis,Financial Planning;Analytics,Confidential
+client_investment_restrictions,Investment Restrictions,Client-specific investment restrictions and preferences,Restrictions;Compliance,Confidential
+client_reports,Client Reports,Generated client reports and delivery tracking,Reports;Documents,Confidential
+crawl_log,Article Crawl Logs,Logs from news article crawling processes,Logs;System,Internal
+portfolio_config,Portfolio Configuration,Portfolio ticker configurations and recommendations,Configuration;Portfolio,Internal
+recommended_products,Recommended Products,Product recommendations catalog,Products;Recommendations,Internal
+theme_article_associations,Theme Article Links,Links between market themes and articles,Associations;Content,Internal
+themes,Market Themes,Identified market themes and trends from news analysis,Themes;Analytics,Internal

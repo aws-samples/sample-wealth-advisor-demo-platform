@@ -1,0 +1,74 @@
+version: 0.2
+
+env:
+  parameter-store:
+    ACCOUNT_ID: /wealth-management-portal/platform/account-id
+    APP_NAME: /wealth-management-portal/platform/app-name
+    ENV_NAME: /wealth-management-portal/platform/env-name
+    PRIMARY_REGION: /wealth-management-portal/platform/primary-region
+    SECONDARY_REGION: /wealth-management-portal/platform/secondary-region
+    ADMIN_ROLE: /wealth-management-portal/platform/admin-role
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      # Terraform (pinned to 1.8.x — do NOT use v6 AWS provider)
+      - yum install -y yum-utils jq make
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum install -y terraform
+      # Bypass .python-version — CodeBuild's pyenv may not have the exact patch version
+      - PYENV_VERSION=$(pyenv versions --bare | grep '^3\.12' | head -1) && pyenv global "$PYENV_VERSION"
+      - pip install --upgrade pip
+
+  pre_build:
+    commands:
+      # Makefile targets reference a 'datapipeline' IAM user for Lake Formation admin
+      - aws iam create-user --user-name datapipeline 2>/dev/null || true
+      - aws iam attach-user-policy --user-name datapipeline --policy-arn arn:aws:iam::aws:policy/AdministratorAccess 2>/dev/null || true
+      - cd data-platform && scripts/ci-init.sh
+
+  build:
+    commands:
+      - |
+        set -e
+        # Foundation
+        make deploy-tf-backend-cf-stack
+        make deploy-foundation-all
+        # IAM Identity Center
+        make deploy-idc-acc
+        # SageMaker Domain
+        make deploy-sagemaker-domain
+        # Glue + Lake Formation
+        make deploy-glue-jars
+        make deploy-lake-formation-all
+        # Athena
+        make deploy-athena
+        # Financial Advisor data lake + wait for Glue jobs
+        make deploy-financial-advisor-all
+        scripts/wait-glue-jobs.sh
+        # SageMaker Projects (includes wait-datazone-stacks)
+        make deploy-sagemaker-projects
+        # Post-project grants
+        make grant-s3table-lakeformation-permissions
+        make set-up-redshift-lf-readonly-admin
+        # Redshift DDL
+        make deploy-redshift-ddl
+        make grant-redshift-admin-access
+        # QuickSight subscription + RUM tables + dataset
+        make deploy-quicksight-subscription
+        make create-rum-all
+        make deploy-quicksight-dataset
+
+  post_build:
+    commands:
+      - |
+        echo "============================================"
+        echo "MANUAL STEP REQUIRED"
+        echo "============================================"
+        echo ""
+        echo "1. RESET IDC PASSWORDS"
+        echo "   Open IAM Identity Center console and reset passwords for all created users."
+        echo "   URL: https://${PRIMARY_REGION}.console.aws.amazon.com/singlesignon/home?region=${PRIMARY_REGION}"
+        echo "   Users: chris-bakony-admin, ann-chouvey-downer, lois-lanikini-powner, ben-doverano-contributor"

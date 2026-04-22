@@ -1,0 +1,14 @@
+packages:
+  - 'packages/*'
+  - 'packages/common/*'
+
+# pnpm v11: non-auth settings must live here, not in .npmrc
+resolutionMode: highest
+minimumReleaseAge: 0
+
+# Pre-approve build scripts so `pnpm install` works cleanly on clone
+allowBuilds:
+  '@swc/core': true
+  es5-ext: true
+  esbuild: true
+  nx: true

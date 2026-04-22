@@ -1,0 +1,21 @@
+[
+  {
+    "name": "execute_sql",
+    "description": "Execute a read-only SQL query against Redshift and return rows as list of dicts.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "sql": {
+          "type": "string",
+          "description": "SQL SELECT query. Use :p0, :p1 etc. for parameter placeholders."
+        },
+        "params": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Optional list of string parameter values matching :p0, :p1 order."
+        }
+      },
+      "required": ["sql"]
+    }
+  }
+]

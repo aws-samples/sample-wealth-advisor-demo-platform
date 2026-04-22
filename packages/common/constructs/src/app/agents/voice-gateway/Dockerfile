@@ -1,0 +1,1 @@
+FROM wealth-management-portal-voice-gateway:latest

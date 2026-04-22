@@ -1,0 +1,40 @@
+research_id,security_id,research_type,publication_date,rating,target_price,analyst_name,analyst_firm,summary
+RES00023,SEC00008,Market Analysis,2025-11-23,Hold,,Ryan Murphy,,Fair valuation with balanced risk-reward profile and stable fundamentals.
+RES00016,SEC00167,Market Analysis,2025-09-03,Strong Buy,,Andrew Jackson,Wells Fargo Securities,Superior execution and market leadership driving strong returns.
+RES00003,SEC00004,Buy/Sell Recommendation,2025-11-10,Strong Sell,88.47,Christopher Lee,Jefferies,Severe fundamental deterioration with significant downside risk.
+RES00030,SEC00109,Buy/Sell Recommendation,2025-06-18,Buy,332.74,Stephanie White,Piper Sandler,Good financial performance with improving operational metrics.
+RES00039,SEC00002,Buy/Sell Recommendation,2025-08-12,Strong Buy,311.63,Andrew Jackson,Cowen,Outstanding financial performance with significant upside potential.
+RES00010,SEC00119,Market Analysis,2025-08-31,Strong Buy,,Laura Scott,Goldman Sachs,
+RES00022,SEC00160,Buy/Sell Recommendation,2025-10-23,Strong Buy,161.55,Kevin Martinez,Goldman Sachs,Exceptional growth prospects with strong fundamentals and market positioning.
+RES00032,SEC00154,Buy/Sell Recommendation,2025-10-10,Hold,213.78,Ryan Murphy,,
+RES00034,SEC00154,Buy/Sell Recommendation,2025-11-06,Buy,212.22,Kimberly Lee,Oppenheimer,
+RES00017,SEC00058,Buy/Sell Recommendation,2025-06-15,Strong Buy,120.06,Lisa Anderson,Bank of America,Superior execution and market leadership driving strong returns.
+RES00031,SEC00054,Market Analysis,2025-07-11,Buy,,Maria Garcia,,
+RES00015,SEC00139,Buy/Sell Recommendation,2025-07-04,Hold,327.53,Michael Chen,Cowen,Adequate financial metrics with neutral outlook on growth prospects.
+RES00002,SEC00139,Buy/Sell Recommendation,2025-10-22,Strong Buy,330.82,Kevin Martinez,Raymond James,Superior execution and market leadership driving strong returns.
+RES00020,SEC00115,Market Analysis,2025-09-09,Hold,,Brian Adams,Piper Sandler,Steady performance with limited near-term catalysts for significant outperformance.
+RES00008,SEC00118,Market Analysis,2025-09-22,Hold,,Sarah Johnson,William Blair,Fair valuation with balanced risk-reward profile and stable fundamentals.
+RES00006,SEC00130,Buy/Sell Recommendation,2025-06-29,Hold,176.24,James Wilson,Goldman Sachs,
+RES00029,SEC00121,Buy/Sell Recommendation,2025-07-31,Hold,102.24,Lisa Anderson,William Blair,Fair valuation with balanced risk-reward profile and stable fundamentals.
+RES00009,SEC00121,Market Analysis,2025-08-19,Buy,,Stephanie White,Raymond James,
+RES00026,SEC00107,Buy/Sell Recommendation,2025-07-15,Hold,,Michael Chen,Wedbush Securities,Current price reflects fair value with modest upside potential.
+RES00012,SEC00032,Buy/Sell Recommendation,2025-08-24,Buy,99.49,Jessica Liu,Citigroup,Good financial performance with improving operational metrics.
+RES00019,SEC00048,Market Analysis,2025-12-07,Hold,,Michael Chen,Goldman Sachs,
+RES00011,SEC00143,Buy/Sell Recommendation,2025-09-04,Strong Buy,228.52,Daniel Kim,Bank of America,Excellent management team with proven track record of value creation.
+RES00014,SEC00143,Market Analysis,2025-10-01,Hold,,Matthew Davis,Stifel,
+RES00004,SEC00143,Buy/Sell Recommendation,2025-12-11,Strong Buy,,Ryan Murphy,Stifel,Outstanding financial performance with significant upside potential.
+RES00025,SEC00146,Buy/Sell Recommendation,2025-07-04,Buy,129.11,Sarah Johnson,Credit Suisse,Good financial performance with improving operational metrics.
+RES00027,SEC00081,Buy/Sell Recommendation,2025-08-14,Buy,210.87,James Wilson,,
+RES00007,SEC00065,Buy/Sell Recommendation,2025-07-08,Strong Buy,318.70,Lisa Anderson,Evercore ISI,Compelling investment opportunity with multiple growth catalysts.
+RES00024,SEC00065,Buy/Sell Recommendation,2025-10-24,Strong Sell,,Maria Garcia,Wedbush Securities,
+RES00018,SEC00141,Buy/Sell Recommendation,2025-10-16,Buy,132.19,Matthew Davis,Piper Sandler,Strong competitive position with positive industry trends supporting growth.
+RES00038,SEC00124,Buy/Sell Recommendation,2025-10-16,Buy,,Samantha Jones,Morgan Stanley,Solid fundamentals with attractive growth prospects and reasonable valuation.
+RES00021,SEC00047,Market Analysis,2025-06-23,Buy,,Andrew Jackson,J.P. Morgan,
+RES00028,SEC00076,Buy/Sell Recommendation,2025-09-02,Strong Buy,111.63,Andrew Jackson,William Blair,Compelling investment opportunity with multiple growth catalysts.
+RES00001,SEC00127,Buy/Sell Recommendation,2025-10-13,Hold,171.10,Daniel Kim,J.P. Morgan,
+RES00033,SEC00069,Buy/Sell Recommendation,2025-06-23,Sell,,Sarah Johnson,Morgan Stanley,
+RES00005,SEC00042,Buy/Sell Recommendation,2025-08-21,Hold,99.53,Steven Clark,Citigroup,Adequate financial metrics with neutral outlook on growth prospects.
+RES00013,SEC00133,Market Analysis,2025-10-31,Buy,,Daniel Kim,Wells Fargo Securities,
+RES00037,SEC00085,Buy/Sell Recommendation,2025-10-20,Hold,122.34,Samantha Jones,UBS,Fair valuation with balanced risk-reward profile and stable fundamentals.
+RES00035,SEC00044,Buy/Sell Recommendation,2025-08-22,Hold,,Jennifer Brown,William Blair,
+RES00036,SEC00114,Market Analysis,2025-10-03,Hold,,Nicole Taylor,,

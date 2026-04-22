@@ -1,0 +1,223 @@
+restriction_id,client_id,restriction,created_date
+RST-0001,CL00002,No alternative investments,2026-02-20
+RST-0002,CL00002,No margin trading,2026-02-20
+RST-0003,CL00002,No options trading,2026-02-20
+RST-0004,CL00004,No margin trading,2026-02-20
+RST-0005,CL00004,No individual bonds below investment grade,2026-02-20
+RST-0006,CL00004,No leveraged ETFs,2026-02-20
+RST-0007,CL00008,No alternative investments,2026-02-20
+RST-0008,CL00008,No margin trading,2026-02-20
+RST-0009,CL00008,No municipal bonds from out-of-state issuers,2026-02-20
+RST-0010,CL00008,No leveraged ETFs,2026-02-20
+RST-0011,CL00011,No alternative investments,2026-02-20
+RST-0012,CL00011,No margin trading,2026-02-20
+RST-0013,CL00011,No structured products,2026-02-20
+RST-0014,CL00014,No margin trading,2026-02-20
+RST-0015,CL00014,No leveraged ETFs,2026-02-20
+RST-0016,CL00016,No alternative investments,2026-02-20
+RST-0017,CL00016,No margin trading,2026-02-20
+RST-0018,CL00016,No individual bonds below investment grade,2026-02-20
+RST-0019,CL00016,No illiquid investments with >5 year lockup,2026-02-20
+RST-0020,CL00018,No alternative investments,2026-02-20
+RST-0021,CL00018,No margin trading,2026-02-20
+RST-0022,CL00018,No growth-only equities without dividend yield,2026-02-20
+RST-0023,CL00018,No leveraged ETFs,2026-02-20
+RST-0024,CL00020,No margin trading,2026-02-20
+RST-0025,CL00020,No structured products,2026-02-20
+RST-0026,CL00020,No leveraged ETFs,2026-02-20
+RST-0027,CL00023,No alternative investments,2026-02-20
+RST-0028,CL00023,No margin trading,2026-02-20
+RST-0029,CL00023,No options trading,2026-02-20
+RST-0030,CL00028,No margin trading,2026-02-20
+RST-0031,CL00028,No leveraged ETFs,2026-02-20
+RST-0032,CL00031,No alternative investments,2026-02-20
+RST-0033,CL00031,No margin trading,2026-02-20
+RST-0034,CL00031,No structured products,2026-02-20
+RST-0035,CL00033,No alternative investments,2026-02-20
+RST-0036,CL00033,No margin trading,2026-02-20
+RST-0037,CL00033,No individual bonds below investment grade,2026-02-20
+RST-0038,CL00033,No illiquid investments with >5 year lockup,2026-02-20
+RST-0039,CL00034,No alternative investments,2026-02-20
+RST-0040,CL00034,No margin trading,2026-02-20
+RST-0041,CL00034,No individual bonds below investment grade,2026-02-20
+RST-0042,CL00036,No margin trading,2026-02-20
+RST-0043,CL00036,No structured products,2026-02-20
+RST-0044,CL00036,No leveraged ETFs,2026-02-20
+RST-0045,CL00001,No leveraged ETFs,2026-02-20
+RST-0046,CL00001,No structured products,2026-02-20
+RST-0047,CL00003,No structured products,2026-02-20
+RST-0048,CL00005,No alternative investments,2026-02-20
+RST-0049,CL00005,No margin trading,2026-02-20
+RST-0050,CL00006,ESG preferred,2026-02-20
+RST-0051,CL00006,No leveraged ETFs,2026-02-20
+RST-0052,CL00007,No structured products,2026-02-20
+RST-0053,CL00007,No leveraged ETFs,2026-02-20
+RST-0054,CL00009,No alternative investments,2026-02-20
+RST-0055,CL00010,No leveraged ETFs,2026-02-20
+RST-0056,CL00010,No structured products,2026-02-20
+RST-0057,CL00013,No structured products,2026-02-20
+RST-0058,CL00013,No leveraged ETFs,2026-02-20
+RST-0059,CL00013,Income-generating assets preferred,2026-02-20
+RST-0060,CL00017,No alternative investments,2026-02-20
+RST-0061,CL00017,No margin trading,2026-02-20
+RST-0062,CL00019,No leveraged ETFs,2026-02-20
+RST-0063,CL00025,No structured products,2026-02-20
+RST-0064,CL00026,No leveraged ETFs,2026-02-20
+RST-0065,CL00027,No structured products,2026-02-20
+RST-0066,CL00027,No leveraged ETFs,2026-02-20
+RST-0067,CL00030,No alternative investments,2026-02-20
+RST-0068,CL00030,No margin trading,2026-02-20
+RST-0069,CL00030,No illiquid investments with >5 year lockup,2026-02-20
+RST-0070,CL00012,No illiquid investments with >5 year lockup,2026-02-20
+RST-0071,CL00021,Tax-loss harvesting preferred,2026-02-20
+RST-0072,CL00022,No structured products,2026-02-20
+RST-0073,CL00024,No illiquid investments with >5 year lockup,2026-02-20
+RST-0074,CL00029,No leveraged ETFs,2026-02-20
+RST-0001,CL00002,No alternative investments,2026-02-20
+RST-0002,CL00002,No margin trading,2026-02-20
+RST-0003,CL00002,No options trading,2026-02-20
+RST-0004,CL00004,No margin trading,2026-02-20
+RST-0005,CL00004,No individual bonds below investment grade,2026-02-20
+RST-0006,CL00004,No leveraged ETFs,2026-02-20
+RST-0007,CL00008,No alternative investments,2026-02-20
+RST-0008,CL00008,No margin trading,2026-02-20
+RST-0009,CL00008,No municipal bonds from out-of-state issuers,2026-02-20
+RST-0010,CL00008,No leveraged ETFs,2026-02-20
+RST-0011,CL00011,No alternative investments,2026-02-20
+RST-0012,CL00011,No margin trading,2026-02-20
+RST-0013,CL00011,No structured products,2026-02-20
+RST-0014,CL00014,No margin trading,2026-02-20
+RST-0015,CL00014,No leveraged ETFs,2026-02-20
+RST-0016,CL00016,No alternative investments,2026-02-20
+RST-0017,CL00016,No margin trading,2026-02-20
+RST-0018,CL00016,No individual bonds below investment grade,2026-02-20
+RST-0019,CL00016,No illiquid investments with >5 year lockup,2026-02-20
+RST-0020,CL00018,No alternative investments,2026-02-20
+RST-0021,CL00018,No margin trading,2026-02-20
+RST-0022,CL00018,No growth-only equities without dividend yield,2026-02-20
+RST-0023,CL00018,No leveraged ETFs,2026-02-20
+RST-0024,CL00020,No margin trading,2026-02-20
+RST-0025,CL00020,No structured products,2026-02-20
+RST-0026,CL00020,No leveraged ETFs,2026-02-20
+RST-0027,CL00023,No alternative investments,2026-02-20
+RST-0028,CL00023,No margin trading,2026-02-20
+RST-0029,CL00023,No options trading,2026-02-20
+RST-0030,CL00028,No margin trading,2026-02-20
+RST-0031,CL00028,No leveraged ETFs,2026-02-20
+RST-0032,CL00031,No alternative investments,2026-02-20
+RST-0033,CL00031,No margin trading,2026-02-20
+RST-0034,CL00031,No structured products,2026-02-20
+RST-0035,CL00033,No alternative investments,2026-02-20
+RST-0036,CL00033,No margin trading,2026-02-20
+RST-0037,CL00033,No individual bonds below investment grade,2026-02-20
+RST-0038,CL00033,No illiquid investments with >5 year lockup,2026-02-20
+RST-0039,CL00034,No alternative investments,2026-02-20
+RST-0040,CL00034,No margin trading,2026-02-20
+RST-0041,CL00034,No individual bonds below investment grade,2026-02-20
+RST-0042,CL00036,No margin trading,2026-02-20
+RST-0043,CL00036,No structured products,2026-02-20
+RST-0044,CL00036,No leveraged ETFs,2026-02-20
+RST-0045,CL00001,No leveraged ETFs,2026-02-20
+RST-0046,CL00001,No structured products,2026-02-20
+RST-0047,CL00003,No structured products,2026-02-20
+RST-0048,CL00005,No alternative investments,2026-02-20
+RST-0049,CL00005,No margin trading,2026-02-20
+RST-0050,CL00006,ESG preferred,2026-02-20
+RST-0051,CL00006,No leveraged ETFs,2026-02-20
+RST-0052,CL00007,No structured products,2026-02-20
+RST-0053,CL00007,No leveraged ETFs,2026-02-20
+RST-0054,CL00009,No alternative investments,2026-02-20
+RST-0055,CL00010,No leveraged ETFs,2026-02-20
+RST-0056,CL00010,No structured products,2026-02-20
+RST-0057,CL00013,No structured products,2026-02-20
+RST-0058,CL00013,No leveraged ETFs,2026-02-20
+RST-0059,CL00013,Income-generating assets preferred,2026-02-20
+RST-0060,CL00017,No alternative investments,2026-02-20
+RST-0061,CL00017,No margin trading,2026-02-20
+RST-0062,CL00019,No leveraged ETFs,2026-02-20
+RST-0063,CL00025,No structured products,2026-02-20
+RST-0064,CL00026,No leveraged ETFs,2026-02-20
+RST-0065,CL00027,No structured products,2026-02-20
+RST-0066,CL00027,No leveraged ETFs,2026-02-20
+RST-0067,CL00030,No alternative investments,2026-02-20
+RST-0068,CL00030,No margin trading,2026-02-20
+RST-0069,CL00030,No illiquid investments with >5 year lockup,2026-02-20
+RST-0070,CL00012,No illiquid investments with >5 year lockup,2026-02-20
+RST-0071,CL00021,Tax-loss harvesting preferred,2026-02-20
+RST-0072,CL00022,No structured products,2026-02-20
+RST-0073,CL00024,No illiquid investments with >5 year lockup,2026-02-20
+RST-0074,CL00029,No leveraged ETFs,2026-02-20
+RST-0001,CL00002,No alternative investments,2026-02-20
+RST-0002,CL00002,No margin trading,2026-02-20
+RST-0003,CL00002,No options trading,2026-02-20
+RST-0004,CL00004,No margin trading,2026-02-20
+RST-0005,CL00004,No individual bonds below investment grade,2026-02-20
+RST-0006,CL00004,No leveraged ETFs,2026-02-20
+RST-0007,CL00008,No alternative investments,2026-02-20
+RST-0008,CL00008,No margin trading,2026-02-20
+RST-0009,CL00008,No municipal bonds from out-of-state issuers,2026-02-20
+RST-0010,CL00008,No leveraged ETFs,2026-02-20
+RST-0011,CL00011,No alternative investments,2026-02-20
+RST-0012,CL00011,No margin trading,2026-02-20
+RST-0013,CL00011,No structured products,2026-02-20
+RST-0014,CL00014,No margin trading,2026-02-20
+RST-0015,CL00014,No leveraged ETFs,2026-02-20
+RST-0016,CL00016,No alternative investments,2026-02-20
+RST-0017,CL00016,No margin trading,2026-02-20
+RST-0018,CL00016,No individual bonds below investment grade,2026-02-20
+RST-0019,CL00016,No illiquid investments with >5 year lockup,2026-02-20
+RST-0020,CL00018,No alternative investments,2026-02-20
+RST-0021,CL00018,No margin trading,2026-02-20
+RST-0022,CL00018,No growth-only equities without dividend yield,2026-02-20
+RST-0023,CL00018,No leveraged ETFs,2026-02-20
+RST-0024,CL00020,No margin trading,2026-02-20
+RST-0025,CL00020,No structured products,2026-02-20
+RST-0026,CL00020,No leveraged ETFs,2026-02-20
+RST-0027,CL00023,No alternative investments,2026-02-20
+RST-0028,CL00023,No margin trading,2026-02-20
+RST-0029,CL00023,No options trading,2026-02-20
+RST-0030,CL00028,No margin trading,2026-02-20
+RST-0031,CL00028,No leveraged ETFs,2026-02-20
+RST-0032,CL00031,No alternative investments,2026-02-20
+RST-0033,CL00031,No margin trading,2026-02-20
+RST-0034,CL00031,No structured products,2026-02-20
+RST-0035,CL00033,No alternative investments,2026-02-20
+RST-0036,CL00033,No margin trading,2026-02-20
+RST-0037,CL00033,No individual bonds below investment grade,2026-02-20
+RST-0038,CL00033,No illiquid investments with >5 year lockup,2026-02-20
+RST-0039,CL00034,No alternative investments,2026-02-20
+RST-0040,CL00034,No margin trading,2026-02-20
+RST-0041,CL00034,No individual bonds below investment grade,2026-02-20
+RST-0042,CL00036,No margin trading,2026-02-20
+RST-0043,CL00036,No structured products,2026-02-20
+RST-0044,CL00036,No leveraged ETFs,2026-02-20
+RST-0045,CL00001,No leveraged ETFs,2026-02-20
+RST-0046,CL00001,No structured products,2026-02-20
+RST-0047,CL00003,No structured products,2026-02-20
+RST-0048,CL00005,No alternative investments,2026-02-20
+RST-0049,CL00005,No margin trading,2026-02-20
+RST-0050,CL00006,ESG preferred,2026-02-20
+RST-0051,CL00006,No leveraged ETFs,2026-02-20
+RST-0052,CL00007,No structured products,2026-02-20
+RST-0053,CL00007,No leveraged ETFs,2026-02-20
+RST-0054,CL00009,No alternative investments,2026-02-20
+RST-0055,CL00010,No leveraged ETFs,2026-02-20
+RST-0056,CL00010,No structured products,2026-02-20
+RST-0057,CL00013,No structured products,2026-02-20
+RST-0058,CL00013,No leveraged ETFs,2026-02-20
+RST-0059,CL00013,Income-generating assets preferred,2026-02-20
+RST-0060,CL00017,No alternative investments,2026-02-20
+RST-0061,CL00017,No margin trading,2026-02-20
+RST-0062,CL00019,No leveraged ETFs,2026-02-20
+RST-0063,CL00025,No structured products,2026-02-20
+RST-0064,CL00026,No leveraged ETFs,2026-02-20
+RST-0065,CL00027,No structured products,2026-02-20
+RST-0066,CL00027,No leveraged ETFs,2026-02-20
+RST-0067,CL00030,No alternative investments,2026-02-20
+RST-0068,CL00030,No margin trading,2026-02-20
+RST-0069,CL00030,No illiquid investments with >5 year lockup,2026-02-20
+RST-0070,CL00012,No illiquid investments with >5 year lockup,2026-02-20
+RST-0071,CL00021,Tax-loss harvesting preferred,2026-02-20
+RST-0072,CL00022,No structured products,2026-02-20
+RST-0073,CL00024,No illiquid investments with >5 year lockup,2026-02-20
+RST-0074,CL00029,No leveraged ETFs,2026-02-20

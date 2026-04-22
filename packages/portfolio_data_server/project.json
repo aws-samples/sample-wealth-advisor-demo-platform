@@ -1,0 +1,136 @@
+{
+  "name": "wealth_management_portal.portfolio_data_server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/portfolio_data_server/wealth_management_portal_portfolio_data_server",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "components": [
+      {
+        "generator": "py#lambda-function",
+        "name": "portfolio-data-gateway"
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle-arm"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/portfolio_data_server"
+      }
+    },
+    "bundle-arm": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/portfolio_data_server/bundle-arm"
+      ],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/portfolio_data_server --package wealth_management_portal.portfolio_data_server -o dist/packages/portfolio_data_server/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/portfolio_data_server/bundle-arm -r dist/packages/portfolio_data_server/bundle-arm/requirements.txt"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle-x86": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/portfolio_data_server/bundle-x86"
+      ],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/portfolio_data_server --package wealth_management_portal.portfolio_data_server -o dist/packages/portfolio_data_server/bundle-x86/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform x86_64-manylinux_2_28 --target dist/packages/portfolio_data_server/bundle-x86 -r dist/packages/portfolio_data_server/bundle-x86/requirements.txt"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": ["{workspaceRoot}/dist/packages/portfolio_data_server/build"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/portfolio_data_server/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": [
+          "wealth_management_portal_portfolio_data_server",
+          "tests"
+        ]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": [
+          "wealth_management_portal_portfolio_data_server",
+          "tests"
+        ]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    }
+  }
+}

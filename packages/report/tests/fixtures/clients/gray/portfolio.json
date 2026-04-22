@@ -1,0 +1,53 @@
+{
+  "holdings": [
+    {"asset": "US Equities", "allocation": 0.35, "value": 997500},
+    {"asset": "International Equities", "allocation": 0.15, "value": 427500},
+    {"asset": "Fixed Income", "allocation": 0.30, "value": 855000},
+    {"asset": "Real Estate", "allocation": 0.15, "value": 427500},
+    {"asset": "Cash", "allocation": 0.05, "value": 142500}
+  ],
+  "positions": [
+    {"ticker": "VTI", "name": "Vanguard Total Stock Market ETF", "quantity": 1200, "purchase_price": 220.50, "current_price": 245.80, "market_value": 294960, "unrealized_gain_loss": 30360, "asset_class": "US Equities"},
+    {"ticker": "AAPL", "name": "Apple Inc.", "quantity": 800, "purchase_price": 175.25, "current_price": 185.40, "market_value": 148320, "unrealized_gain_loss": 8120, "asset_class": "US Equities"},
+    {"ticker": "JNJ", "name": "Johnson & Johnson", "quantity": 1500, "purchase_price": 162.80, "current_price": 158.90, "market_value": 238350, "unrealized_gain_loss": -5850, "asset_class": "US Equities"},
+    {"ticker": "PG", "name": "Procter & Gamble Co.", "quantity": 2000, "purchase_price": 145.60, "current_price": 157.95, "market_value": 315900, "unrealized_gain_loss": 24700, "asset_class": "US Equities"},
+    {"ticker": "VXUS", "name": "Vanguard Total International Stock ETF", "quantity": 4500, "purchase_price": 58.20, "current_price": 62.15, "market_value": 279675, "unrealized_gain_loss": 17775, "asset_class": "International Equities"},
+    {"ticker": "EFA", "name": "iShares MSCI EAFE ETF", "quantity": 2000, "purchase_price": 72.40, "current_price": 73.91, "market_value": 147820, "unrealized_gain_loss": 3020, "asset_class": "International Equities"},
+    {"ticker": "BND", "name": "Vanguard Total Bond Market ETF", "quantity": 6000, "purchase_price": 82.15, "current_price": 79.85, "market_value": 479100, "unrealized_gain_loss": -13800, "asset_class": "Fixed Income"},
+    {"ticker": "TIP", "name": "iShares TIPS Bond ETF", "quantity": 3200, "purchase_price": 115.30, "current_price": 117.50, "market_value": 376000, "unrealized_gain_loss": 7040, "asset_class": "Fixed Income"},
+    {"ticker": "VNQ", "name": "Vanguard Real Estate ETF", "quantity": 2500, "purchase_price": 95.80, "current_price": 102.40, "market_value": 256000, "unrealized_gain_loss": 16500, "asset_class": "Real Estate"},
+    {"ticker": "SCHH", "name": "Schwab US REIT ETF", "quantity": 7500, "purchase_price": 22.60, "current_price": 22.87, "market_value": 171525, "unrealized_gain_loss": 2025, "asset_class": "Real Estate"},
+    {"ticker": "VMOT", "name": "Vanguard Short-Term Treasury ETF", "quantity": 2850, "purchase_price": 49.95, "current_price": 50.00, "market_value": 142500, "unrealized_gain_loss": 142.50, "asset_class": "Cash"}
+  ],
+  "performance": {
+    "ytd": 0.042,
+    "one_year": 0.089,
+    "since_inception": 0.072,
+    "volatility": 0.085,
+    "max_drawdown": -0.12
+  },
+  "cash_flows": [
+    {"period": "2024-Q4", "inflows": 0, "outflows": 12000},
+    {"period": "2024-Q3", "inflows": 0, "outflows": 12000},
+    {"period": "2024-Q2", "inflows": 0, "outflows": 52000},
+    {"period": "2024-Q1", "inflows": 0, "outflows": 12000}
+  ],
+  "income_expense_analysis": {
+    "monthly_income": 8500,
+    "monthly_expenses": 5200,
+    "sustainability_years": 45
+  },
+  "target_allocation": [
+    {"asset": "US Equities", "target": 0.35, "lower_band": 0.25, "upper_band": 0.45},
+    {"asset": "International Equities", "target": 0.15, "lower_band": 0.10, "upper_band": 0.20},
+    {"asset": "Fixed Income", "target": 0.30, "lower_band": 0.25, "upper_band": 0.40},
+    {"asset": "Real Estate", "target": 0.15, "lower_band": 0.10, "upper_band": 0.20},
+    {"asset": "Cash", "target": 0.05, "lower_band": 0.03, "upper_band": 0.07}
+  ],
+  "projected_cash_flows": [
+    {"period": "2025-Q1", "known_inflows": 5800, "estimated_outflows": 12000, "inflow_sources": {"Dividends": 3200, "Interest": 2100, "Coupons": 500}},
+    {"period": "2025-Q2", "known_inflows": 6200, "estimated_outflows": 15000, "inflow_sources": {"Dividends": 3500, "Interest": 2100, "Coupons": 600}},
+    {"period": "2025-Q3", "known_inflows": 5800, "estimated_outflows": 12000, "inflow_sources": {"Dividends": 3200, "Interest": 2100, "Coupons": 500}},
+    {"period": "2025-Q4", "known_inflows": 6500, "estimated_outflows": 12000, "inflow_sources": {"Dividends": 3600, "Interest": 2100, "Coupons": 800}}
+  ]
+}

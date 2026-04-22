@@ -1,0 +1,118 @@
+version: 0.2
+
+env:
+  variables:
+    ENABLE_COMPLIANCE_REPORTING: "false"
+    COMPLIANCE_REPORTING_BUCKET: ""
+  parameter-store:
+    # Platform identifiers — used by generate-env-from-ssm.sh to auto-discover
+    # VPC, subnets, security group, route table, and Redshift workgroup from
+    # data-platform SSM params (/{APP_NAME}/{ENV_NAME}/...)
+    APP_NAME: /wealth-management-portal/platform/app-name
+    ENV_NAME: /wealth-management-portal/platform/env-name
+    AWS_REGION: /wealth-management-portal/aws-region
+    # App config — values that can't be auto-discovered
+    REDSHIFT_DATABASE: /wealth-management-portal/redshift-database
+    SES_SENDER_EMAIL: /wealth-management-portal/ses-sender-email
+    REPORT_BEDROCK_MODEL_ID: /wealth-management-portal/report-bedrock-model-id
+    TAVILY_API_KEY: /wealth-management-portal/tavily-api-key
+    THEME_BEDROCK_MODEL_ID: /wealth-management-portal/theme-bedrock-model-id
+    DEPLOY_BASTION: /wealth-management-portal/deploy-bastion
+    TEST_USER_EMAIL: /wealth-management-portal/test-user-email
+    TEST_USER_PASSWORD: /wealth-management-portal/test-user-password
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      # Node 22 via n
+      - curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n | bash -s 22
+      - export PATH="/usr/local/bin:$PATH"
+      - node --version
+      # pnpm
+      - corepack enable
+      - corepack prepare pnpm@latest --activate
+      - pnpm --version
+      # uv
+      - curl -LsSf https://astral.sh/uv/install.sh | sh
+      - export PATH="$HOME/.local/bin:$PATH"
+      # Dependencies
+      - pnpm install --frozen-lockfile
+      # Python deps: root workspace + advisor_chat (separate workspace)
+      - uv sync --frozen
+      - cd packages/advisor_chat && uv sync --frozen && cd ../..
+
+  pre_build:
+    commands:
+      - export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
+      - scripts/generate-env-from-ssm.sh
+
+  build:
+    commands:
+      - export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
+      # Build + deploy
+      - pnpm nx run infra:build
+      - pnpm nx bootstrap @wealth-management-portal/infra
+      - pnpm nx deploy @wealth-management-portal/infra
+      # Verify SES sender identity (non-blocking — app works without it)
+      - ./scripts/setup-ses-identity.sh "$SES_SENDER_EMAIL" "$AWS_REGION" || true
+      # Add caller as Lake Formation admin (CodeBuild assumed-role → IAM role ARN)
+      - |
+        CALLER_ROLE=$(aws sts get-caller-identity --query Arn --output text --region $AWS_REGION | sed 's|arn:aws:sts:|arn:aws:iam:|;s|:assumed-role/\([^/]*\)/.*|:role/\1|')
+        echo "Adding LF admin: $CALLER_ROLE"
+        CURRENT=$(aws lakeformation get-data-lake-settings --region $AWS_REGION --output json)
+        echo "$CURRENT" | python3 -c "
+        import sys, json
+        d = json.load(sys.stdin)
+        admins = d['DataLakeSettings']['DataLakeAdmins']
+        arns = [a['DataLakePrincipalIdentifier'] for a in admins]
+        if '$CALLER_ROLE' not in arns:
+            admins.append({'DataLakePrincipalIdentifier': '$CALLER_ROLE'})
+            print(json.dumps({'DataLakeSettings': d['DataLakeSettings']}))
+        else:
+            print('ALREADY_ADMIN')
+        " > /tmp/lf-settings.json
+        if grep -q ALREADY_ADMIN /tmp/lf-settings.json; then
+          echo "Already an LF admin"
+        else
+          aws lakeformation put-data-lake-settings --region $AWS_REGION --cli-input-json file:///tmp/lf-settings.json
+          echo "Added as LF admin"
+        fi
+      # Post-deploy grants
+      - pnpm nx grant-lf-permissions @wealth-management-portal/infra
+      - pnpm nx grant-redshift-permissions @wealth-management-portal/infra
+      # Load graph data
+      - uv run python scripts/load-neptune-data.py --region $AWS_REGION
+      # Trigger step functions once to seed initial data (schedulers are deployed disabled)
+      - |
+        echo "Triggering step function executions..."
+        REPORT_SM_ARN=$(aws stepfunctions list-state-machines --region $AWS_REGION --query "stateMachines[?contains(name,'ReportScheduler')].stateMachineArn | [0]" --output text)
+        THEME_SM_ARN=$(aws stepfunctions list-state-machines --region $AWS_REGION --query "stateMachines[?contains(name,'ThemeScheduler')].stateMachineArn | [0]" --output text)
+        if [ "$REPORT_SM_ARN" != "None" ] && [ -n "$REPORT_SM_ARN" ]; then
+          aws stepfunctions start-execution --state-machine-arn "$REPORT_SM_ARN" --region $AWS_REGION
+          echo "  ✓ Started ReportScheduler execution"
+        else
+          echo "  ✗ ReportScheduler state machine not found"
+          exit 1
+        fi
+        if [ "$THEME_SM_ARN" != "None" ] && [ -n "$THEME_SM_ARN" ]; then
+          aws stepfunctions start-execution --state-machine-arn "$THEME_SM_ARN" --region $AWS_REGION
+          echo "  ✓ Started ThemeScheduler execution"
+        else
+          echo "  ✗ ThemeScheduler state machine not found"
+          exit 1
+        fi
+      # Create test user (non-interactive)
+      - pnpm nx create-user @wealth-management-portal/infra -- --email=$TEST_USER_EMAIL --password=$TEST_USER_PASSWORD
+
+  post_build:
+    commands:
+      - |
+        export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
+        echo "============================================"
+        echo "DEPLOYMENT COMPLETE"
+        echo "============================================"
+        pnpm nx outputs @wealth-management-portal/infra 2>/dev/null | grep -i 'domain\|website\|cloudfront' || echo "Check CloudFormation outputs for the website URL"
+        echo ""
+        echo "Test user created with email: $TEST_USER_EMAIL"

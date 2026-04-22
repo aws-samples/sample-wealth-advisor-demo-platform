@@ -1,0 +1,167 @@
+{
+  "name": "wealth_management_portal.web_crawler",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/web_crawler/wealth_management_portal_web_crawler",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "ports": [8001, 8003],
+    "components": [
+      {
+        "generator": "py#mcp-server",
+        "name": "web-crawler-mcp",
+        "port": 8001
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle", "docker"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/web_crawler"
+      }
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": ["{workspaceRoot}/dist/packages/web_crawler/build"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/web_crawler/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": ["wealth_management_portal_web_crawler", "tests"]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": ["wealth_management_portal_web_crawler", "tests"]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/ -m 'not integration'",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    },
+    "web-crawler-mcp-serve-stdio": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run -m wealth_management_portal_web_crawler.web_crawler_mcp.stdio"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    },
+    "web-crawler-mcp-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run -m wealth_management_portal_web_crawler.web_crawler_mcp.http"
+        ],
+        "cwd": "{projectRoot}",
+        "env": {
+          "PORT": "8003"
+        }
+      },
+      "continuous": true
+    },
+    "web-crawler-mcp-inspect": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mcp-inspector -- uv run -m wealth_management_portal_web_crawler.web_crawler_mcp.stdio"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    },
+    "bundle-arm": {
+      "cache": true,
+      "inputs": ["default", { "runtime": "node -e \"console.log(process.platform)\"" }],
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/web_crawler/bundle-arm"],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/web_crawler --package wealth_management_portal.web_crawler -o dist/packages/web_crawler/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/web_crawler/bundle-arm -r dist/packages/web_crawler/bundle-arm/requirements.txt",
+          "find dist/packages/web_crawler/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle": {
+      "dependsOn": ["bundle-arm"]
+    },
+    "web-crawler-mcp-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-web-crawler-mcp:latest packages/web_crawler/wealth_management_portal_web_crawler/web_crawler_mcp --build-context workspace=dist/packages/web_crawler"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "docker": {
+      "dependsOn": ["web-crawler-mcp-docker"]
+    }
+  }
+}

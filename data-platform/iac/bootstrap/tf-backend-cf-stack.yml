@@ -1,0 +1,285 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Terraform back end resources, which replicate to another region (SO9611)"
+
+Parameters:
+  bucketName:
+    Type: String
+    Description: The Terraform back end S3 bucket name
+  secondaryRegion:
+    Type: String
+    Description: The name of the region to replicate Terraform state to
+  enableCRR:
+    Type: String
+    Description: Set to true to enable S3 cross region replication
+    Default: "false"
+    AllowedValues:
+      - "true"
+      - "false"
+    ConstraintDescription: "must specify true or false."
+  enableBucketAccessLogs:
+    Type: String
+    Description: Set to true to enable S3 bucket access logging
+    Default: "false"
+    AllowedValues:
+      - "true"
+      - "false"
+    ConstraintDescription: "must specify true or false."
+  enableLocking:
+    Type: String
+    Description: Set to true to create a DynamoDB table for Terraform state file lock
+    Default: "true"
+    AllowedValues:
+      - "true"
+      - "false"
+    ConstraintDescription: "must specify true or false."
+
+Conditions:
+  ReplicateS3: !Equals
+    - !Ref enableCRR
+    - "true"
+  LogS3Access: !Equals
+    - !Ref enableBucketAccessLogs
+    - "true"
+  CreateDynamoDB: !Equals
+    - !Ref enableLocking
+    - "true"
+
+Resources:
+  TerraformStateCmk:
+    Type: "AWS::KMS::Key"
+    Properties:
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: tf_backend_key
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Join
+                - ""
+                - - "arn:aws:iam::"
+                  - !Ref "AWS::AccountId"
+                  - ":root"
+            Action: "kms:*"
+            Resource: "*"
+      Tags:
+        - Key: Name
+          Value: !Sub "${bucketName}-key"
+
+  TerraformStateCmkAlias:
+    Type: "AWS::KMS::Alias"
+    Properties:
+      AliasName: !Sub "alias/${bucketName}-key"
+      TargetKeyId: !Ref TerraformStateCmk
+
+  ReplicationRole:
+    Type: "AWS::IAM::Role"
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: The need to replace or change this IAM RoleName is unlikely
+    Properties:
+      RoleName: !Sub "${bucketName}-s3-replication-${AWS::Region}"
+      Description: Role to give replication permissions to S3
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "sts:AssumeRole"
+            Principal:
+              Service:
+                - s3.amazonaws.com
+      Path: /
+      ManagedPolicyArns:
+        - !Ref ReplicationRolePolicy
+
+  ReplicationRolePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W13
+            reason: This policy has an appropriate resource scope
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowDecrypt
+            Effect: Allow
+            Action:
+              - kms:Decrypt
+            Condition:
+              StringLike:
+                kms:ViaService: !Sub "s3.${AWS::Region}.amazonaws.com"
+                kms:EncryptionContext:aws:s3:arn:
+                  - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${AWS::Region}/*"
+            Resource:
+              - !GetAtt TerraformStateCmk.Arn
+          - Sid: AllowEncrypt
+            Effect: Allow
+            Action:
+              - kms:Encrypt
+            Condition:
+              StringLike:
+                kms:ViaService: !Sub "s3.${secondaryRegion}.amazonaws.com"
+                kms:EncryptionContext:aws:s3:arn:
+                  - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${secondaryRegion}/*"
+                kms:RequestAlias: !Sub "alias/${bucketName}-key"
+            Resource: "*"
+          - Sid: AllowReadAccess
+            Effect: Allow
+            Action:
+              - s3:GetReplicationConfiguration
+              - s3:ListBucket
+            Resource:
+              - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${AWS::Region}"
+              - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${AWS::Region}/*"
+          - Sid: AllowingWrite
+            Effect: Allow
+            Action:
+              - s3:GetObjectVersionForReplication
+              - s3:GetObjectVersionAcl
+              - s3:GetObjectVersionTagging
+              - s3:GetObjectRetention
+              - s3:GetObjectLegalHold
+            Resource:
+              - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${AWS::Region}"
+              - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${AWS::Region}/*"
+          - Sid: AllowingReplication
+            Effect: Allow
+            Action:
+              - s3:ReplicateObject
+              - s3:ReplicateDelete
+              - s3:ReplicateTags
+              - s3:GetObjectVersionTagging
+              - s3:ObjectOwnerOverrideToBucketOwner
+            Condition:
+              StringLikeIfExists:
+                s3:x-amz-server-side-encryption:
+                  - "aws:kms"
+                  - "AES256"
+            Resource:
+              - !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${secondaryRegion}/*"
+
+  LoggingBucket:
+    Type: "AWS::S3::Bucket"
+    Condition: LogS3Access
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W35
+            reason: Bucket access logging not required for this logging bucket
+    Properties:
+      BucketName: !Sub "${bucketName}-${AWS::AccountId}-${AWS::Region}-logs"
+      # Log buckets cannot use KMS/CMK
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+
+  LoggingBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Condition: LogS3Access
+    Properties:
+      Bucket: !Ref LoggingBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - "s3:PutObject"
+            Effect: Allow
+            Principal:
+              Service: logging.s3.amazonaws.com
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref LoggingBucket
+                - /*
+            Condition:
+              ArnLike:
+                "aws:SourceArn": !GetAtt
+                  - TerraformStateFileS3Bucket
+                  - Arn
+              StringEquals:
+                "aws:SourceAccount": !Sub "${AWS::AccountId}"
+
+  TerraformStateFileS3Bucket:
+    Type: AWS::S3::Bucket
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W35
+            reason: Access logging is conditionally configured based on parameter
+          - id: W51
+            reason: Bucket access controlled by same-account IAM Identity policy
+    Properties:
+      BucketName: !Sub "${bucketName}-${AWS::AccountId}-${AWS::Region}"
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              KMSMasterKeyID: !Ref TerraformStateCmk
+              SSEAlgorithm: aws:kms
+      LoggingConfiguration: !If
+        - LogS3Access
+        - DestinationBucketName: !Ref LoggingBucket
+          LogFilePrefix: "logs/"
+        - !Ref "AWS::NoValue"
+      ReplicationConfiguration: !If
+        - ReplicateS3
+        - Role: !GetAtt ReplicationRole.Arn
+          Rules:
+            - Status: Enabled
+              Prefix: ""
+              SourceSelectionCriteria:
+                SseKmsEncryptedObjects:
+                  Status: Enabled
+              Destination:
+                EncryptionConfiguration:
+                  ReplicaKmsKeyID: !Sub "arn:aws:kms:${secondaryRegion}:${AWS::AccountId}:alias/${bucketName}-key"
+                Bucket: !Sub "arn:aws:s3:::${bucketName}-${AWS::AccountId}-${secondaryRegion}"
+        - !Ref "AWS::NoValue"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+
+  TerraformStateLockDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: Replacing this resource using a CloudFormation update is unlikely for this use case
+    Condition: CreateDynamoDB
+    Properties:
+      TableName: !Sub "${bucketName}-lock"
+      AttributeDefinitions:
+        - AttributeName: LockID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: LockID
+          KeyType: HASH
+      BillingMode: PROVISIONED
+      ProvisionedThroughput:
+        ReadCapacityUnits: 15
+        WriteCapacityUnits: 15
+      SSESpecification:
+        KMSMasterKeyId: !Ref TerraformStateCmk
+        SSEEnabled: true
+        SSEType: "KMS"
+      PointInTimeRecoverySpecification:
+         PointInTimeRecoveryEnabled: true

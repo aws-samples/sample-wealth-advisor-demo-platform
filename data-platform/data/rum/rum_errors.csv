@@ -1,0 +1,301 @@
+error_id,session_id,error_type,error_message,page_url,http_status,error_timestamp
+c7825b8f-b7c0-4284-adb4-646484482b2c,5165ee7c-df90-4145-9d7f-247a64af7f43,JavaScriptError,500 Internal Server Error,/clients,,2026-03-18 17:47:00
+315397b0-64d7-4116-899e-f12667e48d95,50f685a7-27db-47ba-8601-f7c19627e9eb,JavaScriptError,Connection refused,/advisor/profile,,2026-03-06 17:53:00
+94e69b6c-706d-4e7c-bf7c-68834db5fa1b,9ba84d21-4229-4c44-a7c7-9679072c9bb6,HTTPError,Connection refused,/advisor/profile,404,2026-03-05 23:37:00
+598d9be7-844f-4245-9b50-de1493c47c95,ea3c987c-123e-418a-83b5-4b5253c41239,CORSError,Unexpected token in JSON,/accounts,,2026-03-15 12:07:00
+064d7e1a-89aa-4bd9-8de4-efd4a46f506a,a96122b6-db8a-4d8d-83ea-fecb34354dde,TimeoutError,Uncaught TypeError: Cannot read property,/clients,,2026-03-14 07:34:00
+60a0fea2-c684-4e4f-9186-1fc0e50a2387,f0c83070-0049-42bb-b20d-85ac3e064780,HTTPError,404 Not Found,/portfolios,502,2026-03-03 08:19:00
+775627f1-141c-4ec0-a433-e6818b36c37c,d37d9f5a-ed86-4b66-aff2-13272abafa9f,TimeoutError,Connection refused,/settings,,2026-03-12 23:21:00
+5eeee863-cdb7-4987-86b2-24c1fcf96110,d0610937-e84f-4e2e-baaf-c219e6ebdc56,NetworkError,CORS policy blocked,/login,,2026-03-04 04:31:00
+34eece8c-45c7-4f90-ade8-d954cadf7c77,ae74d186-e329-4137-bec5-eef07c5c670b,NetworkError,Network request failed,/clients,,2026-03-01 23:01:00
+11e58e32-33d7-4db6-beab-1de858e49784,42afac57-5b88-4cd2-8789-0d8b550ad1fa,CORSError,SSL handshake failed,/clients,,2026-03-06 20:59:00
+57d36af2-5aa4-409c-a664-43a6d85f75cc,fed59992-4274-4a52-ae89-922c73721dbb,JavaScriptError,Unexpected token in JSON,/settings,,2026-03-16 11:07:00
+c54f4b05-e6fd-4811-945b-aee5d7c83457,161b4111-fb39-4941-b891-2959f7a87285,CORSError,SSL handshake failed,/clients,,2026-03-06 06:11:00
+32026f23-f6b9-49c5-b9dd-7c41b8c993c5,1ffd9b0a-9c81-4f34-bb02-9e5bff188004,NetworkError,Connection refused,/advisor/profile,,2026-03-10 21:03:00
+8ae78518-c3a2-471f-8115-f2ce1c76e49b,2dbd4160-71dd-403e-8fa4-c977e1e5b196,CORSError,Connection refused,/reports,,2026-03-04 09:51:00
+ebd6adf7-ad0a-40bc-8f79-c948623ab246,2bfa269c-4782-48a4-9ccd-912f56e20e64,TimeoutError,Uncaught TypeError: Cannot read property,/reports,,2026-03-13 16:06:00
+9795e3a6-8796-4b7a-96a1-7ea13a19b292,e814ff4a-6cea-4928-a6f1-a86622437087,NetworkError,Uncaught TypeError: Cannot read property,/portfolios,,2026-03-18 22:05:00
+fae4df2b-6813-44d3-8df6-283f86dbbea3,9c24133d-f7ae-4100-b737-499ae02c14e7,CORSError,Failed to fetch,/search,,2026-03-03 22:06:00
+5e2a7aa5-7526-4920-a95c-c509aade08bc,aaadec20-d274-4102-995b-04167d375b13,NetworkError,Connection refused,/clients,,2026-03-02 19:30:00
+c27dd1b8-7f4b-4173-a129-9845e3849fca,b527be4d-acdd-4ab5-98af-3628747a47b5,CORSError,Request timeout after 30s,/clients,,2026-03-12 06:10:00
+ddb6be1c-0a5e-41a5-9d48-c935898ea35a,84ce999a-d1fe-4f07-ac01-5a35b8cb8744,HTTPError,Failed to fetch,/dashboard,502,2026-03-15 06:10:00
+03c21aea-e5b8-46c7-aef4-c44381a9855e,2bc51f37-8e02-43a6-8e11-151d928e3bfa,HTTPError,Connection refused,/accounts,400,2026-03-21 01:13:00
+925eaed6-35bd-45a8-ac90-ee45b9f2bbd1,240ecf31-6688-4c07-84ab-4165ce689599,CORSError,SSL handshake failed,/accounts,,2026-03-18 09:00:00
+2849b01d-a07d-4320-88c8-b3a833ea9ed5,cb5c3d78-11eb-4a67-8216-3e764f0e1293,HTTPError,Request timeout after 30s,/market-data,,2026-03-22 00:35:00
+be1b7229-003a-4874-98a6-8f42a7cf1d07,f84187ec-7454-4715-a890-e96924d48c6b,CORSError,Unexpected token in JSON,/portfolios,,2026-03-17 13:12:00
+7fecb262-2770-4d3d-a95e-531eee8773e3,c7292596-52a6-446c-91c7-5d16dc63a79e,TimeoutError,CORS policy blocked,/reports,,2026-03-18 06:37:00
+4104d26a-fc47-443a-bfe3-7304984d698b,e12cae18-17e2-4528-97f5-2beb3419ee88,JavaScriptError,404 Not Found,/reports,,2026-03-11 15:39:00
+17a08c4d-d884-4c3d-9a27-2ff02f58ccfe,aaadec20-d274-4102-995b-04167d375b13,JavaScriptError,SSL handshake failed,/accounts,,2026-03-22 05:00:00
+387d146b-c836-4293-a342-e0a5f94eaaf9,a6674cc4-2f4d-4378-b052-ccafcaa3b85d,HTTPError,SSL handshake failed,/clients,500,2026-03-11 19:44:00
+d77047f6-71d4-4efb-9369-2324b3ee12c9,19c89c5c-88de-4da1-8bb9-c653c8a749b0,JavaScriptError,Request timeout after 30s,/dashboard,,2026-03-11 14:08:00
+80b3ce33-f33d-4a33-8066-d747f60bc994,43946619-9ea7-4471-8741-34aa4d14eb52,TimeoutError,Request timeout after 30s,/reports,,2026-03-04 01:43:00
+ee10b456-d539-4c82-88ed-7b14b5cfc1b4,735d51d9-9a84-4b31-b8d9-6f71dcf0ca76,JavaScriptError,Request timeout after 30s,/clients,,2026-03-05 19:36:00
+83baeb79-7abc-46b3-aee3-9df41a9c5c69,acc29e47-87b6-4dcf-a895-55e59c6513ab,JavaScriptError,Request timeout after 30s,/search,,2026-03-01 14:26:00
+0eb7e225-eeef-4560-803b-cfe666270ffb,da945557-8e7f-4f9c-bae5-cc94260b2611,JavaScriptError,Unexpected token in JSON,/login,,2026-03-07 03:09:00
+adb402e3-38f8-455d-b776-f66c34f85617,99751960-6a57-44d4-9e94-19f16ca5bf8b,CORSError,CORS policy blocked,/search,,2026-03-17 03:42:00
+a447b4bf-eff9-4744-8366-bcbc41dd0889,d730ba67-2d97-4daa-9bee-70136174a52f,HTTPError,Unexpected token in JSON,/accounts,400,2026-03-09 14:54:00
+6f9328d8-e287-459a-8544-77aac8857473,8c74fb20-688a-4169-9f70-3d229d04fe21,TimeoutError,404 Not Found,/dashboard,,2026-03-11 08:31:00
+c1d08a5f-e749-4b23-b608-480395b59e84,11366e4d-35c3-4a76-832e-fde8adb3ab41,TimeoutError,Network request failed,/dashboard,,2026-03-11 18:00:00
+970cc694-243a-40c1-a7bc-50c248e64ac7,8308de22-2d61-43a7-bbb6-1d93270bf614,TimeoutError,CORS policy blocked,/accounts,,2026-03-03 13:47:00
+2cdd3501-5d42-49da-b885-6ae82f6031e2,29fb6c40-4f1c-4b61-914f-650ed42e5238,NetworkError,CORS policy blocked,/reports,,2026-03-18 15:07:00
+71a96fdb-a18c-44be-b5bd-c7e001e5e55c,40c0041a-1949-4b78-96fe-1296ba18ca44,JavaScriptError,Connection refused,/clients,,2026-03-08 13:27:00
+0e348b11-9476-46a0-a0ff-4aeec0b7811f,1a0c638d-9113-471e-833f-5e68a32ff3fd,NetworkError,Request timeout after 30s,/search,,2026-03-20 09:22:00
+804891b5-c587-45a1-ab31-33779ae1744b,ea479f55-f2ab-48a0-9338-afd1c078a28d,NetworkError,404 Not Found,/reports,,2026-03-09 13:44:00
+ea64d8f0-29fd-4611-b685-70e317dfb761,43946619-9ea7-4471-8741-34aa4d14eb52,HTTPError,Uncaught TypeError: Cannot read property,/accounts,404,2026-03-07 20:30:00
+b57c9d0a-46be-4634-8bd1-bfc89337fa9a,d8503f4a-b53c-4e47-8f63-b2541f8e133c,HTTPError,Network request failed,/clients,500,2026-03-21 17:24:00
+f7b1579e-5405-450e-bec3-3e95252b904e,0c8480e0-9fad-49a4-81aa-31002740df37,NetworkError,CORS policy blocked,/clients,,2026-03-12 10:46:00
+ffbdb21d-85f7-4e0e-b40c-b1667a67f6cb,1ffd9b0a-9c81-4f34-bb02-9e5bff188004,CORSError,404 Not Found,/dashboard,,2026-03-12 14:55:00
+b6736afb-a86e-4792-946f-c20039680de3,548cd718-72c7-48a9-b6e1-497c71e58dab,JavaScriptError,CORS policy blocked,/reports,,2026-03-03 16:36:00
+018df001-5af4-4c74-98c9-a76287c329bf,5c0688f7-df4a-41a1-ade5-168a221e2533,CORSError,SSL handshake failed,/advisor/profile,,2026-03-11 10:48:00
+70a15e2f-bb33-476d-9dfa-49b4eb7f4332,467fcd18-7552-4c96-a4f4-c60c1b0da8bf,TimeoutError,Uncaught TypeError: Cannot read property,/portfolios,,2026-03-08 19:40:00
+f1721348-9288-4773-8e24-32783a05edb4,b6a06985-1f75-4b40-9e71-d1a97c579a1c,CORSError,SSL handshake failed,/settings,,2026-03-01 20:20:00
+37db76f2-8039-4549-8ad6-8f27f40f13a2,dd0e6ca6-ad90-4242-b2c2-63a010bc4f0d,HTTPError,CORS policy blocked,/login,400,2026-03-01 01:30:00
+11513fd9-c21d-4030-8dbd-216d5a2eaf5f,f4a7e3a7-1962-4305-b3d4-73c30eac8816,NetworkError,Request timeout after 30s,/login,,2026-03-11 17:44:00
+76983687-9ab0-46f6-b13d-4b1e0daa2e07,7a3e9e9b-8c49-4fec-bf9d-13ea351eded9,TimeoutError,SSL handshake failed,/accounts,,2026-03-16 05:06:00
+c5f522d1-8786-47d2-b4e1-9b6fa9ea8600,9502c00b-1b3c-4656-9a7f-882efa52ad4a,JavaScriptError,Unexpected token in JSON,/search,,2026-03-11 10:20:00
+27deed1c-af45-446f-897d-38f00087677f,9ba84d21-4229-4c44-a7c7-9679072c9bb6,NetworkError,Request timeout after 30s,/login,,2026-03-11 06:34:00
+1720ce97-6f5e-467c-8bf6-36b0a468ef9e,80506556-834c-49e8-8c49-4358063ac348,JavaScriptError,SSL handshake failed,/portfolios,,2026-03-01 16:44:00
+075b0de7-0a78-4702-9851-38747b5330dd,fa4e4524-108e-4277-a7ab-bb54c440c5b6,JavaScriptError,500 Internal Server Error,/login,,2026-03-10 20:26:00
+c83aac1e-76ab-4a05-96cd-bddf59f4366a,80506556-834c-49e8-8c49-4358063ac348,JavaScriptError,Connection refused,/search,,2026-03-23 19:47:00
+fbf5d73c-d9b6-4fb6-97f8-5c4205ac013a,da945557-8e7f-4f9c-bae5-cc94260b2611,HTTPError,Failed to fetch,/dashboard,400,2026-03-06 18:14:00
+57ecc7b7-7fd1-46ee-8b03-0a531fd185ec,c0a345d3-4b6f-4137-bdb3-f39e45ef829d,CORSError,Failed to fetch,/reports,,2026-03-11 22:00:00
+99661792-b309-4bff-9bed-e939f194f216,acc29e47-87b6-4dcf-a895-55e59c6513ab,HTTPError,Request timeout after 30s,/market-data,,2026-03-20 04:57:00
+b2558ff5-2935-465d-bd10-b5450bffa36b,1733d85e-c040-4190-866c-efbea25012da,NetworkError,Connection refused,/accounts,,2026-03-06 01:05:00
+16b81fa7-18ac-4cc8-aaa3-cf18ddcd13e4,2203ab3a-fa09-4168-b8b1-7487ea03bc70,NetworkError,Network request failed,/dashboard,,2026-03-02 21:30:00
+d3fb651c-3dc1-4d47-a93a-326429e11803,a3a9f3c8-d2df-410e-9cd6-23064189335d,HTTPError,Unexpected token in JSON,/clients,503,2026-03-21 21:52:00
+d41cb717-2354-4e71-9827-ecb98e1979c2,c5532a35-e6a4-4ab8-b271-628cb4222ae1,CORSError,SSL handshake failed,/reports,,2026-03-04 18:32:00
+b93a0279-9ed0-466e-b248-65286bac59c5,1e517f21-78b3-4bf5-8c24-17e37126e186,NetworkError,500 Internal Server Error,/advisor/profile,,2026-03-01 00:27:00
+d14ebec1-cf97-43ce-9c3b-5b06ddcd7ca0,36ef12b3-0722-45c5-b6fa-4c0802a31052,JavaScriptError,SSL handshake failed,/dashboard,,2026-03-08 00:01:00
+ce974590-ed11-4de8-89b1-ce1e467e5212,d5629059-efe7-4271-8144-0ec042c8bdc8,HTTPError,Request timeout after 30s,/dashboard,503,2026-03-12 17:12:00
+ebe45648-e636-4320-90a2-7b231d0d3c62,de83659e-0088-47c7-b707-97f143af1d21,HTTPError,CORS policy blocked,/search,400,2026-03-08 15:12:00
+c3304d3b-5dce-4e77-834f-f9df4b465c88,f87bd80b-375a-4aec-a62f-3f364e53c2ed,TimeoutError,SSL handshake failed,/portfolios,,2026-03-03 14:42:00
+3f3f12ff-4b08-46e0-928e-3f0b1c0c42d6,36ef12b3-0722-45c5-b6fa-4c0802a31052,HTTPError,CORS policy blocked,/login,403,2026-03-02 08:07:00
+3ab23e3e-f18c-42fd-927a-2a9a7df57a2a,d5629059-efe7-4271-8144-0ec042c8bdc8,JavaScriptError,500 Internal Server Error,/login,,2026-03-07 13:44:00
+a17f8e68-4604-44de-be3f-88660de7c73c,ea3c987c-123e-418a-83b5-4b5253c41239,NetworkError,Connection refused,/portfolios,,2026-03-01 07:10:00
+424ee5fd-ee98-4801-927f-0f1778fc0a2c,4c7f3487-ffad-4698-bc90-e0433846a887,JavaScriptError,Network request failed,/accounts,,2026-03-18 22:06:00
+6701ee73-31e2-4394-af64-03e5dd8057b1,dd0e6ca6-ad90-4242-b2c2-63a010bc4f0d,TimeoutError,404 Not Found,/accounts,,2026-03-04 02:09:00
+2f505343-7a18-424a-b488-6c3e53d7c06a,6c1595d4-a1d0-40ab-92cf-a063aaf3d900,CORSError,Connection refused,/advisor/profile,,2026-03-08 02:17:00
+ea9308b7-76d5-46b5-ac92-0026abcc8adc,d5629059-efe7-4271-8144-0ec042c8bdc8,TimeoutError,SSL handshake failed,/advisor/profile,,2026-03-15 01:56:00
+b7126aa5-a2f5-4fe5-b6c8-a4e7858546e4,9fe1880b-318e-4380-bc6b-08d2e2e89ba0,TimeoutError,SSL handshake failed,/search,,2026-03-10 04:28:00
+d8c4c341-e1c0-407c-a18e-2a135589e0db,f4d00176-a0b0-4ad8-b572-b83896fe072c,NetworkError,Request timeout after 30s,/dashboard,,2026-03-12 21:20:00
+14791ce4-6c50-4ef4-a02e-8dfb4b14147d,1d6679c1-1e17-490e-a599-d3d4177e4a52,NetworkError,Connection refused,/search,,2026-03-09 08:25:00
+fa6714e4-f9f8-4737-bfcb-de71da2c5c5a,1da1a59b-429d-4ab9-bac1-ec7ce83b4630,CORSError,Network request failed,/dashboard,,2026-03-04 21:55:00
+409dc15e-dc25-4125-ac35-d4d67be58341,b6a264a4-9744-40af-a05e-c9fd835e35de,CORSError,Connection refused,/search,,2026-03-10 19:47:00
+f657662e-0ea8-447f-8476-2d3fc127d700,6c1595d4-a1d0-40ab-92cf-a063aaf3d900,CORSError,Network request failed,/dashboard,,2026-03-17 20:58:00
+b778994f-d4a1-4858-9ee7-415570301ded,19c89c5c-88de-4da1-8bb9-c653c8a749b0,CORSError,Network request failed,/accounts,,2026-03-23 02:11:00
+345c2a94-ab5c-4e20-af1f-8aa8344d7a34,e3fab79f-f0b5-4df5-80d9-3722a9396340,CORSError,Failed to fetch,/accounts,,2026-03-03 03:32:00
+46e7ed99-7cce-4363-9c2a-2a3300859c39,2a23d1dd-b0fe-4916-807e-bcc88f4fdc0b,CORSError,Failed to fetch,/reports,,2026-03-04 13:21:00
+d9a7bf8d-3fe5-4fa3-bb06-271b1d4ee723,43946619-9ea7-4471-8741-34aa4d14eb52,CORSError,Network request failed,/dashboard,,2026-03-12 03:21:00
+e27aecbc-a2f2-4f4f-a453-42463585f01f,c014dc6b-fd42-4f18-b482-09cac27188f2,HTTPError,Failed to fetch,/advisor/profile,400,2026-03-19 05:31:00
+2d831820-35f9-439b-b7e7-eb2c439d0965,66de3063-ae20-4f5d-a20d-033303a534a5,TimeoutError,404 Not Found,/advisor/profile,,2026-03-07 07:39:00
+c0bdee5b-95a4-42fa-836e-15d516e97f96,b7c4e082-af59-42f1-ad58-1f5aa41adb5c,NetworkError,Network request failed,/reports,,2026-03-04 10:47:00
+12f08804-ddc5-4180-a87c-522c51bc01d6,4c7f3487-ffad-4698-bc90-e0433846a887,JavaScriptError,Uncaught TypeError: Cannot read property,/dashboard,,2026-03-15 09:01:00
+24d1ad20-6fb1-4150-af3e-9ceaac9020e5,2c217ff5-19db-456d-b2b8-593625bc3fbc,JavaScriptError,Unexpected token in JSON,/portfolios,,2026-03-02 00:55:00
+7ecf0a6d-3ef0-44f2-aa21-e29c05a10f9b,7be7128e-894a-4eaa-9862-8622f66db990,HTTPError,500 Internal Server Error,/advisor/profile,404,2026-03-04 11:05:00
+06a5bf9a-5d77-4e8d-84c6-b59ef01d268c,1b878dd1-1b37-4c21-8b02-30164094d66f,CORSError,Network request failed,/settings,,2026-03-16 20:03:00
+b0785424-ab62-46d5-9701-81529b6e870e,a2cacd02-88bf-4e3c-abd9-1933486de1bd,JavaScriptError,CORS policy blocked,/reports,,2026-03-14 08:24:00
+cbe68dbb-cdfa-47cb-b886-305aac3035f4,e3fab79f-f0b5-4df5-80d9-3722a9396340,JavaScriptError,Network request failed,/market-data,,2026-03-12 03:10:00
+ce1bc9c5-c195-4087-86f7-0fc5bf7f0392,0c8480e0-9fad-49a4-81aa-31002740df37,TimeoutError,Failed to fetch,/portfolios,,2026-03-21 08:18:00
+4e1bf76a-56ca-437c-8270-3a338b97925f,76c859e1-2e94-4385-89f7-d80310a64dc4,NetworkError,SSL handshake failed,/dashboard,,2026-03-08 11:52:00
+bf1bd997-5fea-400f-a907-fb1e254d1958,15510eb6-1b38-42b8-a709-b3c3dfec3cba,TimeoutError,Connection refused,/login,,2026-03-14 09:24:00
+452b07fd-e6e1-4420-bbd1-f955602c5674,1733d85e-c040-4190-866c-efbea25012da,JavaScriptError,Uncaught TypeError: Cannot read property,/dashboard,,2026-03-20 22:01:00
+c4727f1f-6d65-4e9e-8740-12edbdb213f4,723c7718-fc2f-4bbd-a708-41f09b9fba1e,HTTPError,Unexpected token in JSON,/clients,404,2026-03-12 03:56:00
+47245be5-5d56-4685-97db-b99d62b92345,8c74fb20-688a-4169-9f70-3d229d04fe21,CORSError,Connection refused,/portfolios,,2026-03-16 10:46:00
+df197b68-32cc-45d6-9c04-5579dc16ee19,51ab0682-ed49-46a1-b269-42209282864c,CORSError,Request timeout after 30s,/login,,2026-03-18 06:24:00
+c20737fc-5f09-4908-98ea-c82d063acb1c,d8503f4a-b53c-4e47-8f63-b2541f8e133c,NetworkError,Request timeout after 30s,/settings,,2026-03-07 08:51:00
+e92b498d-f4ba-4a90-8a9f-f1a56e20fe79,8fd00886-81b5-4b57-b41b-ec01ecf69f79,JavaScriptError,CORS policy blocked,/portfolios,,2026-03-16 18:42:00
+89b250d1-ff24-4e33-8090-209ecec7dcfd,8913b7c9-517c-4529-bb74-82b8d438d01d,JavaScriptError,Uncaught TypeError: Cannot read property,/search,,2026-03-17 00:46:00
+2ecae83a-908a-43e2-a4cf-4d11382b4f96,a3a9f3c8-d2df-410e-9cd6-23064189335d,HTTPError,SSL handshake failed,/market-data,400,2026-03-03 06:26:00
+8c3cd967-1d6b-4055-b94c-e9943b8f1cbd,3d735169-5178-473f-9ff6-d8d6506837f9,NetworkError,SSL handshake failed,/advisor/profile,,2026-03-20 15:39:00
+8a61e9de-505c-4d3a-9f87-08f8427393b7,debc4be7-17d2-4e1d-be95-101641efe3d6,JavaScriptError,CORS policy blocked,/dashboard,,2026-03-08 21:08:00
+6865438e-eb0c-4652-a6b7-6bb6d8f35388,d41aa65e-c975-4eb6-8a6a-0d24f78e3c14,TimeoutError,Connection refused,/clients,,2026-03-06 05:55:00
+7dfcb958-693c-4929-a141-d58917c28ade,f0c83070-0049-42bb-b20d-85ac3e064780,JavaScriptError,CORS policy blocked,/portfolios,,2026-03-23 13:47:00
+5e3ee6d8-ea8c-4f46-8fb6-bac31109f97b,85a1adb9-05c1-4591-bc5e-e6d880223835,HTTPError,404 Not Found,/accounts,500,2026-03-21 05:31:00
+d572f896-d05d-4e19-9028-6797ba7bf5d3,e7000810-ab75-45e8-80c4-a43492755466,JavaScriptError,CORS policy blocked,/accounts,,2026-03-23 13:41:00
+31abc714-a011-4f65-bc82-fe62bd742f81,29fb6c40-4f1c-4b61-914f-650ed42e5238,JavaScriptError,404 Not Found,/market-data,,2026-03-07 14:43:00
+089281e2-9806-42c8-a530-80dd63dd5def,591f05b7-1dc0-4de1-9460-5635174a7a59,HTTPError,CORS policy blocked,/login,500,2026-03-13 14:46:00
+765d84fd-d97e-4721-8270-e36ec30e125d,6ab64eb0-c74e-4440-86bf-11a434228f1d,JavaScriptError,404 Not Found,/portfolios,,2026-03-13 16:10:00
+184d41d6-12f8-47cc-90e3-2d886c96bd4f,cb5c3d78-11eb-4a67-8216-3e764f0e1293,CORSError,Request timeout after 30s,/clients,,2026-03-16 17:46:00
+7c5f0b57-683d-45c4-8b20-c746baf890e8,2c217ff5-19db-456d-b2b8-593625bc3fbc,NetworkError,500 Internal Server Error,/dashboard,,2026-03-14 05:49:00
+d83555c3-206d-4d92-a293-31ac470ae025,d5629059-efe7-4271-8144-0ec042c8bdc8,TimeoutError,Unexpected token in JSON,/settings,,2026-03-17 15:18:00
+a3d087cd-f552-47ed-a0f0-bd601e031fdf,a6674cc4-2f4d-4378-b052-ccafcaa3b85d,JavaScriptError,404 Not Found,/accounts,,2026-03-13 09:55:00
+501aaaee-5b20-4f78-bc74-077007f19a21,99751960-6a57-44d4-9e94-19f16ca5bf8b,CORSError,Network request failed,/reports,,2026-03-16 17:21:00
+f40ee622-7c0e-4a17-a1b3-bfac3d4e1d71,4ce29827-4872-4d88-8428-4bc941591c2d,JavaScriptError,Failed to fetch,/search,,2026-03-09 04:55:00
+e370ee4b-f5ee-42d9-b453-9d1a72392743,d2f8364b-c393-407d-9762-89278b76311e,TimeoutError,CORS policy blocked,/advisor/profile,,2026-03-17 02:19:00
+5145c2a7-5033-47d3-aa51-4bcc5f90eee9,2e33b066-9aad-4fcc-b7ef-352813720f22,JavaScriptError,Request timeout after 30s,/clients,,2026-03-23 15:32:00
+67b9a391-556c-4c8d-8e69-0b0ba3b864ac,2240d522-246d-4195-9d4d-0b319b1c40fd,CORSError,Connection refused,/advisor/profile,,2026-03-16 17:15:00
+dae6db98-6bd9-4316-b7ed-ada5c4d58325,0a1bf1e4-d832-4f44-acfd-810d831d2f81,NetworkError,Network request failed,/search,,2026-03-08 14:53:00
+db99fd7b-c4c9-4788-b048-7e996bd61e45,cb903034-568c-4e44-85a8-bbdf81500d88,NetworkError,CORS policy blocked,/dashboard,,2026-03-03 15:43:00
+6935afe4-ecff-47a3-8f27-93885054f545,efa843cc-426e-48b0-b22e-a054b0d0715d,HTTPError,Unexpected token in JSON,/accounts,400,2026-03-13 10:15:00
+a289fbda-baac-40a4-9d8b-9c972bd76f63,5165ee7c-df90-4145-9d7f-247a64af7f43,CORSError,Failed to fetch,/login,,2026-03-23 10:16:00
+c71459b1-a646-4b36-9f3e-33d4d27b5057,80506556-834c-49e8-8c49-4358063ac348,HTTPError,Failed to fetch,/clients,503,2026-03-10 11:51:00
+d583c480-62f3-4111-bca7-6060b6016548,9d4e3ca0-c6f7-4170-a7ca-6d4c71a09774,TimeoutError,Failed to fetch,/advisor/profile,,2026-03-20 09:33:00
+6c1b3fed-a841-49ac-af0a-02564e6d54ba,762872b6-da0d-44a8-af75-c6b590fa95f9,HTTPError,Failed to fetch,/accounts,400,2026-03-03 01:38:00
+461b74a3-ec75-4c36-b6da-b6679c43535c,1a0c638d-9113-471e-833f-5e68a32ff3fd,HTTPError,Unexpected token in JSON,/accounts,404,2026-03-22 00:13:00
+782f2176-9262-40be-af46-f1f88bd38649,ea3c987c-123e-418a-83b5-4b5253c41239,TimeoutError,Failed to fetch,/clients,,2026-03-02 16:56:00
+c1c6c4a0-25dd-4d58-8862-fff83551b2d3,d730ba67-2d97-4daa-9bee-70136174a52f,NetworkError,Failed to fetch,/search,,2026-03-22 13:31:00
+71436701-6ffb-4cf9-9f11-97368bb8fcea,61ffa387-fc87-4b62-8437-ad8c75802a56,TimeoutError,Connection refused,/advisor/profile,,2026-03-22 08:54:00
+1792e7b6-ae28-46b3-a9d4-615fc0b9a19f,1b878dd1-1b37-4c21-8b02-30164094d66f,HTTPError,Uncaught TypeError: Cannot read property,/market-data,400,2026-03-01 08:00:00
+98b9e24b-72fa-42ff-bd36-7dfbdb2897a0,b6a264a4-9744-40af-a05e-c9fd835e35de,TimeoutError,Connection refused,/portfolios,,2026-03-05 13:21:00
+ee0ea2f2-3bc0-4b9f-9059-24a802bbfcb4,6ab64eb0-c74e-4440-86bf-11a434228f1d,JavaScriptError,404 Not Found,/settings,,2026-03-23 08:59:00
+dbbe1b73-f608-4c6e-8e96-9e7a4be209aa,fed59992-4274-4a52-ae89-922c73721dbb,TimeoutError,CORS policy blocked,/market-data,,2026-03-21 03:40:00
+3e2a66bb-813f-4547-8374-c0dc968c4e0e,459de40d-8ddf-4559-ad9a-88ef5efd5189,TimeoutError,SSL handshake failed,/accounts,,2026-03-06 02:46:00
+ac3c0b41-1f91-432b-93a3-fdc75ab92af0,723c7718-fc2f-4bbd-a708-41f09b9fba1e,CORSError,Network request failed,/dashboard,,2026-03-17 17:23:00
+47e32d92-81a6-44c2-8b56-b29a1ce72fd6,66de3063-ae20-4f5d-a20d-033303a534a5,CORSError,Failed to fetch,/advisor/profile,,2026-03-04 06:19:00
+6afb2774-7fec-49ba-8d4f-2ebd3d72ac54,f84187ec-7454-4715-a890-e96924d48c6b,CORSError,Request timeout after 30s,/accounts,,2026-03-13 05:06:00
+88314bcf-f951-47d2-be7e-37990ea84f08,acc29e47-87b6-4dcf-a895-55e59c6513ab,TimeoutError,Uncaught TypeError: Cannot read property,/market-data,,2026-03-17 22:33:00
+802a55ad-f375-417c-ad93-e2fc88d094c3,85a1adb9-05c1-4591-bc5e-e6d880223835,TimeoutError,Network request failed,/portfolios,,2026-03-06 22:48:00
+1a90cd34-41c2-4651-b054-0cdfae7dc412,a2cacd02-88bf-4e3c-abd9-1933486de1bd,CORSError,Network request failed,/clients,,2026-03-10 04:38:00
+3c9569f1-7c5d-4fd7-b4a5-01370f00bee6,1edbad42-1d4c-41c1-b7a0-10c57c5cd05c,NetworkError,Unexpected token in JSON,/login,,2026-03-11 05:28:00
+cb48d616-0c51-46cd-8c7d-8af826d26fbb,cb903034-568c-4e44-85a8-bbdf81500d88,NetworkError,CORS policy blocked,/portfolios,,2026-03-04 06:05:00
+6c2fda95-98c6-4750-8a93-9c907ebe295c,04e2015e-416b-4fc2-8f96-f15b5e159124,TimeoutError,Uncaught TypeError: Cannot read property,/settings,,2026-03-23 04:34:00
+c9a7b114-e7e1-47f9-9f86-b5a4e7a8141e,97abba0c-5db8-42c4-aad0-3baa1874c0fb,NetworkError,500 Internal Server Error,/login,,2026-03-01 21:49:00
+b41daba1-f54b-469d-9a37-7756e91847d3,7ef22d10-9cdd-4ca6-9786-e719a4900f93,JavaScriptError,Failed to fetch,/clients,,2026-03-19 06:27:00
+4c2b4a28-9e22-473e-a311-b52214bbb69b,15510eb6-1b38-42b8-a709-b3c3dfec3cba,JavaScriptError,Request timeout after 30s,/dashboard,,2026-03-06 11:27:00
+b19d0e84-0350-4242-a8cf-49fecb9a4435,d730ba67-2d97-4daa-9bee-70136174a52f,HTTPError,404 Not Found,/market-data,403,2026-03-23 04:56:00
+78b73b62-0cb6-456e-b607-ff57f98207cb,00ba029c-9d09-4f50-bc69-65238e0506ad,JavaScriptError,Network request failed,/search,,2026-03-04 18:52:00
+9ad95f0e-85b3-4366-960c-acee237575f7,9fe1880b-318e-4380-bc6b-08d2e2e89ba0,HTTPError,Request timeout after 30s,/reports,,2026-03-04 02:20:00
+dee10020-66ed-4a09-acfc-7dce5ac1fc74,cb5c3d78-11eb-4a67-8216-3e764f0e1293,JavaScriptError,Connection refused,/advisor/profile,,2026-03-15 12:22:00
+ae6e2e78-ef52-4f62-9ba2-5f01b47d9e43,dd0e6ca6-ad90-4242-b2c2-63a010bc4f0d,CORSError,500 Internal Server Error,/search,,2026-03-08 19:27:00
+e185aad1-6478-4318-adae-2e359f475651,1a0c638d-9113-471e-833f-5e68a32ff3fd,CORSError,Network request failed,/market-data,,2026-03-19 02:48:00
+9cd3d32b-f89f-4b7e-91d3-47e4de2cbe4b,f84187ec-7454-4715-a890-e96924d48c6b,NetworkError,Uncaught TypeError: Cannot read property,/clients,,2026-03-09 23:33:00
+a085ea52-3fe5-4aa2-b687-12baf2e53cdc,9c24133d-f7ae-4100-b737-499ae02c14e7,CORSError,Connection refused,/search,,2026-03-11 07:19:00
+009785e7-a25b-4a01-8fe8-caa44e635de9,97abba0c-5db8-42c4-aad0-3baa1874c0fb,NetworkError,500 Internal Server Error,/advisor/profile,,2026-03-09 06:21:00
+bd65d02a-9e52-476b-9b97-42012565d7e1,b52e236d-db1a-49fb-8860-f609c932afab,TimeoutError,Request timeout after 30s,/accounts,,2026-03-23 13:08:00
+63f7b5ae-c118-40d2-bad4-eebc063c9685,388ca4ff-0040-4271-9db0-5c965ab34cc3,JavaScriptError,Failed to fetch,/settings,,2026-03-16 23:39:00
+e9cbf3fa-3c17-48cc-a2e6-32f837b32175,f4d00176-a0b0-4ad8-b572-b83896fe072c,JavaScriptError,Uncaught TypeError: Cannot read property,/advisor/profile,,2026-03-20 06:44:00
+ccd458ed-57da-444d-a530-2d08572c12c6,85831e67-7352-4987-87d7-9eb64987a0ea,CORSError,Failed to fetch,/reports,,2026-03-16 17:36:00
+b5132fae-cc8a-4b39-96b4-206f0a2f94eb,6c1595d4-a1d0-40ab-92cf-a063aaf3d900,HTTPError,500 Internal Server Error,/reports,,2026-03-13 04:36:00
+df6ee0f0-65c6-4f2c-aa28-8d7df1e373e5,e12cae18-17e2-4528-97f5-2beb3419ee88,CORSError,SSL handshake failed,/market-data,,2026-03-08 01:25:00
+2aea5e0b-8460-4e5a-80b2-58bae1702860,591f05b7-1dc0-4de1-9460-5635174a7a59,CORSError,404 Not Found,/reports,,2026-03-18 22:49:00
+361e481d-d050-438f-bbaa-3b064612beb1,a96122b6-db8a-4d8d-83ea-fecb34354dde,CORSError,Network request failed,/advisor/profile,,2026-03-20 11:05:00
+688bbc35-47f0-487e-b104-48f8a89d913e,0b5bd818-16f3-4ebe-8219-c311b937bc26,TimeoutError,SSL handshake failed,/accounts,,2026-03-16 14:37:00
+cce7aac2-4861-4443-81db-88003365cbc7,80506556-834c-49e8-8c49-4358063ac348,CORSError,CORS policy blocked,/dashboard,,2026-03-07 06:21:00
+35b7d4ab-d79d-46fc-84ee-1dc2cbdae9df,84ce999a-d1fe-4f07-ac01-5a35b8cb8744,NetworkError,SSL handshake failed,/accounts,,2026-03-22 08:56:00
+576d3d44-57c1-4e7c-a9ef-b7e24560bcfb,a6674cc4-2f4d-4378-b052-ccafcaa3b85d,HTTPError,Request timeout after 30s,/reports,,2026-03-08 11:56:00
+b392120e-170c-4408-bad7-f79d81d40eab,aaadec20-d274-4102-995b-04167d375b13,TimeoutError,SSL handshake failed,/advisor/profile,,2026-03-07 00:49:00
+a7e0fc53-df77-4986-9a3d-65b7732708a4,ab2dd25d-f943-40ce-b9aa-fb5d2fd9cdf2,CORSError,Uncaught TypeError: Cannot read property,/advisor/profile,,2026-03-03 08:26:00
+6f448c4b-081b-4838-a018-4763c59fad7c,0b5bd818-16f3-4ebe-8219-c311b937bc26,TimeoutError,Failed to fetch,/search,,2026-03-21 04:09:00
+e75c9112-f1ac-4f16-a7f0-0862868ba68b,1a0c638d-9113-471e-833f-5e68a32ff3fd,JavaScriptError,500 Internal Server Error,/portfolios,,2026-03-18 19:57:00
+18a2d4a9-6638-4793-8585-1de00233f75c,6f4f8c31-d669-4a1f-83ba-015bf079e352,CORSError,Request timeout after 30s,/advisor/profile,,2026-03-10 05:19:00
+66efad2e-a8ff-4ca2-a309-1fa1ac5794a4,65dfe208-78cc-4696-be1f-d2dabd95215e,CORSError,Request timeout after 30s,/advisor/profile,,2026-03-10 09:20:00
+9d87664b-b275-41e6-b687-a04a54e17d87,6bdff602-cdaa-4229-b5d4-b5f2bae672c7,CORSError,Uncaught TypeError: Cannot read property,/reports,,2026-03-06 21:42:00
+20b25ef5-37f0-41cc-8f8d-cd93d45ba532,c0a345d3-4b6f-4137-bdb3-f39e45ef829d,NetworkError,Failed to fetch,/portfolios,,2026-03-01 03:57:00
+36d08297-ef9b-4267-8390-a5b484e70e2a,d8692996-9f48-44a3-a709-ef632402afef,JavaScriptError,Network request failed,/login,,2026-03-19 12:21:00
+787807ec-3f3a-410b-831d-9bcee497bb27,1f7e4d7a-59a5-42fa-96bd-e40ec7e2d8da,HTTPError,CORS policy blocked,/clients,404,2026-03-16 07:34:00
+15c337f7-86fc-4afe-846c-efa33507aab8,723c7718-fc2f-4bbd-a708-41f09b9fba1e,TimeoutError,404 Not Found,/clients,,2026-03-17 07:36:00
+5f96f513-2ca8-4433-b4e5-75ee13804b95,04409b3b-96c9-4e55-98d8-8387664cf914,CORSError,404 Not Found,/clients,,2026-03-10 05:00:00
+a93b5826-fcde-4741-ae45-6113d6b6dd93,467fcd18-7552-4c96-a4f4-c60c1b0da8bf,HTTPError,Unexpected token in JSON,/market-data,503,2026-03-07 05:49:00
+0355a3ea-5760-4c01-afcf-5782206cc726,d41aa65e-c975-4eb6-8a6a-0d24f78e3c14,JavaScriptError,Request timeout after 30s,/reports,,2026-03-15 08:59:00
+74dcaf28-8007-4b4e-b965-0089e27d63b9,f4a7e3a7-1962-4305-b3d4-73c30eac8816,HTTPError,CORS policy blocked,/advisor/profile,400,2026-03-18 00:34:00
+855d2bd4-b5ed-45b6-984f-6c168caeb584,ebc3ed93-97bd-4487-965f-9962d53d8383,JavaScriptError,Network request failed,/search,,2026-03-12 14:40:00
+97b1992c-fc0e-47d1-b70a-2197ec04daab,7562284d-7b37-49e1-b0d2-2f5011b0954e,JavaScriptError,Connection refused,/login,,2026-03-10 13:00:00
+217e758d-98d9-4964-842f-ebf25c0d3839,d26da485-3c66-4f87-8bcf-483869154f54,TimeoutError,Uncaught TypeError: Cannot read property,/clients,,2026-03-17 16:58:00
+998efd97-5777-4aed-a23f-b668e0790e19,6e16129c-8ae2-4796-be4e-35e2322de18d,HTTPError,Request timeout after 30s,/market-data,,2026-03-17 12:32:00
+a09735fe-84c0-464f-96a5-9e4e79b873a1,0b1233a2-3c9b-4124-9d31-95373719e321,JavaScriptError,Failed to fetch,/login,,2026-03-15 06:52:00
+df997bed-3eba-425a-b5c5-3aea1916623a,47fade07-a38f-40b4-8ea8-1f62aae95678,CORSError,CORS policy blocked,/clients,,2026-03-23 12:03:00
+3a84f4ac-85c1-458d-b6c2-de3f1dc208e8,66de3063-ae20-4f5d-a20d-033303a534a5,CORSError,Unexpected token in JSON,/dashboard,,2026-03-13 12:40:00
+ea9d731a-c2a0-42b3-8b3e-461dce3893fe,76a9734d-0a4b-4aab-93db-d0870e349555,HTTPError,Connection refused,/accounts,503,2026-03-20 08:26:00
+c6b7b37f-d660-4222-94c1-2aa0e502a9f7,36ef12b3-0722-45c5-b6fa-4c0802a31052,TimeoutError,Network request failed,/dashboard,,2026-03-19 21:41:00
+df0241ca-3879-4ef7-a31d-e4038dd8af20,240ecf31-6688-4c07-84ab-4165ce689599,NetworkError,Uncaught TypeError: Cannot read property,/search,,2026-03-16 17:14:00
+3997638d-a8e1-4d3a-b445-bb8d4da653da,b268dd36-8ab4-45b7-a1e5-8d4ff6eef202,CORSError,404 Not Found,/portfolios,,2026-03-19 19:28:00
+ba03adb7-9c2a-4bf3-a38f-5e3d475418e4,eb9a4b1a-a6bc-48a9-9ef3-9c7be9155a9e,TimeoutError,404 Not Found,/login,,2026-03-03 11:45:00
+edcb71c3-e71a-44fb-8bc7-f97f914954b4,3d735169-5178-473f-9ff6-d8d6506837f9,HTTPError,Connection refused,/clients,403,2026-03-06 13:38:00
+fdcc60b3-83e0-4d4f-b099-384cce34d3b9,00ba029c-9d09-4f50-bc69-65238e0506ad,TimeoutError,Uncaught TypeError: Cannot read property,/portfolios,,2026-03-21 23:46:00
+2ad00c91-145c-4610-9b6c-73b6556f75e6,9f5b4b2d-1762-4d89-8c61-86f897ddfdf7,NetworkError,404 Not Found,/advisor/profile,,2026-03-03 20:49:00
+a476a35a-5ca7-46ef-aacf-fdf5221e1502,85a1adb9-05c1-4591-bc5e-e6d880223835,JavaScriptError,Request timeout after 30s,/accounts,,2026-03-23 18:16:00
+d60793f0-b515-4dce-9121-02fc301c9af3,de83659e-0088-47c7-b707-97f143af1d21,JavaScriptError,Unexpected token in JSON,/settings,,2026-03-20 08:14:00
+90822c4f-f16f-4b66-b114-537a66cd6dc4,e7000810-ab75-45e8-80c4-a43492755466,NetworkError,Failed to fetch,/search,,2026-03-08 07:12:00
+ab7c2fe3-f77d-4817-a9be-9dc868676c8f,fa4e4524-108e-4277-a7ab-bb54c440c5b6,JavaScriptError,Network request failed,/clients,,2026-03-04 09:29:00
+cb2ac78b-4e11-4ea8-99a3-d50894e2ad3a,6a704199-9f94-4980-accc-e845d291a1fb,HTTPError,Failed to fetch,/accounts,,2026-03-04 08:38:00
+2c7ee203-e5f4-47b8-a91c-da7e9c15b3a1,4ce29827-4872-4d88-8428-4bc941591c2d,CORSError,Unexpected token in JSON,/portfolios,,2026-03-19 00:15:00
+018669b0-3859-4921-9cf1-a7740315f3c5,591f05b7-1dc0-4de1-9460-5635174a7a59,CORSError,Unexpected token in JSON,/login,,2026-03-20 22:31:00
+47b8f801-f73e-442d-9e5d-f50fcd1e6a03,d37d9f5a-ed86-4b66-aff2-13272abafa9f,HTTPError,Connection refused,/reports,404,2026-03-06 04:12:00
+d961ecb7-7c8a-4331-84f5-91039a42923d,0b1233a2-3c9b-4124-9d31-95373719e321,CORSError,Network request failed,/market-data,,2026-03-14 02:16:00
+abcbbaef-2696-4d3e-9429-a53723e3269b,47a626a4-f599-43a4-8bf4-eccf42fb145b,HTTPError,CORS policy blocked,/advisor/profile,503,2026-03-14 18:03:00
+556f4609-4d5d-4b3b-af28-25d32049d68c,cb5c3d78-11eb-4a67-8216-3e764f0e1293,JavaScriptError,CORS policy blocked,/reports,,2026-03-02 20:52:00
+c9254f98-96f0-4b95-bbfb-b59d7625e3a0,fa4e4524-108e-4277-a7ab-bb54c440c5b6,TimeoutError,CORS policy blocked,/clients,,2026-03-03 06:15:00
+4ecc4be1-f9c2-4b8d-ac73-8cbe7cb35735,dd0e6ca6-ad90-4242-b2c2-63a010bc4f0d,CORSError,Network request failed,/search,,2026-03-17 23:30:00
+03a6ed9a-2627-433e-95e9-918ed9a2b27c,a57c839c-3317-45b6-ae1e-0750aa24675a,CORSError,Network request failed,/clients,,2026-03-22 07:42:00
+10fa4ac2-5d0d-4382-9c2f-31d9c5268f5e,0ee5f1be-d137-48fc-846b-4eb03394f34d,HTTPError,500 Internal Server Error,/market-data,502,2026-03-01 14:53:00
+8d1f5528-cd95-4b23-87e5-9d374597de7a,36ef12b3-0722-45c5-b6fa-4c0802a31052,HTTPError,Request timeout after 30s,/reports,,2026-03-23 21:52:00
+cc0cefb7-7eb7-412e-a835-7a8a97031aff,a57c839c-3317-45b6-ae1e-0750aa24675a,TimeoutError,SSL handshake failed,/advisor/profile,,2026-03-23 03:59:00
+fce6f37a-c2b4-4e25-9e50-e0b24c3215f1,a5a758aa-5878-4331-9373-28f97e38d5ac,TimeoutError,SSL handshake failed,/search,,2026-03-15 12:47:00
+41b454ed-c76a-418e-898b-d71eecd68253,19c89c5c-88de-4da1-8bb9-c653c8a749b0,TimeoutError,Connection refused,/accounts,,2026-03-10 23:48:00
+78f496dd-58f5-4a2e-a29f-70eb9e63391e,499a24ca-cde7-4201-8a88-581dcc7802ef,CORSError,Connection refused,/settings,,2026-03-05 21:54:00
+23b66f7e-77fe-4c93-b127-2ddf7b18b27f,c5532a35-e6a4-4ab8-b271-628cb4222ae1,NetworkError,SSL handshake failed,/search,,2026-03-18 10:01:00
+76d4354b-75a9-4b9b-bdc0-cac375fd5426,e3fab79f-f0b5-4df5-80d9-3722a9396340,CORSError,404 Not Found,/login,,2026-03-01 23:31:00
+08e399e9-58b1-49bc-a59c-92a2883dd454,ab2dd25d-f943-40ce-b9aa-fb5d2fd9cdf2,TimeoutError,Uncaught TypeError: Cannot read property,/login,,2026-03-06 01:29:00
+82ce3d7f-af93-4ff0-9f1b-2b35baf806a0,7ef22d10-9cdd-4ca6-9786-e719a4900f93,TimeoutError,Network request failed,/dashboard,,2026-03-22 04:15:00
+16b16197-18ef-44fb-b0ca-6eb9fbade7b1,1d6679c1-1e17-490e-a599-d3d4177e4a52,JavaScriptError,Connection refused,/portfolios,,2026-03-16 13:48:00
+b906e40d-5faa-4286-aaff-557ffc10d601,f87bd80b-375a-4aec-a62f-3f364e53c2ed,HTTPError,Unexpected token in JSON,/settings,400,2026-03-04 14:42:00
+c5ab0055-f433-41c9-9822-6339ec962bee,38995595-2a75-4f08-8823-fa2ffb5eb05a,TimeoutError,Unexpected token in JSON,/dashboard,,2026-03-07 19:05:00
+4cae48ee-3bb5-409d-aa4b-c62dd0c17a05,80506556-834c-49e8-8c49-4358063ac348,TimeoutError,CORS policy blocked,/login,,2026-03-15 07:34:00
+6c310c6b-deac-4f41-8ad1-24a180a3e17f,0c8480e0-9fad-49a4-81aa-31002740df37,JavaScriptError,Network request failed,/clients,,2026-03-07 09:46:00
+f78c5754-f395-49e9-81d7-f797ee51da82,47a626a4-f599-43a4-8bf4-eccf42fb145b,CORSError,500 Internal Server Error,/market-data,,2026-03-06 22:20:00
+330cc2f9-db45-4daa-82ac-be15e1c0b7a6,7944623d-0518-4e1b-8bb3-bf8a61693c0c,CORSError,CORS policy blocked,/accounts,,2026-03-02 16:35:00
+a045fe88-3f40-4c10-b44e-b4e522bccb04,2203ab3a-fa09-4168-b8b1-7487ea03bc70,CORSError,CORS policy blocked,/advisor/profile,,2026-03-19 08:39:00
+0c7b1ea1-20a0-4713-9369-33a621f0d944,0a1bf1e4-d832-4f44-acfd-810d831d2f81,HTTPError,Uncaught TypeError: Cannot read property,/market-data,,2026-03-01 16:10:00
+858e164c-9c81-4987-9216-d5ee2c97e28c,cb5c3d78-11eb-4a67-8216-3e764f0e1293,CORSError,SSL handshake failed,/reports,,2026-03-10 19:42:00
+e069cb00-086a-4459-b5c2-7f3c9f5765f4,f4d00176-a0b0-4ad8-b572-b83896fe072c,HTTPError,Unexpected token in JSON,/market-data,403,2026-03-22 15:18:00
+997d3cf2-8bd4-4764-86db-df2cddf43fe5,47fade07-a38f-40b4-8ea8-1f62aae95678,JavaScriptError,Failed to fetch,/reports,,2026-03-22 20:35:00
+39ba0292-b2ab-4bbc-8a1c-f6ddcc244b37,a2cacd02-88bf-4e3c-abd9-1933486de1bd,CORSError,500 Internal Server Error,/dashboard,,2026-03-15 19:28:00
+7aff979c-44ac-4efd-b528-f469285aa4db,499a24ca-cde7-4201-8a88-581dcc7802ef,NetworkError,Request timeout after 30s,/advisor/profile,,2026-03-19 19:05:00
+2bbb0e0e-f562-4c2c-8064-bdf87914e57c,ea479f55-f2ab-48a0-9338-afd1c078a28d,TimeoutError,Request timeout after 30s,/advisor/profile,,2026-03-18 03:28:00
+36d26f32-1b8c-4759-a4c6-62c28e4baa88,20a52213-c8b2-4ac9-8226-6b7bb9d69520,CORSError,CORS policy blocked,/login,,2026-03-08 23:01:00
+604b86e0-cefb-41ea-9deb-74d0eef96304,9d4e3ca0-c6f7-4170-a7ca-6d4c71a09774,JavaScriptError,500 Internal Server Error,/search,,2026-03-04 07:39:00
+40d94cc9-ea0d-4b09-b2b1-460e0ab2276c,2203ab3a-fa09-4168-b8b1-7487ea03bc70,TimeoutError,Network request failed,/market-data,,2026-03-23 16:31:00
+19ac685b-23b5-4014-b9a3-9b2bbde2aef9,16f08342-f8dc-4400-be73-c9a36074befb,TimeoutError,Network request failed,/portfolios,,2026-03-19 14:32:00
+73975b30-e029-4e82-969b-fa1860aa6bd0,e6eeb2d0-2c2c-49d9-ba65-22e6b283d82c,CORSError,500 Internal Server Error,/dashboard,,2026-03-14 15:33:00
+6dbebf54-da99-4ae0-a963-6e8735df91f1,459de40d-8ddf-4559-ad9a-88ef5efd5189,CORSError,404 Not Found,/portfolios,,2026-03-23 16:20:00
+a7514a80-af99-4592-a745-70fc7ead3c7e,2240d522-246d-4195-9d4d-0b319b1c40fd,JavaScriptError,CORS policy blocked,/dashboard,,2026-03-11 03:23:00
+eafb17ee-daae-43f5-9f3e-97dcb4b81711,6a704199-9f94-4980-accc-e845d291a1fb,TimeoutError,SSL handshake failed,/settings,,2026-03-16 09:48:00
+3f6ca1e8-c63c-4c0e-a4f7-f1406d995d1d,ebc3ed93-97bd-4487-965f-9962d53d8383,JavaScriptError,Failed to fetch,/portfolios,,2026-03-20 11:36:00
+00a8b5dd-cb29-4ddb-9b41-a1fe9d43fb2f,499a24ca-cde7-4201-8a88-581dcc7802ef,CORSError,Unexpected token in JSON,/settings,,2026-03-12 22:57:00
+f656e345-8237-47a6-b403-7581d43f278e,42154bd2-43dd-4eb4-99b9-7f910186b8f3,HTTPError,500 Internal Server Error,/market-data,500,2026-03-12 10:16:00
+cafbe0fb-c16e-4f27-bcb9-99aaa563686f,ab44ede4-9dab-458a-b168-0bd94a1b9ad7,HTTPError,CORS policy blocked,/portfolios,403,2026-03-17 19:12:00
+4a4ffcc6-b9ab-4749-a3b6-a44ad6a12f67,7944623d-0518-4e1b-8bb3-bf8a61693c0c,HTTPError,SSL handshake failed,/reports,502,2026-03-11 12:40:00
+073f2849-10cb-4ef6-babb-14f8f5436c16,85a1adb9-05c1-4591-bc5e-e6d880223835,HTTPError,Connection refused,/market-data,503,2026-03-17 16:53:00
+1627fa15-8858-4a6a-9248-2581d6b1dbbf,ab48fce5-7b63-4c0a-9943-6f79c994c95b,TimeoutError,CORS policy blocked,/clients,,2026-03-05 09:21:00
+cf96c784-1716-4c28-83e0-b9d210ba1caa,5cd15f73-5c5e-49db-be2a-9b82fe835f57,CORSError,Unexpected token in JSON,/search,,2026-03-14 23:11:00
+87cf42d8-1f3b-45a5-9495-23cd7e8f04b2,d730ba67-2d97-4daa-9bee-70136174a52f,NetworkError,Network request failed,/market-data,,2026-03-08 14:58:00
+f083f662-f4bf-450c-891b-1ccb7f8f6e6d,c014dc6b-fd42-4f18-b482-09cac27188f2,CORSError,Request timeout after 30s,/settings,,2026-03-08 07:25:00
+8580a766-c30a-438c-b3b7-1a337110b6e7,80506556-834c-49e8-8c49-4358063ac348,NetworkError,Request timeout after 30s,/advisor/profile,,2026-03-23 14:38:00
+8b3213d5-5c90-46b6-a852-263e6f52e04d,da945557-8e7f-4f9c-bae5-cc94260b2611,TimeoutError,Unexpected token in JSON,/dashboard,,2026-03-05 12:35:00
+34e36bd0-06e7-4398-972b-a94665e087bd,00ba029c-9d09-4f50-bc69-65238e0506ad,NetworkError,Connection refused,/settings,,2026-03-21 21:33:00
+5d05122b-c0e4-4d6d-88fd-a26b5d95a2f7,6bdff602-cdaa-4229-b5d4-b5f2bae672c7,NetworkError,500 Internal Server Error,/reports,,2026-03-01 16:39:00
+de07d706-a78f-4de9-9c61-85b250012515,85a1adb9-05c1-4591-bc5e-e6d880223835,JavaScriptError,CORS policy blocked,/market-data,,2026-03-12 03:14:00
+ee03231a-b14a-4007-bd0d-577b34994770,2dbd4160-71dd-403e-8fa4-c977e1e5b196,CORSError,Failed to fetch,/clients,,2026-03-06 02:56:00
+21ea4dd9-f6f3-425f-9879-4d680ed43e1d,ab48fce5-7b63-4c0a-9943-6f79c994c95b,TimeoutError,Uncaught TypeError: Cannot read property,/accounts,,2026-03-21 12:38:00
+914ff752-4bde-4277-b09b-79943159f610,c7292596-52a6-446c-91c7-5d16dc63a79e,NetworkError,Request timeout after 30s,/reports,,2026-03-23 06:53:00
+cd260128-acde-46ad-a953-8e1a0e6d9ab9,efa843cc-426e-48b0-b22e-a054b0d0715d,NetworkError,404 Not Found,/reports,,2026-03-02 14:05:00
+4a97cc11-fc31-41b8-ade3-432109f59bb2,0666b267-a5b3-4d3a-992d-d3333fb37dce,NetworkError,Failed to fetch,/settings,,2026-03-04 18:20:00
+c6646572-c255-422c-9f54-4a9a5a6ccd59,8636d4cc-90af-4fe1-8a34-d013f5318a3c,JavaScriptError,Network request failed,/settings,,2026-03-14 23:12:00
+5f5c8dc0-56b2-46b3-bbe9-cb2070fcf000,40c0041a-1949-4b78-96fe-1296ba18ca44,TimeoutError,Connection refused,/clients,,2026-03-10 03:52:00
+da9f1d1f-de2e-440b-a683-fb139a58b8cd,f1c18571-17bd-4b77-b6df-a6d47b2c4743,TimeoutError,Unexpected token in JSON,/dashboard,,2026-03-11 03:51:00
+e655959f-fa73-48a2-a1cb-62460e8be6e5,c8e527d7-dc1b-4687-add1-277ccaa05305,NetworkError,Failed to fetch,/reports,,2026-03-01 16:39:00
+104374e7-59f3-4672-b279-2c609f60814b,499a24ca-cde7-4201-8a88-581dcc7802ef,NetworkError,500 Internal Server Error,/login,,2026-03-04 17:02:00
+751ff1e9-a3fa-468e-a429-75cdc5051fea,8308de22-2d61-43a7-bbb6-1d93270bf614,CORSError,500 Internal Server Error,/advisor/profile,,2026-03-23 13:07:00
+5e8d7efb-a9b1-4506-8f90-9e9216dd3bf8,ea479f55-f2ab-48a0-9338-afd1c078a28d,HTTPError,Uncaught TypeError: Cannot read property,/reports,503,2026-03-03 13:38:00
+84621c7b-c4ec-4b36-95e1-952d625df1c6,7335020e-0f2f-4d1a-b4c3-716e41e4f088,HTTPError,Connection refused,/advisor/profile,503,2026-03-16 09:08:00
+630a6706-7c7d-4016-b439-b0005029dba1,0a1bf1e4-d832-4f44-acfd-810d831d2f81,HTTPError,Connection refused,/login,400,2026-03-15 20:25:00
+d96b2269-c5b3-4708-a956-6b8c543bf6e1,2e33b066-9aad-4fcc-b7ef-352813720f22,NetworkError,SSL handshake failed,/advisor/profile,,2026-03-18 18:03:00
+750c3f5c-58e9-47a9-87b4-c138035bf6c0,2a23d1dd-b0fe-4916-807e-bcc88f4fdc0b,TimeoutError,500 Internal Server Error,/reports,,2026-03-18 17:50:00
+0a87bb2d-c289-4d1f-a45d-0c1aa940676b,9ba84d21-4229-4c44-a7c7-9679072c9bb6,HTTPError,Unexpected token in JSON,/advisor/profile,400,2026-03-13 17:55:00
+ddb26e15-3674-4cf1-b53f-fe701a0bfe90,2203ab3a-fa09-4168-b8b1-7487ea03bc70,NetworkError,Unexpected token in JSON,/market-data,,2026-03-15 09:47:00
+230382f8-9b1d-4b7e-9e69-72eaa1b64264,6c1595d4-a1d0-40ab-92cf-a063aaf3d900,NetworkError,SSL handshake failed,/reports,,2026-03-19 00:23:00
+befcf618-1ef7-42dc-9309-ef7532247d59,5c0688f7-df4a-41a1-ade5-168a221e2533,HTTPError,Failed to fetch,/clients,403,2026-03-08 14:32:00
+a1fd59c5-3453-4a6a-9a44-126f46985deb,43946619-9ea7-4471-8741-34aa4d14eb52,JavaScriptError,Uncaught TypeError: Cannot read property,/dashboard,,2026-03-19 06:21:00
+32b54620-12aa-48c0-9d3b-3ac6774aac27,b3f28f18-e2a2-49ca-afa2-8a86dade91b2,NetworkError,Request timeout after 30s,/market-data,,2026-03-02 19:09:00
+837c7cd5-02db-412c-be7c-00e4477b3fab,1a0c638d-9113-471e-833f-5e68a32ff3fd,HTTPError,Failed to fetch,/settings,400,2026-03-10 21:04:00
+4770e7cd-00d7-4457-91f0-091108422583,e4c424bc-0421-42c7-85a1-e3ed2b7d30bc,HTTPError,Unexpected token in JSON,/search,,2026-03-14 12:04:00
+ea5d8dbb-3056-42f4-8640-3a31a451cbff,1cebcb3d-a908-42c6-a9f7-a1df6a9c7e58,HTTPError,404 Not Found,/advisor/profile,502,2026-03-02 10:33:00
+27e7bf59-28ca-4f81-83f8-fca843adecf1,b268dd36-8ab4-45b7-a1e5-8d4ff6eef202,JavaScriptError,CORS policy blocked,/reports,,2026-03-08 18:43:00
+63f8b927-b3e2-482d-b03a-718a7b100711,00ba029c-9d09-4f50-bc69-65238e0506ad,CORSError,404 Not Found,/market-data,,2026-03-23 04:33:00
+a86e3678-5a23-4fac-b573-eadc12c5d21f,fcc3b312-8189-481f-b447-7cd73c93aec4,TimeoutError,Request timeout after 30s,/login,,2026-03-21 22:09:00
+59d95ed6-2871-4d8b-886e-a2352c3a0d6b,9d4e3ca0-c6f7-4170-a7ca-6d4c71a09774,TimeoutError,CORS policy blocked,/login,,2026-03-20 03:57:00
+a61ac297-057f-4f08-8e72-4cbedfe327b1,de83659e-0088-47c7-b707-97f143af1d21,JavaScriptError,Unexpected token in JSON,/advisor/profile,,2026-03-07 09:47:00
+9dd57798-26e9-4492-aea9-bf713065c969,74adbda3-b40a-4bda-8ab1-7b266bee1c61,NetworkError,Request timeout after 30s,/clients,,2026-03-08 03:58:00
+3975cbf0-8e7a-4289-9125-ec0bb8700e61,e3fab79f-f0b5-4df5-80d9-3722a9396340,HTTPError,Failed to fetch,/portfolios,502,2026-03-23 10:13:00
+5b35f737-b629-40e7-9709-57ea3fb679d9,ac833022-8d1c-4cb9-8c4f-8ecb0d3ba873,JavaScriptError,Request timeout after 30s,/market-data,,2026-03-09 02:53:00
+90c8b025-3b4e-4df6-b2d3-211a08c4b064,36ef12b3-0722-45c5-b6fa-4c0802a31052,JavaScriptError,CORS policy blocked,/market-data,,2026-03-07 02:56:00

@@ -1,0 +1,60 @@
+{
+  "meetings": [
+    {
+      "date": "2023-08-07",
+      "meeting_type": "In-Person",
+      "subject": "Client Annual Review",
+      "notes": "Reviewed tax analysis reports comparing 2022 and 2023. Discussed QCD setup from Lisa's IRA - $150/month to church. Clients taking standard deduction, donating $1,800-$2,000 annually. Confirmed risk tolerance, no changes. Cautioned about continued market volatility. Clients in excellent financial shape, encouraged to consider more spending or gifting. They recently celebrated 40th anniversary. Planning more international trips after Mediterranean cruise in September. Lisa's sister still fighting cancer."
+    },
+    {
+      "date": "2022-07-18",
+      "meeting_type": "In-Person",
+      "subject": "Client Annual Review",
+      "notes": "Portfolio review and risk tolerance confirmation. Home value increased to over $500k from $350k purchase. Booked Mediterranean cruise for 2023. Discussed market volatility. Clients living comfortably on pensions and Social Security."
+    },
+    {
+      "date": "2021-06-17",
+      "meeting_type": "In-Person",
+      "subject": "Client Annual Review",
+      "notes": "Approved $40,000 distribution for Mediterranean cruise. Refinanced Florida home before rates increased. Lisa said it's the happiest she has ever been."
+    }
+  ],
+  "emails": [
+    {
+      "date": "2025-07-11",
+      "subject": "Annual Review Confirmation",
+      "body": "Left voicemail to confirm annual review scheduled for 7/14/25 at 1:00 PM. Please call back to confirm."
+    },
+    {
+      "date": "2023-09-15",
+      "subject": "Cruise Follow-up",
+      "body": "Hope you enjoyed the Mediterranean cruise! Let us know if you'd like to discuss any financial planning for future trips."
+    }
+  ],
+  "tasks": [
+    {
+      "due_date": "2025-07-11",
+      "subject": "Annual Review",
+      "summary": "Call to confirm annual review scheduled for 7/14/25 at 1:00 PM",
+      "status": "Overdue"
+    },
+    {
+      "due_date": "2023-08-15",
+      "subject": "QCD Setup",
+      "summary": "Set up QCD to church from Lisa's IRA - $150/month",
+      "status": "Completed"
+    },
+    {
+      "due_date": "2023-09-01",
+      "subject": "Mediterranean Cruise Distribution",
+      "summary": "Processed $40,000 distribution for Mediterranean cruise trip",
+      "status": "Completed"
+    },
+    {
+      "due_date": "2024-01-15",
+      "subject": "Annual Portfolio Rebalance",
+      "summary": "Rebalanced portfolio to target allocation after Q4 market movements",
+      "status": "Completed"
+    }
+  ]
+}

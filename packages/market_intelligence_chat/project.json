@@ -1,0 +1,120 @@
+{
+  "name": "wealth_management_portal.market_intelligence_chat",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/market_intelligence_chat/wealth_management_portal_market_intelligence_chat",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "ports": [8083],
+    "components": [
+      {
+        "generator": "py#strands-agent",
+        "name": "chat-agent",
+        "port": 8083
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/market_intelligence_chat"
+      }
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/market_intelligence_chat/build"
+      ],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/market_intelligence_chat/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": [
+          "wealth_management_portal_market_intelligence_chat",
+          "tests"
+        ]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": [
+          "wealth_management_portal_market_intelligence_chat",
+          "tests"
+        ]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    },
+    "chat-agent-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run fastapi dev wealth_management_portal_market_intelligence_chat/chat_agent/main.py --port 8083"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    }
+  }
+}

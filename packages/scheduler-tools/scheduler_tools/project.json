@@ -1,0 +1,127 @@
+{
+  "name": "wealth_management_portal.scheduler_tools",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/scheduler-tools/scheduler_tools/wealth_management_portal_scheduler_tools",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "components": [
+      {
+        "generator": "py#lambda-function",
+        "name": "get-client-list"
+      },
+      {
+        "generator": "py#lambda-function",
+        "name": "generate-report"
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/scheduler-tools/scheduler_tools"
+      }
+    },
+    "bundle": {
+      "dependsOn": ["bundle-x86"]
+    },
+    "bundle-x86": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/scheduler-tools/scheduler_tools/bundle-x86"
+      ],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/scheduler-tools/scheduler_tools --package wealth_management_portal.scheduler_tools -o dist/packages/scheduler-tools/scheduler_tools/bundle-x86/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform x86_64-manylinux_2_28 --target dist/packages/scheduler-tools/scheduler_tools/bundle-x86 -r dist/packages/scheduler-tools/scheduler_tools/bundle-x86/requirements.txt"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/scheduler-tools/scheduler_tools/build"
+      ],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/scheduler-tools/scheduler_tools/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": ["wealth_management_portal_scheduler_tools", "tests"]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": [
+          "wealth_management_portal_scheduler_tools",
+          "tests"
+        ]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    }
+  }
+}

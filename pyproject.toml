@@ -1,0 +1,132 @@
+[project]
+name = "nx-workspace"
+version = "1.0.0"
+dependencies = [
+  "wealth_management_portal.common_auth",
+  "wealth_management_portal.api",
+  "wealth_management_portal.client_search",
+  "wealth_management_portal.common_market_events",
+  "wealth_management_portal.email_sender_mcp",
+  "wealth_management_portal.graph_search_api",
+  "wealth_management_portal.graph_search_engine",
+  "wealth_management_portal.intelligence_api",
+  "wealth_management_portal.market_events_coordinator",
+  "wealth_management_portal.market_intelligence_chat",
+  "wealth_management_portal.neptune_analytics_core",
+  "wealth_management_portal.neptune_analytics_server",
+  "wealth_management_portal.portfolio_data_access",
+  "wealth_management_portal.portfolio_data_server",
+  "wealth_management_portal.redshift_data_access",
+  "wealth_management_portal.report",
+  "wealth_management_portal.scheduler_executor",
+  "wealth_management_portal.scheduler_mcp",
+  "wealth_management_portal.scheduler_tools",
+  "wealth_management_portal.web_crawler"
+]
+
+[tool.uv.workspace]
+members = [
+  "packages/common_auth",
+  "packages/api",
+  "packages/client_search",
+  "packages/common_market_events/common_market_events",
+  "packages/graph_search_api",
+  "packages/graph_search_engine",
+  "packages/intelligence_api",
+  "packages/market_events_coordinator",
+  "packages/market_intelligence_chat",
+  "packages/neptune_analytics_core",
+  "packages/neptune_analytics_server",
+  "packages/portfolio_data_access",
+  "packages/portfolio_data_server",
+  "packages/redshift_data_access",
+  "packages/report",
+  "packages/scheduler_mcp",
+  "packages/scheduler-tools/scheduler_tools",
+  "packages/web_crawler",
+  "packages/email_sender_mcp",
+  "packages/scheduler_executor"
+]
+
+[tool.uv.sources."wealth_management_portal.common_auth"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.api"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.client_search"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.common_market_events"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.email_sender_mcp"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.graph_search_api"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.graph_search_engine"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.intelligence_api"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.market_events_coordinator"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.market_intelligence_chat"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.neptune_analytics_core"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.neptune_analytics_server"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.portfolio_data_access"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.portfolio_data_server"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.redshift_data_access"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.report"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.scheduler_executor"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.scheduler_mcp"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.scheduler_tools"]
+workspace = true
+
+[tool.uv.sources."wealth_management_portal.web_crawler"]
+workspace = true
+
+[dependency-groups]
+dev = [
+  "black>=26.1.0",
+  "ruff>=0.8.2",
+  "autopep8>=2.3.1",
+  "pytest>=8.3.4",
+  "pytest-sugar>=1.0.0",
+  "pytest-cov>=6.0.0",
+  "pytest-html>=4.1.1",
+  "pytest-asyncio>=0.21.0",
+  "sqlalchemy>=1.4,<2.0"
+]
+
+# Formatter and linter configuration — pinned to prevent drift across environments
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.black]
+line-length = 120

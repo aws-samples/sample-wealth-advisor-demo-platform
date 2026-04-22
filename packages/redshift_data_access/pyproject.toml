@@ -1,0 +1,24 @@
+[tool.hatch.build.targets.wheel]
+packages = [ "wealth_management_portal_redshift_data_access" ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.uv.sources]
+wealth-management-portal-portfolio-data-access = { workspace = true }
+
+[project]
+name = "wealth_management_portal.redshift_data_access"
+version = "1.0.0"
+description = "MCP server exposing execute_sql for Redshift queries."
+requires-python = ">=3.12"
+readme = "README.md"
+dependencies = [
+  "mcp==1.26.0",
+  "boto3==1.42.44",
+  "wealth-management-portal-portfolio-data-access",
+]
+
+[build-system]
+requires = [ "hatchling" ]
+build-backend = "hatchling.build"

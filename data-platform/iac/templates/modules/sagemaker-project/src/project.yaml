@@ -1,0 +1,106 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation to set up a custom CloudFormation resource with Lambda,
+  and then call it in the same template.
+Parameters:
+  LambdaRuntime:
+    Description: The Lambda runtime to use
+    Type: String
+    AllowedValues:
+      - nodejs
+      - nodejs4.3
+      - nodejs6.10
+      - nodejs8.10
+      - java8
+      - python2.7
+      - python3.10
+      - dotnetcore1.0
+      - dotnetcore2.0
+      - dotnetcore2.1
+      - nodejs4.3-edge
+      - go1.x
+  HandlerName:
+    Description: The name of the lambda handler
+    Type: String
+    Default: datazone-project.handler
+  LambdaLayerName:
+    Description: The name of the lambda layer
+    Type: String
+  S3Bucket:
+    Description: The name of the bucket that contains your packaged source
+    Type: String
+  S3Key:
+    Description: The name of the ZIP package
+    Type: String
+    Default: datazone-project.zip
+  DomainId:
+    Description: Doamin Id
+    Type: String
+  DomainUnitId:
+    Description: Doamin Unit Id
+    Type: String
+  ProjectName:
+    Description: Datazone Project Name
+    Type: String
+  ProjectDescription:
+    Description: Datazone Project Description 
+    Type: String
+  ProjectProfileId:
+    Description: Datazone Project Profile Id
+    Type: String
+  ProjectOwner:
+    Description: Datazone Project Profile Owner
+    Type: CommaDelimitedList
+  LambdaExecutionRole:
+    Description: Role for Lambda
+    Type: String
+  GlueDB:
+    Description: GlueDB name
+    Type: String
+    Default: glue_db
+  WorkgroupName:
+    Description: WorkgroupName name
+    Type: String
+    Default: workgroup
+  UserType:
+    Description: User Type
+    Type: String      
+
+Resources:
+  CustomFunction:
+    Type: AWS::Lambda::Function
+    #checkov:skip=CKV_AWS_115: Ensure that AWS Lambda function is configured for function-level concurrent execution limit: Skipping for simplicity
+    #checkov:skip=CKV_AWS_116: Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ): Skipping for simplicity
+    #checkov:skip=CKV_AWS_117: Ensure that AWS Lambda function is configured inside a VPC: It is not configured inside VPC as it is not using VPC resources.
+    #checkov:skip=CKV_AWS_124: Ensure that CloudFormation stacks are sending event notifications to an SNS topic: Skipping for simplicity
+    Properties:
+      Code:
+        S3Bucket: !Ref 'S3Bucket'
+        S3Key: !Ref 'S3Key'
+      Handler: !Ref 'HandlerName'
+      Role: !Ref 'LambdaExecutionRole'
+      Runtime: !Ref 'LambdaRuntime'
+      Layers: [!Ref 'LambdaLayerName']
+      Timeout: '30'
+      MemorySize: 256
+  CustomResource:
+    Type: Custom::CustomResource
+    Properties:
+      ServiceToken: !GetAtt 'CustomFunction.Arn'
+      ServiceTimeout: 300
+      domainId: !Ref 'DomainId'
+      domainUnitId: !Ref 'DomainUnitId'
+      name: !Ref 'ProjectName'
+      description: !Ref 'ProjectDescription'
+      owner: !Ref 'ProjectOwner'
+      role: !Ref 'LambdaExecutionRole'
+      projectProfileId: !Ref 'ProjectProfileId'
+      glueDB: !Ref 'GlueDB'
+      workgroupName: !Ref 'WorkgroupName'
+      userType: !Ref 'UserType'
+Outputs:
+  ProjectId:
+    Description: The message from the custom resource.
+    Value: !GetAtt 'CustomResource.ProjectId'

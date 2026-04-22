@@ -1,0 +1,32 @@
+{
+  "as_of_date": "2025-01-15",
+  "benchmark_returns": [
+    {"name": "S&P 500", "ytd": 0.023, "one_year": 0.112},
+    {"name": "Bloomberg US Agg Bond", "ytd": 0.005, "one_year": 0.032},
+    {"name": "MSCI EAFE", "ytd": 0.018, "one_year": 0.078}
+  ],
+  "sector_performance": [
+    {"sector": "Technology", "ytd": 0.035},
+    {"sector": "Healthcare", "ytd": 0.012},
+    {"sector": "Financials", "ytd": 0.028},
+    {"sector": "Real Estate", "ytd": -0.008},
+    {"sector": "Energy", "ytd": 0.015}
+  ],
+  "notable_events": [
+    {
+      "date": "2024-10-15",
+      "description": "Fed rate cut of 50bps triggered bond rally and real estate recovery",
+      "impact": "Positive"
+    },
+    {
+      "date": "2024-11-05",
+      "description": "US election results drove equity volatility; tech sector sold off 5% before recovering",
+      "impact": "Neutral"
+    },
+    {
+      "date": "2025-01-10",
+      "description": "Strong jobs report raised concerns about further rate cuts being delayed",
+      "impact": "Negative"
+    }
+  ]
+}

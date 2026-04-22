@@ -1,0 +1,104 @@
+# Graph Knowledge Base Configuration
+# ── Domain-Specific UI Config ────────────────────────────────────────────────
+
+node_types:
+  Advisor:
+    color: "#4A90D9"
+    icon: "\uf508"        # fa-user-tie
+    size: 75
+    primary: true
+  Client:
+    color: "#7CB342"
+    icon: "\uf007"        # fa-user
+    size: 40
+    primary: true
+  Company:
+    color: "#FF9800"
+    icon: "\uf1ad"        # fa-building
+    size: 40
+    primary: false
+  City:
+    color: "#9C27B0"
+    icon: "\uf015"        # fa-home
+    size: 40
+    primary: false
+  Stock:
+    color: "#F44336"
+    icon: "\uf201"        # fa-chart-line
+    size: 40
+    primary: false
+  RiskProfile:
+    color: "#009688"
+    icon: "\uf3ed"        # fa-shield-alt
+    size: 40
+    primary: false
+
+# Which columns to show in the detail table per node type
+column_strategy:
+  Client:
+    - name
+    - portfolio_value
+    - net_worth
+    - job_title
+    - return_ytd
+    - holdings
+    - connections_summary
+  Advisor:
+    - name
+    - clients
+    - connections_summary
+  Company:
+    - name
+    - connections_summary
+  Stock:
+    - name
+    - connections_summary
+  City:
+    - name
+    - state
+    - connections_summary
+  RiskProfile:
+    - level
+    - connections_summary
+
+# Virtual columns derived from related_nodes
+virtual_columns:
+  holdings:
+    source: related_nodes
+    filter_type: Stock
+    filter_rel: HOLDS
+  clients:
+    source: related_nodes
+    filter_type: Client
+    filter_rel: MANAGES
+
+# Property names tried in order to derive a display label for a node.
+# Use "+" to concatenate (e.g., "first_name+last_name").
+label_properties:
+  - "first_name+last_name"
+  - name
+  - ticker
+  - level
+  - label
+
+# Neptune algorithm metric columns always shown in the detail table
+metric_columns:
+  - degree_centrality
+  - jaccard_avg
+  - overlap_avg
+  - common_neighbors_avg
+
+# Properties to always hide from the detail table
+hidden_columns:
+  - type
+  - first_name
+  - last_name
+
+# Example queries shown in the sidebar (format: "Category: query text")
+examples:
+  - "Cross-sell / Upsell: Which clients are most similar to Steven Reed based on invested stocks"
+  - "Cross-sell / Upsell: Find stocks that frequently appear together in portfolios?"
+  - "Client Segmentation: Which clients cluster together by investment style based on shared stock holdings?"
+  - "Client Segmentation: Segment clients interested in the healthcare sector"
+  - "Cross-sell / Upsell: Recommend stocks to Brian Green based on what similar investors hold that he doesn't"
+  - "Risk Exposure: Which clients are most exposed if the defense sector drops"

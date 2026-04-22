@@ -1,0 +1,144 @@
+{
+  "name": "wealth_management_portal.client_search",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/client_search/wealth_management_portal_client_search",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "ports": [8085],
+    "components": [
+      {
+        "generator": "py#strands-agent",
+        "name": "client-search-agent",
+        "port": 8085
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle", "docker"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/client_search"
+      }
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": ["{workspaceRoot}/dist/packages/client_search/build"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/client_search/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": ["wealth_management_portal_client_search", "tests"]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": ["wealth_management_portal_client_search", "tests"]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    },
+    "bundle-arm": {
+      "cache": true,
+      "inputs": ["default", { "runtime": "node -e \"console.log(process.platform)\"" }],
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/client_search/bundle-arm"],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/client_search --package wealth_management_portal.client_search -o dist/packages/client_search/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/client_search/bundle-arm -r dist/packages/client_search/bundle-arm/requirements.txt",
+          "find dist/packages/client_search/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle": {
+      "dependsOn": ["bundle-arm"]
+    },
+    "client-search-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-client-search-agent:latest packages/client_search/wealth_management_portal_client_search/client_search_agent --build-context workspace=dist/packages/client_search"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "docker": {
+      "dependsOn": ["client-search-agent-docker"]
+    },
+    "client-search-agent-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run fastapi dev wealth_management_portal_client_search/client_search_agent/main.py --port 8085"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    }
+  }
+}

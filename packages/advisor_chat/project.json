@@ -1,0 +1,225 @@
+{
+  "name": "wealth_management_portal.advisor_chat",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/advisor_chat/wealth_management_portal_advisor_chat",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "ports": [9000, 9001, 9002, 9004, 9005],
+    "components": [
+      {
+        "generator": "py#strands-agent",
+        "name": "routing-agent",
+        "port": 9000
+      },
+      {
+        "generator": "py#strands-agent",
+        "name": "database-agent",
+        "port": 9001
+      },
+      {
+        "generator": "py#strands-agent",
+        "name": "stock-data-agent",
+        "port": 9002
+      },
+      {
+        "generator": "py#strands-agent",
+        "name": "web-search-agent",
+        "port": 9004
+      },
+      {
+        "generator": "py#strands-agent",
+        "name": "voice-gateway",
+        "port": 9005
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": ["{workspaceRoot}/dist/packages/advisor_chat/build"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/advisor_chat/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": ["wealth_management_portal_advisor_chat", "tests"]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": ["wealth_management_portal_advisor_chat", "tests"]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "supervisor-agent-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "PORT=9001 uv run python -m wealth_management_portal_advisor_chat.database_agent.main",
+          "PORT=9002 uv run python -m wealth_management_portal_advisor_chat.stock_data_agent.main",
+          "PORT=9004 uv run python -m wealth_management_portal_advisor_chat.web_search_agent.main",
+          "PORT=9005 uv run python -m wealth_management_portal_advisor_chat.voice_gateway.main",
+          "sleep 3 && PORT=9000 uv run python -m wealth_management_portal_advisor_chat.routing_agent.main"
+        ],
+        "parallel": true,
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    },
+    "bundle-arm": {
+      "cache": true,
+      "inputs": [
+        "default",
+        {
+          "runtime": "node -e \"console.log(process.platform)\""
+        }
+      ],
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/advisor_chat/bundle-arm"],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/advisor_chat --package wealth_management_portal.advisor_chat -o dist/packages/advisor_chat/bundle-arm/requirements.txt",
+          "python3 -c \"p='dist/packages/advisor_chat/bundle-arm/requirements.txt'; lines=open(p).readlines(); open(p,'w').writelines(l for l in lines if l.strip() not in ('.', '../common_auth'))\"",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/advisor_chat/bundle-arm -r dist/packages/advisor_chat/bundle-arm/requirements.txt",
+          "python3 -c \"import shutil; shutil.copytree('packages/advisor_chat/wealth_management_portal_advisor_chat', 'dist/packages/advisor_chat/bundle-arm/wealth_management_portal_advisor_chat', dirs_exist_ok=True)\"",
+          "python3 -c \"import shutil; shutil.copytree('packages/common_auth/common_auth', 'dist/packages/advisor_chat/bundle-arm/common_auth', dirs_exist_ok=True)\"",
+          "find dist/packages/advisor_chat/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle": {
+      "dependsOn": ["bundle-arm"]
+    },
+    "database-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-database-agent:latest packages/advisor_chat/wealth_management_portal_advisor_chat/database_agent --build-context workspace=dist/packages/advisor_chat"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "stock-data-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-stock-data-agent:latest packages/advisor_chat/wealth_management_portal_advisor_chat/stock_data_agent --build-context workspace=dist/packages/advisor_chat"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "routing-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-routing-agent:latest packages/advisor_chat/wealth_management_portal_advisor_chat/routing_agent --build-context workspace=dist/packages/advisor_chat"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "web-search-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-web-search-agent:latest packages/advisor_chat/wealth_management_portal_advisor_chat/web_search_agent --build-context workspace=dist/packages/advisor_chat"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "docker": {
+      "dependsOn": [
+        "database-agent-docker",
+        "stock-data-agent-docker",
+        "routing-agent-docker",
+        "web-search-agent-docker",
+        "voice-gateway-docker"
+      ]
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle", "docker"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/advisor_chat"
+      }
+    },
+    "voice-gateway-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-voice-gateway:latest packages/advisor_chat/wealth_management_portal_advisor_chat/voice_gateway --build-context workspace=dist/packages/advisor_chat"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "voice-gateway-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run fastapi dev wealth_management_portal_advisor_chat/voice_gateway/main.py --port 9005"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    }
+  }
+}

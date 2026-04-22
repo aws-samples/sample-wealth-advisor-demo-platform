@@ -1,0 +1,87 @@
+[
+  {
+    "name": "create_schedule",
+    "description": "Create a recurring schedule. The routing agent parses the user's natural language into structured params before calling this tool.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "cron_expression": {
+          "type": "string",
+          "description": "EventBridge cron or rate expression, e.g. cron(0 16 * * ? *) or rate(6 hours)"
+        },
+        "task_message": {
+          "type": "string",
+          "description": "The message to replay through the routing agent on each scheduled run"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable schedule name"
+        },
+        "user_id": { "type": "string", "description": "Cognito user ID" },
+        "email": {
+          "type": "string",
+          "description": "Email address for result delivery"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone (default UTC)"
+        }
+      },
+      "required": [
+        "cron_expression",
+        "task_message",
+        "name",
+        "user_id",
+        "email"
+      ]
+    }
+  },
+  {
+    "name": "list_schedules",
+    "description": "List all schedules for a user.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Cognito user ID" }
+      },
+      "required": ["user_id"]
+    }
+  },
+  {
+    "name": "delete_schedule",
+    "description": "Delete a schedule and its EventBridge schedule.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "schedule_id": {
+          "type": "string",
+          "description": "Schedule ID to delete"
+        },
+        "user_id": {
+          "type": "string",
+          "description": "Cognito user ID (for authorization)"
+        }
+      },
+      "required": ["schedule_id", "user_id"]
+    }
+  },
+  {
+    "name": "toggle_schedule",
+    "description": "Enable or disable a schedule.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "schedule_id": { "type": "string", "description": "Schedule ID" },
+        "user_id": {
+          "type": "string",
+          "description": "Cognito user ID (for authorization)"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "True to enable, false to disable"
+        }
+      },
+      "required": ["schedule_id", "user_id", "enabled"]
+    }
+  }
+]

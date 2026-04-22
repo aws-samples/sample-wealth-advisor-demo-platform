@@ -1,0 +1,1013 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+SHELL := /usr/bin/env bash -euo pipefail -c
+
+APP_NAME = ###APP_NAME###
+ENV_NAME = ###ENV_NAME###
+AWS_ACCOUNT_ID = ###AWS_ACCOUNT_ID###
+AWS_DEFAULT_REGION = ###AWS_PRIMARY_REGION###
+AWS_PRIMARY_REGION = ###AWS_PRIMARY_REGION###
+AWS_SECONDARY_REGION = ###AWS_SECONDARY_REGION###
+TF_S3_BACKEND_NAME = ###APP_NAME###-###ENV_NAME###-tf-back-end
+
+export AWS_DEFAULT_REGION
+
+#################### Global Constants ####################
+
+ADMIN_ROLE = ###ADMIN_ROLE###
+
+#################### Init Wizard ####################
+
+init:
+	./init.sh
+
+#################### Terraform Backend ####################
+
+deploy-tf-backend-cf-stack:
+	aws cloudformation deploy \
+	--template-file ./iac/bootstrap/tf-backend-cf-stack.yml \
+	--stack-name $(TF_S3_BACKEND_NAME) \
+	--tags App=$(APP_NAME) Env=$(ENV_NAME) \
+	--region $(AWS_PRIMARY_REGION) \
+	--capabilities CAPABILITY_NAMED_IAM \
+	--parameter-overrides file://iac/bootstrap/parameters.json
+	aws cloudformation deploy \
+	--template-file ./iac/bootstrap/tf-backend-cf-stack.yml \
+	--stack-name $(TF_S3_BACKEND_NAME) \
+	--tags App=$(APP_NAME) Env=$(ENV_NAME) \
+	--region $(AWS_SECONDARY_REGION) \
+	--capabilities CAPABILITY_NAMED_IAM \
+	--parameter-overrides file://iac/bootstrap/parameters-secondary.json
+	aws cloudformation deploy \
+	--template-file ./iac/bootstrap/tf-backend-cf-stack.yml \
+	--stack-name $(TF_S3_BACKEND_NAME) \
+	--tags App=$(APP_NAME) Env=$(ENV_NAME) \
+	--region $(AWS_PRIMARY_REGION) \
+	--capabilities CAPABILITY_NAMED_IAM \
+	--parameter-overrides file://iac/bootstrap/parameters-crr.json
+
+destroy-tf-backend-cf-stack:
+	@./utility-scripts/empty-s3.sh empty_s3_bucket_by_name "$(APP_NAME)-$(ENV_NAME)-tf-back-end-$(AWS_ACCOUNT_ID)-$(AWS_PRIMARY_REGION)"
+	aws cloudformation delete-stack \
+	--stack-name $(TF_S3_BACKEND_NAME)
+	aws cloudformation wait stack-delete-complete \
+	--stack-name $(TF_S3_BACKEND_NAME) \
+	--region $(AWS_PRIMARY_REGION)
+	@./utility-scripts/empty-s3.sh empty_s3_bucket_by_name "$(APP_NAME)-$(ENV_NAME)-tf-back-end-$(AWS_ACCOUNT_ID)-$(AWS_SECONDARY_REGION)"
+	aws cloudformation delete-stack \
+	--stack-name $(TF_S3_BACKEND_NAME)
+	aws cloudformation wait stack-delete-complete \
+	--stack-name $(TF_S3_BACKEND_NAME) \
+	--region $(AWS_SECONDARY_REGION)
+
+#################### Terraform Cache Clean-up ####################
+
+clean-tf-cache:
+	@echo "Removing Terraform caches in iac/roots/."
+	find . -type d -name ".terraform" -exec rm -rf {} +
+	@echo "Complete"
+	
+#################### Composite Targets ####################
+
+deploy-foundation: deploy-kms-keys deploy-iam-roles deploy-buckets deploy-vpc
+
+# Domain must be created before datalake; projects must be created after datalake
+# so that Redshift auto-discovers the S3 Tables catalog.
+deploy-sagemaker-domain: deploy-domain-prereq deploy-domain
+
+deploy-sagemaker-projects: deploy-project-prereq deploy-producer-project wait-datazone-stacks extract-producer-info deploy-consumer-project wait-datazone-stacks-consumer extract-consumer-info deploy-project-config
+
+deploy-datalake-all: deploy-glue-jars set-up-lake-formation-admin-role create-glue-s3tables-catalog register-s3table-catalog-with-lake-formation grant-default-database-permissions drop-default-database deploy-financial-advisor-s3-glue-s3 start-financial-advisor-glue-jobs grant-s3table-lakeformation-permissions
+
+deploy-redshift-ddl: create-redshift-tables load-redshift-tables create-redshift-views-s3tables create-quicksight-tables
+
+grant-redshift-admin-access:
+	@echo "Granting Redshift admin access"
+	$(eval REDSHIFT_ADMIN_SECRET := $(shell aws secretsmanager list-secrets \
+		--filter Key=name,Values=redshift!redshift-serverless-namespace \
+		--region $(AWS_PRIMARY_REGION) \
+		--query 'SecretList[?contains(Name, `admin`)].ARN | [0]' \
+		--output text))
+	@echo "Using secret: $(REDSHIFT_ADMIN_SECRET)"
+	@echo "Using workgroup: $(REDSHIFT_WORKGROUP)"
+	@run_sql() { \
+		local sql="$$1"; \
+		local id=$$(aws redshift-data execute-statement \
+			--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+			--secret-arn "$(REDSHIFT_ADMIN_SECRET)" \
+			--database "dev" \
+			--sql "$$sql" \
+			--region "$(AWS_PRIMARY_REGION)" \
+			--query Id --output text); \
+		echo "  Statement ID: $$id"; \
+		while true; do \
+			status=$$(aws redshift-data describe-statement --id "$$id" \
+				--region "$(AWS_PRIMARY_REGION)" \
+				--query Status --output text); \
+			[ "$$status" = "FINISHED" ] && break; \
+			[ "$$status" = "FAILED" ] && { \
+				aws redshift-data describe-statement --id "$$id" \
+					--region "$(AWS_PRIMARY_REGION)" \
+					--query Error --output text; \
+				return 1; \
+			}; \
+			sleep 2; \
+		done; \
+	}; \
+	echo "Creating IAM role user..."; \
+	run_sql 'CREATE USER "IAMR:$(ADMIN_ROLE)" PASSWORD DISABLE' || true; \
+	echo "Creating IAM datapipeline user..."; \
+	run_sql 'CREATE USER "IAM:datapipeline" PASSWORD DISABLE' || true; \
+	echo "Granting access to IAM:datapipeline..."; \
+	run_sql 'GRANT USAGE ON SCHEMA public TO "IAM:datapipeline"'; \
+	run_sql 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "IAM:datapipeline"'; \
+	run_sql 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO "IAM:datapipeline"'; \
+	echo "Granting access to IAMR:$(ADMIN_ROLE)..."; \
+	run_sql 'GRANT USAGE ON SCHEMA public TO "IAMR:$(ADMIN_ROLE)"'; \
+	run_sql 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO "IAMR:$(ADMIN_ROLE)"'; \
+	run_sql 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO "IAMR:$(ADMIN_ROLE)"'
+	@echo "Finished granting Redshift admin access"
+
+#################### KMS Keys ####################
+
+deploy-kms-keys:
+	@echo "Deploying KMS Keys"
+	(cd iac/roots/foundation/kms-keys; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying KMS Keys"
+
+destroy-kms-keys:
+	@echo "Destroying KMS Keys"
+	(cd iac/roots/foundation/kms-keys; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying KMS Keys"
+
+#################### IAM Roles ####################
+
+deploy-iam-roles:
+	@echo "Deploying IAM Roles"
+	(cd iac/roots/foundation/iam-roles; \
+		terraform init; \
+		POLICY_ARN=$$(aws iam list-policies --query "Policies[?PolicyName=='quicksight-access-service-policy'].Arn" --output text --region $(AWS_PRIMARY_REGION) 2>/dev/null); \
+		if [ -n "$$POLICY_ARN" ] && ! terraform state show aws_iam_policy.quicksight_custom_service_policy >/dev/null 2>&1; then \
+			echo "Importing existing quicksight-access-service-policy into Terraform state..."; \
+			terraform import -var CURRENT_ROLE="$(ADMIN_ROLE)" aws_iam_policy.quicksight_custom_service_policy "$$POLICY_ARN"; \
+		fi; \
+		terraform apply -var CURRENT_ROLE="$(ADMIN_ROLE)" -auto-approve;)
+		@echo "Finished Deploying IAM Roles"
+
+destroy-iam-roles:
+	@echo "Destroying IAM Roles"
+	(cd iac/roots/foundation/iam-roles; \
+		terraform init; \
+		terraform destroy -var CURRENT_ROLE="$(ADMIN_ROLE)" -auto-approve;)
+		@echo "Finished Destroying IAM Roles"
+
+#################### Buckets ####################
+
+deploy-buckets:
+	@echo "Deploying Buckets"
+	(cd iac/roots/foundation/buckets; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Buckets"
+
+destroy-buckets:
+	@echo "Destroying Buckets"
+	(cd iac/roots/foundation/buckets; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Data Bucket"
+
+#################### VPC ############################
+
+deploy-vpc:
+	@echo "Deploying VPC"
+	(cd iac/roots/foundation/vpc; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying VPC"
+
+destroy-vpc:
+	@echo "Destorying VPC"
+	(cd iac/roots/foundation/vpc; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying VPC"
+
+#################### Serverless MSK ############################
+
+build-msk-data-generator-lambda-layer-zip:
+	@echo "Building Lambda Layer"
+	cd iac/roots/foundation/msk-serverless/data-generator; \
+	rm -f dependencies_layer.zip; \
+	mkdir -p python; \
+	pip install -r requirements.txt --platform manylinux2014_x86_64 --python-version 3.12 --only-binary=:all: --target ./python; \
+	zip -r dependencies_layer.zip python/; \
+	rm -rf python/
+	@echo "Finished Building Lambda Layer"
+
+deploy-msk:
+	@echo "Deploying MSK cluster"
+	(cd iac/roots/foundation/msk-serverless; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying MSK Cluster"
+
+destroy-msk:
+	@echo "Destorying MSK Cluster"
+	(cd iac/roots/foundation/msk-serverless; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying MSK Cluster"
+
+#################### Identity Center ####################
+
+deploy-idc-org:
+	@echo "Deploying Organization-Level Identity Center"
+	(cd iac/roots/idc/idc-org; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Organization-Level Identity Center"
+
+destroy-idc-org:
+	@echo "Destroying Organization-Level Identity Center"
+	(cd iac/roots/idc/idc-org; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Organization-Level Identity Center"
+
+deploy-idc-acc:
+	@echo "Deploying Account-Level Identity Center"
+	(cd iac/roots/idc/idc-acc; \
+		terraform init; \
+		terraform apply -var ADMIN_ROLE="$(ADMIN_ROLE)" -target=null_resource.create_idc_instance -auto-approve; \
+		terraform apply -var ADMIN_ROLE="$(ADMIN_ROLE)" -auto-approve;)
+		@echo "Finished Deploying Account-Level Identity Center"
+
+destroy-idc-acc:
+	@echo "Destroying Account-Level Identity Center"
+	(cd iac/roots/idc/idc-acc; \
+		terraform init; \
+		terraform destroy -var ADMIN_ROLE="$(ADMIN_ROLE)" -auto-approve;)
+		@echo "Finished Destroying Account-Level Identity Center"
+
+disable-mfa:
+	@echo "Disable MFA of IAM Identity Center"
+	@echo "Building Lambda layer for MFA disabler"
+	chmod +x iac/roots/idc/disable-mfa/build_layer.sh
+	iac/roots/idc/disable-mfa/build_layer.sh
+	@echo "Finished building Lambda layer"
+	(cd iac/roots/idc/disable-mfa; \
+		terraform init; \
+		terraform apply -target=aws_s3_bucket.lambda_bucket -target=aws_s3_bucket_policy.lambda_bucket_policy -auto-approve; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Identity Center"
+
+clean-mfa-components:
+	@echo "Destroying Bucket, Layer, and Roles creation of MFA Disable"
+	(cd iac/roots/idc/disable-mfa; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished cleanup"
+
+deploy-dyo-idc:
+	@echo "Creating SSM parameter with IAM Identity Center user mappings"
+	@if [ -z "$(APP_NAME)" ] || [ -z "$(ENV_NAME)" ]; then \
+		echo "Error: APP and ENV variables are required. Please set them using APP=<app-name> ENV=<environment>"; \
+		exit 1; \
+	fi; \
+	IDENTITY_STORE_ID=$$(aws sso-admin list-instances --query 'Instances[0].IdentityStoreId' --output text); \
+	KMS_KEY_ID=$$(aws kms describe-key --key-id alias/aws/ssm --query 'KeyMetadata.KeyId' --output text); \
+	CALLER_EMAIL=$$(aws sts get-caller-identity --query 'Arn' --output text | grep -o '[^/]*$$'); \
+	JSON_STRUCTURE="{\"$$IDENTITY_STORE_ID\":{"; \
+	for GROUP in "Admin" "Domain Owner" "Project Contributor" "Project Owner"; do \
+		echo "Processing $$GROUP..."; \
+		GROUP_ID=$$(aws identitystore list-groups \
+			--identity-store-id $$IDENTITY_STORE_ID \
+			--filters "AttributePath=DisplayName,AttributeValue=$$GROUP" \
+			--query 'Groups[0].GroupId' \
+			--output text); \
+		if [ "$$GROUP_ID" != "None" ]; then \
+			MEMBERS=$$(aws identitystore list-group-memberships \
+				--identity-store-id $$IDENTITY_STORE_ID \
+				--group-id $$GROUP_ID); \
+			MEMBER_COUNT=$$(echo $$MEMBERS | jq '.GroupMemberships | length'); \
+			if [ "$$MEMBER_COUNT" -gt 0 ]; then \
+				USER_EMAILS=$$(echo $$MEMBERS | jq -r '.GroupMemberships[].MemberId.UserId // .GroupMemberships[].MemberId' | while read MEMBER_ID; do \
+					if [[ $$MEMBER_ID =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$$ ]]; then \
+						aws identitystore describe-user \
+							--identity-store-id $$IDENTITY_STORE_ID \
+							--user-id "$$MEMBER_ID" \
+							--query 'UserName' \
+							--output text; \
+					else \
+						echo "Invalid user ID format: $$MEMBER_ID" >&2; \
+					fi; \
+				done | grep -v None | awk -v ORS=, '{print "\""$$0"\""}' | sed 's/,$$/\n/');\
+				if [ ! -z "$$USER_EMAILS" ]; then \
+					JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[$$USER_EMAILS],"; \
+				elif [ "$$GROUP" = "Domain Owner" ] || [ "$$GROUP" = "Project Owner" ] || [ "$$GROUP" = "Admin" ]; then \
+					echo "Group $$GROUP exists but has no valid users. Adding caller ($$CALLER_EMAIL) as $$GROUP"; \
+					JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[\"$$CALLER_EMAIL\"],"; \
+				else \
+					JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[],"; \
+				fi; \
+			else \
+				if [ "$$GROUP" = "Domain Owner" ] || [ "$$GROUP" = "Project Owner" ] || [ "$$GROUP" = "Admin" ]; then \
+					echo "Group $$GROUP exists but has no members. Adding caller ($$CALLER_EMAIL) as $$GROUP"; \
+					JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[\"$$CALLER_EMAIL\"],"; \
+				else \
+					JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[],"; \
+				fi; \
+			fi; \
+		else \
+			echo "Warning: Group '$$GROUP' not found in Identity Center"; \
+			if [ "$$GROUP" = "Domain Owner" ] || [ "$$GROUP" = "Project Owner" ] || [ "$$GROUP" = "Admin" ]; then \
+				echo "Adding caller ($$CALLER_EMAIL) as $$GROUP"; \
+				JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[\"$$CALLER_EMAIL\"],"; \
+			else \
+				JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[],"; \
+			fi; \
+		fi; \
+	done; \
+	JSON_STRUCTURE=$${JSON_STRUCTURE%,}; \
+	JSON_STRUCTURE="$$JSON_STRUCTURE}}"; \
+	aws ssm put-parameter \
+		--name "/$(APP_NAME)/$(ENV_NAME)/identity-center/users" \
+		--description "Map of IAM Identity Center users and their group associations" \
+		--type "SecureString" \
+		--value "$$JSON_STRUCTURE" \
+		--key-id "$$KMS_KEY_ID" \
+		--tags "Key=Environment,Value=$(ENV_NAME)" "Key=Application,Value=$(APP_NAME)"
+	echo "SSM parameter created/updated successfully"; \
+
+deploy-byo-idc:
+	@if [ -z "$(APP_NAME)" ] || [ -z "$(ENV_NAME)" ]; then \
+		echo "Error: APP and ENV variables are required. Please set them using APP=<app-name> ENV=<environment>"; \
+	fi; \
+	echo ""; \
+	echo "=== IAM Identity Center User Mapping ==="; \
+	echo ""; \
+	read -p "Enter Identity Store ID: " IDENTITY_STORE_ID; \
+	echo ""; \
+	echo "Note: You can separate multiple email addresses using either commas or spaces"; \
+	echo "Example: user1@example.com,user2@example.com  or  user1@example.com user2@example.com"; \
+	echo ""; \
+	KMS_KEY_ID=$$(aws kms describe-key --key-id alias/aws/ssm --query 'KeyMetadata.KeyId' --output text); \
+	JSON_STRUCTURE="{\"$$IDENTITY_STORE_ID\":{"; \
+	for GROUP in "Admin" "Domain Owner" "Project Contributor" "Project Owner"; do \
+		echo ""; \
+		echo "=== $$GROUP Configuration ==="; \
+		VALID_EMAILS=""; \
+		while true; do \
+			if [ "$$GROUP" = "Domain Owner" ] || [ "$$GROUP" = "Project Owner" ]; then \
+				echo "Enter email addresses for $$GROUP"; \
+				echo "(At least one valid email required)"; \
+			else \
+				echo "Enter email addresses for $$GROUP"; \
+				echo "(Press enter if none)"; \
+			fi; \
+			echo -n "> "; \
+			read EMAILS; \
+			if [ ! -z "$$EMAILS" ]; then \
+				EMAILS=$$(echo "$$EMAILS" | tr ',' ' '); \
+				VALID_EMAILS=""; \
+				for EMAIL in $$EMAILS; do \
+					if echo "$$EMAIL" | grep -qE '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$$'; then \
+						if [ -z "$$VALID_EMAILS" ]; then \
+							VALID_EMAILS="$$EMAIL"; \
+						else \
+							VALID_EMAILS="$$VALID_EMAILS $$EMAIL"; \
+						fi; \
+					else \
+						echo "⚠️  Warning: Invalid email format: $$EMAIL - skipping"; \
+					fi; \
+				done; \
+			fi; \
+			if [ "$$GROUP" = "Domain Owner" ] || [ "$$GROUP" = "Project Owner" ]; then \
+				if [ -z "$$VALID_EMAILS" ]; then \
+					echo "❌ Error: At least one valid email is required for $$GROUP. Please try again."; \
+					echo ""; \
+					continue; \
+				fi; \
+			fi; \
+			break; \
+		done; \
+		if [ ! -z "$$VALID_EMAILS" ]; then \
+			echo "✅ Valid emails accepted for $$GROUP"; \
+			echo ""; \
+			FORMATTED_EMAILS=$$(echo $$VALID_EMAILS | tr ' ' '\n' | awk -v ORS=, '{print "\""$$0"\""}' | sed 's/,$$/\n/'); \
+			JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[$$FORMATTED_EMAILS],"; \
+		else \
+			echo "ℹ️  No emails provided for $$GROUP"; \
+			echo ""; \
+			JSON_STRUCTURE="$$JSON_STRUCTURE\"$$GROUP\":[],"; \
+		fi; \
+	done; \
+	JSON_STRUCTURE=$${JSON_STRUCTURE%,}; \
+	JSON_STRUCTURE="$$JSON_STRUCTURE}}"; \
+	echo ""; \
+	echo "=== Review Configuration ==="; \
+	echo ""; \
+	echo "$$JSON_STRUCTURE" | jq .; \
+	echo ""; \
+	read -p "Do you want to proceed with creating/updating the SSM parameter? (y/n): " CONFIRM; \
+	if [ "$$CONFIRM" = "y" ]; then \
+		aws ssm put-parameter \
+			--name "/$(APP_NAME)/$(ENV_NAME)/identity-center/users" \
+			--description "Map of IAM Identity Center users and their group associations" \
+			--type "SecureString" \
+			--value "$$JSON_STRUCTURE" \
+			--key-id "$$KMS_KEY_ID" \
+			--tags "Key=Environment,Value=$(ENV_NAME)" "Key=Application,Value=$(APP_NAME)" && \
+		echo ""; \
+		echo "SSM parameter created/updated successfully"; \
+	else \
+		echo ""; \
+		echo "Operation cancelled"; \
+	fi
+
+#################### Sagemaker Domain ####################
+
+deploy-domain-prereq:
+	@echo "Deploying Pre-requisites for SageMaker Studio Domain"
+	(cd iac/roots/sagemaker/domain-prereq; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Pre-requisites for SageMaker Studio Domain"
+
+destroy-domain-prereq:
+	@echo "Destroying Pre-requisites for SageMaker Studio Domain"
+	(cd iac/roots/sagemaker/domain-prereq; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Pre-requisites for SageMaker Studio Domain"
+
+deploy-domain:
+	@echo "Deploying Sagemaker Studio Domain"
+	(cd iac/roots/sagemaker/domain; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Sagemaker Studio Domain"
+
+destroy-domain:
+	@echo "Destroying Sagemaker Studio Domain"
+	(cd iac/roots/sagemaker/domain; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Sagemaker Studio Domain"
+
+#################### Sagemaker Project ####################
+
+deploy-project-prereq:
+	@echo "Deploying Sagemaker Studio Domain Project Prereqs"
+	(cd iac/roots/sagemaker/project-prereq; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Sagemaker Studio Domain Project Prereqs"
+
+destroy-project-prereq:
+	@echo "Destroying Sagemaker Studio Domain Project Prereqs"
+	(cd iac/roots/sagemaker/project-prereq; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Sagemaker Studio Domain Project Prereqs"
+
+deploy-producer-project:
+	@echo "Deploying Sagemaker Studio Domain Producer Project"
+	(cd iac/roots/sagemaker/producer-project; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Sagemaker Studio Domain Producer Project"
+
+destroy-producer-project:
+	@echo "Destroying Sagemaker Studio Domain Producer Project"
+	(cd iac/roots/sagemaker/producer-project; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Sagemaker Studio Domain Producer Project"
+
+deploy-consumer-project:
+	@echo "Deploying Sagemaker Studio Domain Consumer Project"
+	(cd iac/roots/sagemaker/consumer-project; \
+		terraform init; \
+		terraform apply -auto-approve;)
+		@echo "Finished Deploying Sagemaker Studio Domain Consumer Project"
+
+destroy-consumer-project:
+	@echo "Destroying Sagemaker Studio Domain Consumer Project"
+	(cd iac/roots/sagemaker/consumer-project; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+		@echo "Finished Destroying Sagemaker Studio Domain Consumer Project"
+
+wait-datazone-stacks:
+	@echo "Waiting for DataZone environment stacks to complete..."
+	# Poll until no DataZone-* stacks are CREATE_IN_PROGRESS.
+	# Uses consecutive-zero-count to handle child stacks that haven't been created yet
+	# (parent stack finishes → brief gap → child stacks start).
+	@ZERO_COUNT=0; \
+	while true; do \
+		IN_PROGRESS=$$(aws cloudformation list-stacks \
+			--stack-status-filter CREATE_IN_PROGRESS \
+			--query "StackSummaries[?starts_with(StackName, 'DataZone-')].StackName" \
+			--output text --region $(AWS_PRIMARY_REGION)); \
+		if [ -z "$$IN_PROGRESS" ] || [ "$$IN_PROGRESS" = "None" ]; then \
+			ZERO_COUNT=$$((ZERO_COUNT + 1)); \
+			echo "No in-progress DataZone stacks (check $$ZERO_COUNT/3)"; \
+			if [ $$ZERO_COUNT -ge 3 ]; then break; fi; \
+		else \
+			ZERO_COUNT=0; \
+			echo "Waiting for: $$IN_PROGRESS"; \
+		fi; \
+		sleep 30; \
+	done
+	@echo "All DataZone environment stacks are ready"
+
+# Separate target so Make runs the wait a second time after the consumer project.
+# GNU Make deduplicates prerequisites, so reusing wait-datazone-stacks would be a no-op.
+wait-datazone-stacks-consumer:
+	@echo "Waiting for DataZone environment stacks to complete (consumer)..."
+	@ZERO_COUNT=0; \
+	while true; do \
+		IN_PROGRESS=$$(aws cloudformation list-stacks \
+			--stack-status-filter CREATE_IN_PROGRESS \
+			--query "StackSummaries[?starts_with(StackName, 'DataZone-')].StackName" \
+			--output text --region $(AWS_PRIMARY_REGION)); \
+		if [ -z "$$IN_PROGRESS" ] || [ "$$IN_PROGRESS" = "None" ]; then \
+			ZERO_COUNT=$$((ZERO_COUNT + 1)); \
+			echo "No in-progress DataZone stacks (check $$ZERO_COUNT/3)"; \
+			if [ $$ZERO_COUNT -ge 3 ]; then break; fi; \
+		else \
+			ZERO_COUNT=0; \
+			echo "Waiting for: $$IN_PROGRESS"; \
+		fi; \
+		sleep 30; \
+	done
+	@echo "All DataZone environment stacks are ready (consumer)"
+
+extract-producer-info:
+	($(eval domain_id:=${shell aws datazone list-domains --region $(AWS_PRIMARY_REGION) --query "items[?name=='Corporate'].id" --output text}) \
+	 $(eval producer_project_id:=${shell aws datazone list-projects --region $(AWS_PRIMARY_REGION) --domain-identifier ${domain_id} --query "items[?name=='Producer'].id" --output text}) \
+	 aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/id --value ${shell aws datazone list-projects --region $(AWS_PRIMARY_REGION) --domain-identifier ${domain_id} --query "items[?name=='Producer'].id" --output text} --type "String" --overwrite;\
+	 $(eval stack_names:=${shell aws cloudformation list-stacks --region $(AWS_PRIMARY_REGION) --no-paginate --stack-status-filter CREATE_COMPLETE --query 'StackSummaries[*].StackName' --output text}) \
+	 $(eval tooling:=Tooling) \
+	 $(eval redshift:=RedshiftServerless) \
+	 $(foreach stack_name,$(stack_names), \
+			$(if $(filter $(domain_id), $(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneDomain'].Value" --output text)),\
+				$(if $(filter $(producer_project_id),$(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneProject'].Value" --output text)),\
+					$(if $(filter $(tooling),$(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneBlueprint'].Value" --output text)),\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/role --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Outputs[?OutputKey=='UserRole'].OutputValue" --output text} --type "String" --overwrite;\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/role-name --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Outputs[?OutputKey=='UserRoleName'].OutputValue" --output text} --type "String" --overwrite;\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/security-group --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Outputs[?OutputKey=='SecurityGroup'].OutputValue" --output text} --type "String" --overwrite;\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/tooling-env-id --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneEnvironment'].Value" --output text} --type "String" --overwrite;\
+					)\
+					$(if $(filter $(redshift),$(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneBlueprint'].Value" --output text)),\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/redshift-env-id --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneEnvironment'].Value" --output text} --type "String" --overwrite;\
+					)\
+				)\
+			)\
+	 ) \
+	 )
+
+extract-consumer-info:
+	($(eval domain_id:=${shell aws datazone list-domains --region $(AWS_PRIMARY_REGION) --query "items[?name=='Corporate'].id" --output text}) \
+	 $(eval consumer_project_id:=${shell aws datazone list-projects --region $(AWS_PRIMARY_REGION) --domain-identifier ${domain_id} --query "items[?name=='Consumer'].id" --output text}) \
+	 aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/consumer/id --value ${shell aws datazone list-projects --region $(AWS_PRIMARY_REGION) --domain-identifier ${domain_id} --query "items[?name=='Consumer'].id" --output text} --type "String" --overwrite;\
+	 $(eval stack_names:=${shell aws cloudformation list-stacks --region $(AWS_PRIMARY_REGION) --no-paginate --stack-status-filter CREATE_COMPLETE --query 'StackSummaries[*].StackName' --output text}) \
+	 $(eval tooling:=Tooling) \
+	 $(foreach stack_name,$(stack_names), \
+			$(if $(filter $(domain_id),$(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneDomain'].Value" --output text)),\
+				$(if $(filter $(consumer_project_id),$(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneProject'].Value" --output text)),\
+					$(if $(filter $(tooling),$(shell aws cloudformation describe-stacks --region $(AWS_PRIMARY_REGION) --stack-name $(stack_name) --query "Stacks[0].Tags[?Key=='AmazonDataZoneBlueprint'].Value" --output text)),\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/consumer/role --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Outputs[?OutputKey=='UserRole'].OutputValue" --output text} --type "String" --overwrite;\
+						aws ssm --region $(AWS_PRIMARY_REGION) put-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/consumer/role-name --value ${shell aws cloudformation describe-stacks --stack-name $(stack_name) --query "Stacks[0].Outputs[?OutputKey=='UserRoleName'].OutputValue" --output text} --type "String" --overwrite;\
+						exit 0; \
+					)\
+				)\
+			)\
+	 ) \
+	 )
+
+#################### Glue ####################
+
+deploy-glue-jars:
+	@echo "Downloading and Deploying Required JAR File"
+	mkdir -p jars
+	export DYNAMIC_RESOLUTION=y; \
+
+	curl -o jars/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar \
+		"https://repo1.maven.org/maven2/software/amazon/s3tables/s3-tables-catalog-for-iceberg-runtime/0.1.7/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar"
+	
+	aws s3 cp "jars/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar" \
+		"s3://$(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-glue-jars/" \
+		--region "$(AWS_PRIMARY_REGION)"
+	
+	rm -rf jars/
+	@echo "Finished Downloading and Deploying Required JAR File"
+
+#################### Lake Formation ####################
+
+set-up-lake-formation-admin-role:
+	@CALLER_ARN=$$(aws sts get-caller-identity --query Arn --output text --region ${AWS_PRIMARY_REGION} | \
+		sed 's|arn:aws:sts:|arn:aws:iam:|;s|:assumed-role/\([^/]*\)/.*|:role/\1|'); \
+	aws lakeformation put-data-lake-settings \
+		--cli-input-json "{\"DataLakeSettings\": {\"DataLakeAdmins\": [{\"DataLakePrincipalIdentifier\": \"arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ADMIN_ROLE}\"}, {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::${AWS_ACCOUNT_ID}:user/datapipeline\"}, {\"DataLakePrincipalIdentifier\": \"arn:aws:iam::${AWS_ACCOUNT_ID}:role/${APP_NAME}-${ENV_NAME}-quicksight-service-role\"}, {\"DataLakePrincipalIdentifier\": \"$$CALLER_ARN\"}]}}" \
+		--region "${AWS_PRIMARY_REGION}"
+
+set-up-redshift-lf-readonly-admin:
+	@echo "Adding AWSServiceRoleForRedshift as Lake Formation read-only admin"
+	@CURRENT=$$(aws lakeformation get-data-lake-settings --region ${AWS_PRIMARY_REGION} --output json 2>/dev/null); \
+	ADMINS=$$(echo "$$CURRENT" | python3 -c "import json,sys;d=json.load(sys.stdin);print(json.dumps(d['DataLakeSettings']['DataLakeAdmins']))"); \
+	aws lakeformation put-data-lake-settings \
+		--data-lake-settings "{\"DataLakeAdmins\": $$ADMINS, \"ReadOnlyAdmins\": [{\"DataLakePrincipalIdentifier\": \"arn:aws:iam::${AWS_ACCOUNT_ID}:role/aws-service-role/redshift.amazonaws.com/AWSServiceRoleForRedshift\"}]}" \
+		--region "${AWS_PRIMARY_REGION}"
+	@echo "Finished adding Redshift service role as Lake Formation read-only admin"
+		
+create-glue-s3tables-catalog:
+	# Idempotent — AlreadyExistsException is expected on re-runs
+	aws glue create-catalog \
+		--cli-input-json '{"Name": "s3tablescatalog", "CatalogInput": { "FederatedCatalog": { "Identifier": "arn:aws:s3tables:${AWS_PRIMARY_REGION}:${AWS_ACCOUNT_ID}:bucket/*", "ConnectionName": "aws:s3tables" }, "CreateDatabaseDefaultPermissions": [], "CreateTableDefaultPermissions": [] } }' \
+		--region "${AWS_PRIMARY_REGION}" || true
+
+register-s3table-catalog-with-lake-formation:
+	aws lakeformation register-resource \
+        --resource-arn "arn:aws:s3tables:${AWS_PRIMARY_REGION}:${AWS_ACCOUNT_ID}:bucket/*" \
+        --role-arn "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${APP_NAME}-${ENV_NAME}-lakeformation-service-role" \
+        --with-federation \
+        --region "${AWS_PRIMARY_REGION}" || true
+
+grant-default-database-permissions:
+	@echo "Checking default database and granting Lake Formation permissions"
+	@if aws glue get-database --name default >/dev/null 2>&1; then \
+		echo "Default database exists. Granting Lake Formation permissions..."; \
+		aws lakeformation grant-permissions \
+			--principal DataLakePrincipalIdentifier="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ADMIN_ROLE}" \
+			--resource '{"Database": {"Name": "default"}}' \
+			--permissions "DROP" \
+			--region $(AWS_PRIMARY_REGION); \
+		aws lakeformation grant-permissions \
+			--principal DataLakePrincipalIdentifier="arn:aws:iam::${AWS_ACCOUNT_ID}:user/datapipeline" \
+			--resource '{"Database": {"Name": "default"}}' \
+			--permissions "DROP" \
+			--region $(AWS_PRIMARY_REGION); \
+		echo "Successfully granted Lake Formation permissions for default database"; \
+	else \
+		echo "Default database does not exist"; \
+	fi
+
+S3TABLE_CATALOG_ID = $(AWS_ACCOUNT_ID):s3tablescatalog
+
+PRODUCER_ROLE_ARN := $(shell aws ssm get-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/role --query "Parameter.Value" --output text --region $(AWS_PRIMARY_REGION) 2>/dev/null)
+
+QUICKSIGHT_ROLE_ARN = arn:aws:iam::$(AWS_ACCOUNT_ID):role/$(APP_NAME)-$(ENV_NAME)-quicksight-service-role
+
+grant-s3table-lakeformation-permissions:
+	@echo "Granting Lake Formation permissions on S3 Tables catalog"
+	@echo "Granting catalog permissions to Admin role..."
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "arn:aws:iam::$(AWS_ACCOUNT_ID):role/$(ADMIN_ROLE)"}' \
+		--resource '{"Catalog": {"Id": "$(S3TABLE_CATALOG_ID)"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@echo "Granting catalog permissions to datapipeline IAM user..."
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "arn:aws:iam::$(AWS_ACCOUNT_ID):user/datapipeline"}' \
+		--resource '{"Catalog": {"Id": "$(S3TABLE_CATALOG_ID)"}}' \
+		--permissions '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@echo "Granting catalog permissions to producer project role..."
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "$(PRODUCER_ROLE_ARN)"}' \
+		--resource '{"Catalog": {"Id": "$(S3TABLE_CATALOG_ID)"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@echo "Granting catalog permissions to QuickSight service role..."
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "$(QUICKSIGHT_ROLE_ARN)"}' \
+		--resource '{"Catalog": {"Id": "$(S3TABLE_CATALOG_ID)"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@echo "Granting database permissions..."
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "arn:aws:iam::$(AWS_ACCOUNT_ID):role/$(ADMIN_ROLE)"}' \
+		--resource '{"Database": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "Name": "financial_advisor"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "arn:aws:iam::$(AWS_ACCOUNT_ID):user/datapipeline"}' \
+		--resource '{"Database": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "Name": "financial_advisor"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "$(PRODUCER_ROLE_ARN)"}' \
+		--resource '{"Database": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "Name": "financial_advisor"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "$(QUICKSIGHT_ROLE_ARN)"}' \
+		--resource '{"Database": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "Name": "financial_advisor"}}' \
+		--permissions '["ALL"]' \
+		--permissions-with-grant-option '["ALL"]' \
+		--region $(AWS_PRIMARY_REGION) || true
+	@echo "Granting table permissions..."
+	@aws lakeformation grant-permissions \
+		--principal DataLakePrincipalIdentifier="arn:aws:iam::$(AWS_ACCOUNT_ID):role/$(ADMIN_ROLE)" \
+		--resource '{"Table": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "DatabaseName": "financial_advisor", "TableWildcard": {}}}' \
+		--permissions ALL \
+		--permissions-with-grant-option ALL \
+		--region $(AWS_PRIMARY_REGION) || true
+	@aws lakeformation grant-permissions \
+		--principal DataLakePrincipalIdentifier="arn:aws:iam::$(AWS_ACCOUNT_ID):user/datapipeline" \
+		--resource '{"Table": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "DatabaseName": "financial_advisor", "TableWildcard": {}}}' \
+		--permissions ALL \
+		--permissions-with-grant-option ALL \
+		--region $(AWS_PRIMARY_REGION) || true
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "$(PRODUCER_ROLE_ARN)"}' \
+		--resource '{"Table": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "DatabaseName": "financial_advisor", "TableWildcard": {}}}' \
+		--permissions ALL \
+		--permissions-with-grant-option ALL \
+		--region $(AWS_PRIMARY_REGION) || true
+	@aws lakeformation grant-permissions \
+		--principal '{"DataLakePrincipalIdentifier": "$(QUICKSIGHT_ROLE_ARN)"}' \
+		--resource '{"Table": {"CatalogId": "$(AWS_ACCOUNT_ID):s3tablescatalog/financial-advisor-s3table", "DatabaseName": "financial_advisor", "TableWildcard": {}}}' \
+		--permissions ALL \
+		--permissions-with-grant-option ALL \
+		--region $(AWS_PRIMARY_REGION) || true
+	@echo "Finished granting Lake Formation permissions"
+
+drop-default-database:
+	aws glue delete-database --name default \
+		--region $(AWS_PRIMARY_REGION) || true; \
+
+#################### Athena ####################
+
+deploy-athena:
+	@echo "Deploying Athena"
+	(cd iac/roots/athena; \
+		terraform init; \
+		terraform apply -auto-approve;)
+	@echo "Finished Deploying Athena"
+
+destroy-athena:
+	@echo "Destroying Athena"
+	(cd iac/roots/athena; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+	@echo "Finished Destroying Athena"
+
+#################### Financial Advisor ####################
+
+FINANCIAL_ADVISOR_TABLES = clients advisors accounts portfolios securities transactions holdings market_data performance fees goals interactions documents compliance research articles client_income_expense client_investment_restrictions client_reports crawl_log portfolio_config recommended_products theme_article_associations themes
+
+deploy-financial-advisor-s3-glue-s3:
+	@echo "Deploying Financial Advisor Infrastructure"
+	(cd iac/roots/datalakes/financial-advisor-s3-glue-s3; \
+		terraform init; \
+		terraform apply -auto-approve;)
+	@echo "Finished Deploying Financial Advisor Infrastructure"
+
+destroy-financial-advisor-s3-glue-s3:
+	@echo "Emptying S3 buckets"
+	$(ENV_PATH)../utility-scripts/empty-s3.sh empty_s3_bucket_by_name "$(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-financial-advisor-s3-glue-s3-data" || true
+
+	@echo "Destroying Financial Advisor Infrastructure"
+	(cd iac/roots/datalakes/financial-advisor-s3-glue-s3; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+	@echo "Finished Destroying Financial Advisor Infrastructure"
+
+start-financial-advisor-glue-jobs:
+	@echo "Starting Financial Advisor Glue Jobs"
+	@for table in $(FINANCIAL_ADVISOR_TABLES); do \
+		LAST_STATE=$$(aws glue get-job-runs --job-name "financial-advisor-load-$$table" --max-results 1 --region $(AWS_PRIMARY_REGION) --query 'JobRuns[0].JobRunState' --output text 2>/dev/null || echo "NONE"); \
+		if [ "$$LAST_STATE" = "SUCCEEDED" ]; then \
+			echo "Skipping financial-advisor-load-$$table — last run SUCCEEDED"; \
+		else \
+			echo "Starting job: financial-advisor-load-$$table"; \
+			aws glue start-job-run --region $(AWS_PRIMARY_REGION) --job-name "financial-advisor-load-$$table"; \
+		fi; \
+	done
+	@echo "Started All Financial Advisor Glue Jobs"
+
+REDSHIFT_TABLES = articles client_reports theme_article_associations themes
+DATA_BUCKET = $(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-financial-advisor-s3-glue-s3-data
+REDSHIFT_COPY_ROLE := $(shell aws ssm get-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/role --query "Parameter.Value" --output text --region $(AWS_PRIMARY_REGION) 2>/dev/null)
+
+load-redshift-tables:
+	@echo "Loading data into Redshift tables"
+	@for table in $(REDSHIFT_TABLES); do \
+		echo "Loading $$table..."; \
+		aws redshift-data execute-statement \
+			--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+			--database "dev" \
+			--sql "TRUNCATE public.$$table; COPY public.$$table FROM 's3://$(DATA_BUCKET)/$$table.csv' IAM_ROLE '$(REDSHIFT_COPY_ROLE)' CSV IGNOREHEADER 1 TIMEFORMAT 'auto' REGION '$(AWS_PRIMARY_REGION)';" \
+			--region "$(AWS_PRIMARY_REGION)"; \
+	done
+	@echo "Finished loading Redshift tables"
+
+deploy-financial-advisor-all: deploy-financial-advisor-s3-glue-s3 start-financial-advisor-glue-jobs
+destroy-financial-advisor-all: destroy-financial-advisor-s3-glue-s3
+
+#################### Project Configuration ####################
+
+deploy-project-config:
+	@echo "Deploying Project Configuration"
+	(cd iac/roots/sagemaker/project-config; \
+		terraform init; \
+		terraform apply -auto-approve;)
+	@echo "Finished Deploying Project Configuration"
+
+destroy-project-config:
+	@echo "Destroying Project Configuration"
+	(cd iac/roots/sagemaker/project-config; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+	@echo "Finished Destroying Project Configuration"
+
+deploy-project-user:
+	@echo "Deploying Project User"
+	(cd iac/roots/sagemaker/project-user; \
+		terraform init; \
+		terraform apply -auto-approve;)
+	@echo "Finished Deploying Project User"
+
+
+#################### Quicksight ####################
+
+deploy-quicksight-subscription:
+	@echo "Deploying Quicksight"
+	(cd iac/roots/quicksight/subscription; \
+		terraform init; \
+		terraform apply -auto-approve;)
+	@echo "Finished Deploying Quicksight"
+
+destroy-quicksight-subscription:
+	@echo "Destroying Quicksight Subscription"
+	(cd iac/roots/quicksight/subscription; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+	@echo "Finished Destroying Quicksight Subscription"
+
+deploy-quicksight-dataset:
+	@echo "Deploying QuickSight Dataset"
+	(cd iac/roots/quicksight/dataset; \
+		terraform init; \
+		terraform apply -auto-approve;)
+	@echo "Finished Deploying QuickSight Dataset"
+
+destroy-quicksight-dataset:
+	@echo "Destroying QuickSight Dataset"
+	(cd iac/roots/quicksight/dataset; \
+		terraform init; \
+		terraform destroy -auto-approve;)
+	@echo "Finished Destroying QuickSight Dataset"
+
+############## Spark Code Interpreter #############
+
+##### PREREQUISITES: deploy-kms-keys deploy-vpc #####
+
+deploy-spark-code-interpreter: 
+	@echo "Deploying Spark Code Interpreter"
+	$(ENV_PATH)utility-functions.sh exec_tf_for_env spark-code-interpreter
+	@echo "Finished Deploying Spark Code Interpreter"
+
+destroy-spark-code-interpreter:
+	@echo "Destroying Spark Code Interpreter"
+	TF_MODE=destroy $(ENV_PATH)utility-functions.sh exec_tf_for_env spark-code-interpreter
+	@echo "Destroying Spark Code Interpreter"
+
+#################### Redshift Views ####################
+
+PRODUCER_REDSHIFT_ENV_ID := $(shell aws ssm get-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/redshift-env-id --query "Parameter.Value" --output text --region $(AWS_PRIMARY_REGION) 2>/dev/null)
+REDSHIFT_WORKGROUP := redshift-serverless-workgroup-$(PRODUCER_REDSHIFT_ENV_ID)
+
+create-redshift-tables:
+	@echo "Creating Redshift tables in workgroup $(REDSHIFT_WORKGROUP)"
+	aws redshift-data execute-statement \
+		--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+		--database "dev" \
+		--sql "$(shell cat ddl-redshift/redshift-tables.sql)" \
+		--region "$(AWS_PRIMARY_REGION)"
+	@echo "Finished creating Redshift tables"
+
+create-redshift-views-s3tables:
+	@echo "Creating Redshift S3 table views in workgroup $(REDSHIFT_WORKGROUP)"
+	aws redshift-data execute-statement \
+		--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+		--database "dev" \
+		--sql file://ddl-redshift/redshift-views-s3tables.sql \
+		--region "$(AWS_PRIMARY_REGION)"
+	@echo "Finished creating Redshift S3 table views"
+
+create-quicksight-tables:
+	@echo "Creating QuickSight snapshot tables from Redshift views"
+	aws redshift-data execute-statement \
+		--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+		--database "dev" \
+		--sql "DROP TABLE IF EXISTS public.qs_advisor_dashboard_summary; CREATE TABLE public.qs_advisor_dashboard_summary AS SELECT * FROM public.advisor_dashboard_summary;" \
+		--region "$(AWS_PRIMARY_REGION)"
+	@echo "Finished creating QuickSight snapshot tables"
+
+refresh-quicksight-tables:
+	@echo "Refreshing QuickSight snapshot tables"
+	aws redshift-data execute-statement \
+		--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+		--database "dev" \
+		--sql "TRUNCATE public.qs_advisor_dashboard_summary; INSERT INTO public.qs_advisor_dashboard_summary SELECT * FROM public.advisor_dashboard_summary;" \
+		--region "$(AWS_PRIMARY_REGION)"
+	@echo "Finished refreshing QuickSight snapshot tables"
+
+RUM_DATA_DIR = data/rum
+RUM_TABLES = rum_page_views rum_errors rum_performance
+
+create-rum-tables:
+	@echo "Creating RUM tables in Redshift"
+	aws redshift-data execute-statement \
+		--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+		--database "dev" \
+		--sql "$$(cat ddl-redshift/redshift-rum-tables.sql)" \
+		--region "$(AWS_PRIMARY_REGION)"
+	@echo "Finished creating RUM tables"
+
+upload-rum-data:
+	@echo "Uploading RUM data to S3"
+	@for table in $(RUM_TABLES); do \
+		aws s3 cp $(RUM_DATA_DIR)/$$table.csv s3://$(DATA_BUCKET)/$$table.csv --region $(AWS_PRIMARY_REGION); \
+	done
+	@echo "Finished uploading RUM data"
+
+load-rum-data: upload-rum-data
+	@echo "Loading RUM data into Redshift"
+	@for table in $(RUM_TABLES); do \
+		echo "Loading $$table..."; \
+		aws redshift-data execute-statement \
+			--workgroup-name "$(REDSHIFT_WORKGROUP)" \
+			--database "dev" \
+			--sql "TRUNCATE public.$$table; COPY public.$$table FROM 's3://$(DATA_BUCKET)/$$table.csv' IAM_ROLE '$(REDSHIFT_COPY_ROLE)' CSV IGNOREHEADER 1 TIMEFORMAT 'auto' REGION '$(AWS_PRIMARY_REGION)';" \
+			--region "$(AWS_PRIMARY_REGION)"; \
+	done
+	@echo "Finished loading RUM data"
+
+create-rum-all: create-rum-tables load-rum-data
+
+create-redshift-all: create-redshift-tables load-redshift-tables create-redshift-views-s3tables create-quicksight-tables
+
+#################### Deploy All ####################
+
+deploy-data-pipeline:
+	@echo "Deploying data-pipeline module"
+	@(\
+	  cd iac/roots/data-pipeline; \
+	  terraform init; \
+	  terraform apply -auto-approve; \
+	)
+	@echo "Finished deploying data-pipeline module"
+
+destroy-data-pipeline:
+	@echo "Destroying data-pipeline module"
+	@(\
+	  cd iac/roots/data-pipeline; \
+	  terraform init; \
+	  terraform destroy -auto-approve; \
+	)
+	@echo "Finished destroying data-pipeline module"
+
+
+# Deploy all targets in the correct order, one make target at a time
+# Deploy all targets in the correct order, one make target at a time
+deploy-all: deploy-foundation-all deploy-idc-all deploy-domain-all deploy-projects-all deploy-glue-jars-all deploy-lake-formation-all deploy-athena-all deploy-financial-advisor-all deploy-project-configuration-all deploy-quicksight-subscription-all deploy-quicksight-all deploy-spark-code-interpreter-all
+deploy-foundation-all: deploy-kms-keys deploy-iam-roles deploy-buckets deploy-vpc build-msk-data-generator-lambda-layer-zip deploy-msk
+deploy-idc-all: deploy-idc-acc disable-mfa
+deploy-domain-all: deploy-domain-prereq deploy-domain
+deploy-projects-all: deploy-project-prereq deploy-producer-project deploy-consumer-project extract-producer-info extract-consumer-info
+deploy-glue-jars-all: deploy-glue-jars
+deploy-lake-formation-all: set-up-lake-formation-admin-role create-glue-s3tables-catalog register-s3table-catalog-with-lake-formation grant-default-database-permissions drop-default-database
+deploy-athena-all: deploy-athena
+deploy-quicksight-subscription-all: deploy-quicksight-subscription
+deploy-quicksight-all: deploy-quicksight-dataset
+deploy-spark-code-interpreter-all: deploy-spark-code-interpreter
+
+#################### Destroy All ####################
+
+# Destroy all targets in the correct order, one make target at a time
+destroy-all: destroy-spark-code-interpreter-all destroy-quicksight-all destroy-project-configuration-all destroy-financial-advisor-all destroy-athena-all destroy-projects-all destroy-domain-all destroy-idc-all destroy-foundation-all
+destroy-foundation-all: destroy-msk destroy-vpc destroy-buckets destroy-iam-roles destroy-kms-keys
+destroy-idc-all: destroy-idc-acc
+destroy-domain-all: destroy-domain destroy-domain-prereq
+destroy-projects-all: destroy-consumer-project destroy-producer-project destroy-project-prereq
+destroy-athena-all: destroy-athena
+destroy-quicksight-all: destroy-quicksight-dataset destroy-quicksight-subscription
+destroy-project-configuration-all: destroy-project-config
+destroy-spark-code-interpreter-all: destroy-spark-code-interpreter

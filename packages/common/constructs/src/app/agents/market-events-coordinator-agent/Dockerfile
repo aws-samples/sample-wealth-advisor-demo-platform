@@ -1,0 +1,1 @@
+FROM wealth-management-portal-market-events-coordinator-agent:latest

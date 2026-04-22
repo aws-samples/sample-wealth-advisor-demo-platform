@@ -1,0 +1,44 @@
+# Node modules and dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Nx cache
+.nx/
+
+# Build outputs (but keep dist/packages for Docker builds)
+build/
+
+# Python
+*.pyc
+__pycache__/
+*.egg-info/
+.venv/
+venv/
+.uv/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Environment and config
+.env
+.env.local
+*.log
+
+# Test and coverage
+coverage/
+reports/
+.pytest_cache/
+
+# Misc
+.DS_Store
+*.bak
+.kiro/

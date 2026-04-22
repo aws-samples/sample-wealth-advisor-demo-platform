@@ -1,0 +1,37 @@
+client_id,first_name,last_name,email,phone,address,city,state,zip,date_of_birth,risk_tolerance,investment_objectives,segment,status,advisor_id,created_date,sophistication,qualified_investor,service_model
+CL00010,Cameron,Evans,cameron.evans@higgins.info,(319) 910-5250,520 Bolton Flats,Perezmouth,OR,65503,1992-12-30,Moderate,,UHNW,Active,ADV008,2021-06-10,Sophisticated,t,Discretionary
+CL00016,Lisa,Garner,lisa.garner@barker-molina.com,(580) 362-9088,820 Jenkins Lakes,Bensonfort,IA,32475-1414,1981-04-15,Conservative,Estate Planning,UHNW,Active,ADV008,2025-04-29,Sophisticated,t,Discretionary
+CL00024,Hector,Davidson,hector.davidson@tran-cortez.com,(386) 519-6336,495 Atkins Avenue Suite 630,Griffithton,NE,15819-5593,1952-07-29,Aggressive,Retirement Planning,HNW,Active,ADV008,2021-10-10,Sophisticated,t,Advisory
+CL00008,John,Thomas,john.thomas@holland-horn.com,(471) 372-5604,103 Brittany Crossroad Apt. 037,Michelletown,FL,47280-1264,1963-06-29,Conservative,Tax Minimization,UHNW,Active,ADV004,2021-06-18,Sophisticated,t,Discretionary
+CL00013,Natasha,Johnston,natasha.johnston@lutz.biz,(537) 268-3226,784 Scott Wall,Lake Sarahside,AK,11832,1965-12-16,Moderate,Income Generation,UHNW,Active,ADV004,2024-01-22,Sophisticated,t,Discretionary
+CL00020,Tina,Lewis,tina.lewis@cox.com,(884) 734-5500,91363 Kaitlyn Stream,South Jenny,IL,70371,1970-05-29,Conservative,Capital Appreciation,UHNW,Active,ADV004,2023-04-06,Sophisticated,t,Discretionary
+CL00029,Melissa,Boyd,melissa.boyd@webb.com,(735) 398-6395,615 Steve Spring,Crawfordton,NM,75283-6020,1965-10-31,Aggressive,Capital Preservation,HNW,Active,ADV004,2022-11-08,Intermediate,t,Advisory
+CL00009,Rebecca,Villarreal,rebecca.villarreal@thomas.com,(268) 955-6349,22356 Williams Fall Apt. 286,Brownberg,IL,54317,1994-12-20,Moderate,,Mass Affluent,Active,ADV004,2023-09-20,Basic,f,Self-Directed
+CL00017,Sara,Trujillo,sara.trujillo@shelton.com,(834) 636-2284,4205 Kimberly Crescent,Reyestown,MA,44634,1952-03-17,Moderate,Balanced Growth and Income,Mass Affluent,Active,ADV004,2025-11-22,Intermediate,f,Advisory
+CL00006,Theresa,Stephenson,theresa.stephenson@martin.org,(212) 479-1142,55841 Tyler Corner,Port Taylorfurt,NV,08629,1971-07-28,Moderate,Balanced Growth and Income,HNW,Active,ADV007,2023-07-15,Intermediate,t,Advisory
+CL00007,Christopher,Lynch,christopher.lynch@carter.info,(527) 612-1215,138 Christian Circle,West William,NH,69262-7417,1965-04-21,Moderate,Balanced Growth and Income,HNW,Active,ADV007,2022-09-04,Intermediate,t,Advisory
+CL00023,Derrick,Molina,derrick.molina@hernandez.biz,(846) 308-6719,20246 West Lodge,Coxville,UT,31608,1992-07-22,Conservative,Growth,HNW,Active,ADV007,2021-06-03,Intermediate,f,Advisory
+CL00002,Grace,Johnson,grace.johnson@mcdonald.com,(556) 796-1032,00306 Weaver Park,East Veronicaton,SC,06383-6986,1950-01-03,Conservative,Capital Preservation,Mass Affluent,Active,ADV007,2023-06-10,Basic,f,Self-Directed
+CL00034,Kelly,White,kelly.white@harrison-barrera.info,(994) 610-6217,8677 Johnson Village,Robertmouth,HI,53646-5311,1958-10-26,Conservative,Retirement Planning,UHNW,Active,ADV001,2023-04-11,Sophisticated,t,Discretionary
+CL00001,Brittney,Wright,brittney.wright@clayton.com,(328) 992-1965,618 Lloyd Spring,Lindseyberg,CO,54116,1968-09-04,Moderate,Capital Preservation,HNW,Active,ADV001,2025-01-30,Intermediate,t,Advisory
+CL00014,Logan,Hall,logan.hall@pierce-ortiz.org,(327) 840-8398,83226 Leon Corners,West Robertchester,IN,58328,1975-02-21,Conservative,Aggressive Growth,HNW,Active,ADV001,2023-05-24,Intermediate,t,Advisory
+CL00022,Gary,Lee,gary.lee@bell.com,(548) 300-7185,6367 Gray Glen,Port Juanhaven,NE,61534,1997-04-17,Aggressive,,HNW,Active,ADV001,2023-09-25,Intermediate,t,Advisory
+CL00031,Steven,Jackson,steven.jackson@moore.com,(726) 624-9501,536 Scott Brook,Port Erin,SC,12508-5260,2000-10-05,Conservative,,HNW,Active,ADV001,2023-03-20,Intermediate,t,Advisory
+CL00005,Charles,Perry,charles.perry@stewart-pierce.com,(232) 573-7825,9574 Robert Heights,West Louis,UT,19012,1967-02-09,Moderate,Estate Planning,Mass Affluent,Active,ADV001,2022-03-08,Intermediate,f,Advisory
+CL00018,Molly,Young,molly.young@jones.com,(968) 832-5024,90258 George Summit,East Bradleybury,LA,43156,1997-05-30,Conservative,Income Generation,UHNW,Active,ADV005,2023-05-27,Sophisticated,t,Discretionary
+CL00036,Jennifer,Bell,jennifer.bell@reynolds.com,(618) 312-5411,52186 Cindy Place Suite 631,North Jennifer,AZ,30713,1982-11-02,Conservative,Capital Appreciation,UHNW,Active,ADV005,2023-01-28,Sophisticated,t,Discretionary
+CL00025,Dylan,Baker,dylan.baker@fitzgerald.com,(277) 392-5865,0999 Mark Mission Suite 829,Lisaland,MO,09669,1980-11-17,Moderate,Aggressive Growth,UHNW,Active,ADV005,2025-06-21,Sophisticated,t,Advisory
+CL00026,Timothy,Boyer,timothy.boyer@reed.biz,(869) 957-3658,7905 Lucas Shoals,North Claire,CO,92873-1270,1958-06-18,Moderate,Aggressive Growth,UHNW,Active,ADV005,2024-01-11,Sophisticated,t,Advisory
+CL00032,Tina,Buchanan,tina.buchanan@harvey-garcia.com,(752) 640-4136,839 Marquez Vista Apt. 439,Elliottmouth,AL,85559,1975-08-07,Aggressive,Aggressive Growth,Mass Affluent,Active,ADV005,2025-08-07,Intermediate,f,Self-Directed
+CL00019,James,Phillips,james.phillips@russell.info,(473) 831-2196,8448 Anthony Knoll Apt. 565,North Matthewport,WY,49010-9698,1959-07-23,Moderate,,UHNW,Active,ADV003,2024-05-21,Sophisticated,t,Discretionary
+CL00012,Natalie,Allen,natalie.allen@wood.net,(808) 614-4096,528 Eric Radial Apt. 690,Tranburgh,MN,48098,1953-08-31,Aggressive,Retirement Planning,UHNW,Active,ADV003,2024-09-10,Sophisticated,t,Advisory
+CL00015,Lisa,Moyer,lisa.moyer@george.org,(771) 382-1394,28522 Brown Dam Apt. 792,Lake Susan,WA,27125,1952-04-09,Aggressive,Growth,HNW,Active,ADV003,2022-11-15,Sophisticated,t,Advisory
+CL00004,Susan,Douglas,susan.douglas@parsons-warren.info,(581) 267-7690,38199 Thomas Crossroad,North Lisastad,MS,49914-7364,1968-08-11,Conservative,,UHNW,Active,ADV002,2023-09-01,Sophisticated,t,Discretionary
+CL00033,Ryan,Castillo,ryan.castillo@choi-villanueva.org,(600) 680-9260,694 Austin Trace Apt. 051,New Chelsea,WA,25859,1993-06-18,Conservative,Retirement Planning,UHNW,Active,ADV002,2023-12-28,Sophisticated,t,Discretionary
+CL00021,Robert,Clark,robert.clark@mendez.com,(459) 289-3727,6764 Ballard Parkway,Beltranmouth,UT,20006,1951-01-14,Aggressive,Tax Minimization,UHNW,Active,ADV002,2023-07-01,Sophisticated,t,Advisory
+CL00011,Christopher,Phillips,christopher.phillips@murphy.com,(693) 458-5216,00967 Courtney Branch Suite 470,Carlsonfurt,MA,43733,1987-09-03,Conservative,,HNW,Active,ADV002,2025-12-08,Intermediate,f,Advisory
+CL00027,Jesse,Scott,jesse.scott@vargas.net,(260) 333-4012,54387 Boone Curve Suite 429,South John,AR,36323,1983-12-07,Moderate,,HNW,Active,ADV002,2024-09-12,Intermediate,t,Advisory
+CL00028,Dylan,Harper,dylan.harper@taylor.org,(257) 780-9168,53795 Rebecca Extension,West Taylor,WA,52442,1951-01-08,Conservative,Aggressive Growth,HNW,Active,ADV002,2024-08-18,Intermediate,f,Advisory
+CL00030,Joseph,Anderson,joseph.anderson@roach.org,(808) 209-9494,61593 Theresa Row Apt. 630,Lindaview,OR,52887,1964-12-04,Moderate,Education Funding,Mass Affluent,Active,ADV002,2022-05-11,Intermediate,f,Advisory
+CL00003,Dennis,Stewart,dennis.stewart@conner.com,(790) 904-1159,788 Brian Trail,Coleview,NY,38607,1982-01-07,Moderate,Aggressive Growth,Mass Affluent,Active,ADV002,2023-12-23,Intermediate,f,Self-Directed
+CL00035,Bryan,Brown,bryan.brown@hubbard.com,(322) 607-4550,661 Jasmine Mountain Apt. 121,Evansberg,NY,08324,1966-09-18,Aggressive,,Mass Affluent,Active,ADV002,2021-07-16,Intermediate,f,Self-Directed

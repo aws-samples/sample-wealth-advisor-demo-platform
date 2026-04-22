@@ -1,0 +1,95 @@
+{
+  "name": "@wealth-management-portal/ci-infra",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/ci-infra/src",
+  "projectType": "application",
+  "tags": [],
+  "metadata": {
+    "generator": "ts#infra"
+  },
+  "targets": {
+    "bootstrap": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk bootstrap"
+      }
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "synth", "checkov"]
+    },
+    "cdk": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk"
+      }
+    },
+    "checkov": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": ["{workspaceRoot}/dist/{projectRoot}/cdk.out"],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}/checkov"],
+      "dependsOn": ["synth"],
+      "options": {
+        "command": "uvx --with pycares==4.11.0 checkov==3.2.500 --config-file packages/ci-infra/checkov.yml --directory dist/packages/ci-infra/cdk.out --framework cloudformation"
+      }
+    },
+    "compile": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/ci-infra/tsc"],
+      "options": {
+        "command": "tsc --build tsconfig.lib.json",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["compile"],
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk deploy --require-approval=never \"wealth-management-portal-ci-infra/**\""
+      }
+    },
+    "deploy-ci": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk deploy --require-approval=never --app ../../dist/packages/ci-infra/cdk.out"
+      }
+    },
+    "destroy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["compile"],
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk destroy --require-approval=never \"wealth-management-portal-ci-infra/**\""
+      }
+    },
+    "destroy-ci": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk destroy --require-approval=never --app ../../dist/packages/ci-infra/cdk.out"
+      }
+    },
+    "synth": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": ["default"],
+      "outputs": ["{workspaceRoot}/dist/packages/ci-infra/cdk.out"],
+      "dependsOn": ["compile"],
+      "options": {
+        "cwd": "packages/ci-infra",
+        "command": "cdk synth"
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "{projectRoot}/../../coverage/packages/ci-infra"
+      }
+    }
+  }
+}

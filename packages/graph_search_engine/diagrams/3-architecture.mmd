@@ -1,0 +1,35 @@
+graph TB
+    subgraph UI ["packages/ui (React)"]
+        A[GraphSearchPage] --> B[GraphSearchSidebar]
+        A --> C[GraphCanvas<br/>vis.js Network]
+        A --> D[GraphDetailPanel]
+        B --> E[SelectionTooltip]
+        B --> F[useGraphSearch hook]
+        F --> G[graph-service.ts<br/>HTTP + SSE client]
+    end
+
+    subgraph API ["packages/graph_search_api (FastAPI :8005)"]
+        G -->|"HTTP"| H["main.py<br/>REST + SSE endpoints"]
+        H --> I["init.py<br/>CORS · Powertools · Mangum"]
+    end
+
+    subgraph Engine ["packages/graph_search_engine (Python lib)"]
+        H -->|"import"| J[neptune_analytics.py]
+        J --> K["NeptuneAnalyticsClient<br/>(boto3 direct)"]
+        J --> L["NeptuneMCPClient<br/>(MCP over HTTP)"]
+        J --> M["NLSearchEngine<br/>(Cypher gen + reasoning)"]
+        H -->|"import"| N[graph_config.yaml]
+        H -->|"import"| O["config.py<br/>(local | agentcore)"]
+    end
+
+    subgraph AWS ["AWS Services"]
+        K -->|"openCypher"| P[("Neptune Analytics<br/>Graph Database")]
+        L -->|"MCP"| Q["Neptune MCP Server"]
+        Q --> P
+        M -->|"invoke"| R["Amazon Bedrock<br/>(Claude / Nova)"]
+    end
+
+    style UI fill:#e3f2fd,stroke:#1565c0
+    style API fill:#e8f5e9,stroke:#2e7d32
+    style Engine fill:#fff3e0,stroke:#e65100
+    style AWS fill:#fce4ec,stroke:#c62828

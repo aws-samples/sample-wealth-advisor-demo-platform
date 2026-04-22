@@ -1,0 +1,5 @@
+src/generated/api
+tsconfig.tsbuildinfo
+
+src/generated/intelligence-api
+src/generated/graph-search-api

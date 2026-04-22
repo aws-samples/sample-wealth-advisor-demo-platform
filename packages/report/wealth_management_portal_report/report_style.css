@@ -1,0 +1,58 @@
+/* Professional report styling */
+body {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #333;
+    margin: 2cm;
+}
+
+h2 {
+    color: #2E86AB;
+    font-size: 18pt;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #2E86AB;
+    padding-bottom: 0.3em;
+}
+
+h3 {
+    color: #555;
+    font-size: 14pt;
+    margin-top: 1.2em;
+    margin-bottom: 0.4em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 10pt;
+}
+
+th {
+    background-color: #2E86AB;
+    color: white;
+    padding: 8px;
+    text-align: left;
+    font-weight: bold;
+}
+
+td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+p {
+    margin: 0.8em 0;
+}
+
+svg {
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
+}

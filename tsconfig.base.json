@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "lib": ["es2022"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2022",
+    "customConditions": ["@wealth-management-portal/source"],
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      ":wealth-management-portal/ci-infra": ["packages/ci-infra/src/index.ts"],
+      ":wealth-management-portal/common-constructs": [
+        "packages/common/constructs/src/index.ts"
+      ],
+      ":wealth-management-portal/common-shadcn": [
+        "packages/common/shadcn/src/index.ts"
+      ],
+      ":wealth-management-portal/common-shadcn/*": [
+        "packages/common/shadcn/src/*"
+      ],
+      ":wealth-management-portal/infra": ["packages/infra/src/index.ts"],
+      ":wealth-management-portal/ui": ["packages/ui/src/index.ts"],
+      ":wealth-management-portal/website": ["packages/website/src/index.ts"]
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "name": "wealth_management_portal.market_events_coordinator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/market_events_coordinator/wealth_management_portal_market_events_coordinator",
+  "release": {
+    "version": {
+      "versionActions": "@nxlv/python/src/release/version-actions"
+    }
+  },
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "ports": [8082],
+    "components": [
+      {
+        "generator": "py#strands-agent",
+        "name": "market-events-coordinator-agent",
+        "port": 8082
+      }
+    ]
+  },
+  "targets": {
+    "add": {
+      "executor": "@nxlv/python:add",
+      "options": {}
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle", "docker"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/market_events_coordinator"
+      }
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/market_events_coordinator/build"
+      ],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/market_events_coordinator/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": [
+          "wealth_management_portal_market_events_coordinator",
+          "tests"
+        ]
+      },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": {
+        "silent": false,
+        "args": "",
+        "verbose": false,
+        "debug": false
+      }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": [
+          "wealth_management_portal_market_events_coordinator",
+          "tests"
+        ]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "lock": {
+      "executor": "@nxlv/python:lock",
+      "options": {
+        "update": false
+      }
+    },
+    "remove": {
+      "executor": "@nxlv/python:remove",
+      "options": {}
+    },
+    "sync": {
+      "executor": "@nxlv/python:sync",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "update": {
+      "executor": "@nxlv/python:update",
+      "options": {}
+    },
+    "bundle-arm": {
+      "cache": true,
+      "inputs": ["default", { "runtime": "node -e \"console.log(process.platform)\"" }],
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/market_events_coordinator/bundle-arm"
+      ],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/market_events_coordinator --package wealth_management_portal.market_events_coordinator -o dist/packages/market_events_coordinator/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/market_events_coordinator/bundle-arm -r dist/packages/market_events_coordinator/bundle-arm/requirements.txt",
+          "find dist/packages/market_events_coordinator/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle": {
+      "dependsOn": ["bundle-arm"]
+    },
+    "market-events-coordinator-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-market-events-coordinator-agent:latest packages/market_events_coordinator/wealth_management_portal_market_events_coordinator/market_events_coordinator_agent --build-context workspace=dist/packages/market_events_coordinator"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "docker": {
+      "dependsOn": ["market-events-coordinator-agent-docker"]
+    },
+    "market-events-coordinator-agent-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "uv run fastapi dev wealth_management_portal_market_events_coordinator/market_events_coordinator_agent/main.py --port 8082"
+        ],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    }
+  }
+}

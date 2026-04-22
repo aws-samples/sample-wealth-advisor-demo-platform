@@ -1,0 +1,184 @@
+{
+  "name": "@wealth-management-portal/ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/ui/src",
+  "projectType": "application",
+  "tags": [],
+  "metadata": {
+    "generator": "ts#react-website",
+    "uxProvider": "Shadcn",
+    "components": [
+      {
+        "generator": "ts#react-website#runtime-config"
+      },
+      {
+        "generator": "ts#react-website#auth"
+      }
+    ]
+  },
+  "targets": {
+    "build": {
+      "dependsOn": ["lint", "compile", "bundle", "test"],
+      "options": {
+        "outputPath": "dist/packages/ui/bundle"
+      }
+    },
+    "bundle": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/ui/bundle"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      },
+      "dependsOn": ["generate:api-client"]
+    },
+    "compile": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}/tsc"],
+      "options": {
+        "command": "tsc --build tsconfig.app.json",
+        "cwd": "{projectRoot}"
+      },
+      "dependsOn": ["generate:api-client"]
+    },
+    "generate:api-client": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "inputs": [
+        {
+          "dependentTasksOutputFiles": "**/*.json"
+        }
+      ],
+      "outputs": ["{workspaceRoot}/packages/ui/src/generated/api"],
+      "options": {
+        "commands": [
+          "nx g @aws/nx-plugin:open-api#ts-hooks --openApiSpecPath=\"dist/packages/api/openapi/openapi.json\" --outputPath=\"packages/ui/src/generated/api\" --no-interactive"
+        ]
+      },
+      "dependsOn": ["wealth_management_portal.api:openapi"]
+    },
+    "load:runtime-config": {
+      "executor": "nx:run-commands",
+      "metadata": {
+        "description": "Load runtime config from your deployed stack for dev purposes. You must set your AWS CLI credentials whilst calling 'pnpm exec nx run @wealth-management-portal/ui:load:runtime-config'"
+      },
+      "options": {
+        "command": "aws s3 cp s3://`aws cloudformation describe-stacks --query \"Stacks[?starts_with(StackName, 'wealth-management-portal-')][].Outputs[] | [?contains(OutputKey, 'UiWebsiteBucketName')].OutputValue\" --output text`/runtime-config.json './packages/ui/public/runtime-config.json'"
+      }
+    },
+    "preview": {
+      "dependsOn": ["build"],
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "@wealth-management-portal/ui:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@wealth-management-portal/ui:build:development"
+        },
+        "production": {
+          "buildTarget": "@wealth-management-portal/ui:build:production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "@wealth-management-portal/ui:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@wealth-management-portal/ui:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "@wealth-management-portal/ui:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "ssm-tunnel": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node ../../scripts/ssm-tunnel.mjs",
+        "cwd": "packages/ui"
+      },
+      "continuous": true
+    },
+    "serve-local": {
+      "executor": "@nx/vite:dev-server",
+      "options": {
+        "buildTarget": "@wealth-management-portal/ui:build:development",
+        "hmr": true,
+        "mode": "serve-local"
+      },
+      "continuous": true,
+      "dependsOn": [
+        "ssm-tunnel",
+        {
+          "projects": ["wealth_management_portal.api"],
+          "target": "serve"
+        },
+        {
+          "projects": ["wealth_management_portal.intelligence_api"],
+          "target": "serve"
+        },
+        {
+          "projects": ["wealth_management_portal.graph_search_api"],
+          "target": "serve"
+        },
+        {
+          "projects": ["wealth_management_portal.graph_search_engine"],
+          "target": "graph-search-agent-serve"
+        },
+        {
+          "projects": ["wealth_management_portal.advisor_chat"],
+          "target": "supervisor-agent-serve"
+        },
+        {
+          "projects": ["wealth_management_portal.market_events_coordinator"],
+          "target": "market-events-coordinator-agent-serve"
+        },
+        {
+          "projects": ["wealth_management_portal.client_search"],
+          "target": "client-search-agent-serve"
+        },
+        "generate:api-client"
+      ]
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "@wealth-management-portal/ui:build",
+        "spa": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "{projectRoot}/../../coverage/packages/ui"
+      }
+    },
+    "watch-generate:api-client": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx watch --projects=wealth_management_portal.api --includeDependentProjects -- nx run @wealth-management-portal/ui:\"generate:api-client\""
+        ]
+      },
+      "continuous": true
+    }
+  }
+}

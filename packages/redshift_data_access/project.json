@@ -1,0 +1,84 @@
+{
+  "name": "wealth_management_portal.redshift_data_access",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/redshift_data_access/wealth_management_portal_redshift_data_access",
+  "tags": [],
+  "targets": {
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": ["{workspaceRoot}/dist/packages/redshift_data_access/build"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/redshift_data_access/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": {
+        "filePatterns": ["wealth_management_portal_redshift_data_access", "tests"]
+      },
+      "cache": true
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": {
+        "lintFilePatterns": ["wealth_management_portal_redshift_data_access", "tests"]
+      },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/ -m 'not integration'",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "bundle-arm": {
+      "cache": true,
+      "inputs": ["default", { "runtime": "node -e \"console.log(process.platform)\"" }],
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/redshift_data_access/bundle-arm"],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/redshift_data_access --package wealth_management_portal.redshift_data_access -o dist/packages/redshift_data_access/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/redshift_data_access/bundle-arm -r dist/packages/redshift_data_access/bundle-arm/requirements.txt",
+          "find dist/packages/redshift_data_access/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle": {
+      "dependsOn": ["bundle-arm"]
+    },
+    "docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --platform linux/arm64 -t wealth-management-portal-redshift-data-access:latest packages/redshift_data_access/wealth_management_portal_redshift_data_access/redshift_data_access --build-context workspace=dist/packages/redshift_data_access"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle", "docker"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/redshift_data_access"
+      }
+    }
+  }
+}

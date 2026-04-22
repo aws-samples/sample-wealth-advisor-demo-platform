@@ -1,0 +1,9 @@
+advisor_id,first_name,last_name,email,phone,title,credentials,specialization,years_experience,hire_date
+ADV007,Brittany,Beasley,brittany.beasley@leblanc.biz,(805) 250-8418,Private Wealth Advisor,"CFP, CFA",Investment Management,21,2007-05-25
+ADV004,Linda,Donaldson,linda.donaldson@walters.info,(845) 773-8524,Senior Financial Advisor,ChFC,Estate Planning,4,2024-06-03
+ADV003,Peter,Durham,peter.durham@swanson-klein.com,(982) 432-3575,Financial Planner,CFP,Estate Planning,24,2005-01-10
+ADV005,Robin,Eaton,robin.eaton@jones.com,(639) 465-6566,Private Wealth Advisor,CFP,,5,2023-10-19
+ADV002,Brooke,Frazier,brooke.frazier@king.com,(767) 448-7269,Senior Wealth Advisor,CFA,Alternative Investments,4,2022-07-18
+ADV006,Harold,Jones,harold.jones@watson.com,(616) 842-4011,Private Wealth Advisor,ChFC,High Net Worth Clients,15,2012-09-22
+ADV008,Wanda,Mclean,wanda.mclean@campbell-patterson.com,(351) 673-5506,Wealth Manager,"CFP, ChFC",Estate Planning,18,2008-07-16
+ADV001,Tiffany,Small,tiffany.small@johnston-wilson.com,(812) 687-8249,Private Wealth Advisor,"CFP, CFA",High Net Worth Clients,8,2021-04-30

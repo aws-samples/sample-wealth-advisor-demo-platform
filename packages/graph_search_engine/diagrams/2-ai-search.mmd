@@ -1,0 +1,51 @@
+sequenceDiagram
+    participant User
+    participant Sidebar as Sidebar (React)
+    participant Service as graph-service.ts
+    participant API as graph_search_api :8005
+    participant Engine as NLSearchEngine
+    participant Bedrock as Amazon Bedrock
+    participant Neptune as Neptune Analytics
+
+    User->>Sidebar: Type query + Search
+    Sidebar->>Service: enrichedSearchStream()
+    Service->>API: POST /api/nl-search-enriched-stream
+
+    Note over API: SSE stream opened
+
+    rect rgb(230, 243, 255)
+        Note over Engine: Step 1 — Generate Cypher
+        API-->>Service: SSE status: Generating query...
+        Service-->>Sidebar: Show spinner + status
+        Engine->>Bedrock: generate_cypher_query()
+        Bedrock-->>Engine: { cypher, explanation }
+    end
+
+    rect rgb(230, 255, 230)
+        Note over Engine: Step 2 — Execute Query
+        API-->>Service: SSE status: Searching database...
+        Service-->>Sidebar: Update spinner status
+        Engine->>Neptune: execute_query(cypher)
+        Neptune-->>Engine: matching nodes
+    end
+
+    rect rgb(255, 243, 230)
+        Note over Engine: Step 3-4 — Compute Metrics
+        Engine->>Neptune: degree, jaccard, overlap
+        Neptune-->>Engine: algorithm metrics
+    end
+
+    rect rgb(243, 230, 255)
+        Note over Engine: Step 5 — LLM Reasoning
+        API-->>Service: SSE status: Analyzing results...
+        Service-->>Sidebar: Update spinner status
+        Engine->>Bedrock: generate_reasoning()
+        Bedrock-->>Engine: markdown insight
+    end
+
+    Engine-->>API: final result
+    API->>API: enrich nodes
+    API-->>Service: SSE event: result
+    Service-->>Sidebar: Display results + insight
+
+    Sidebar->>Sidebar: Highlight nodes on graph

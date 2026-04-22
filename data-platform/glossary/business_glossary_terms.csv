@@ -1,0 +1,13 @@
+name,short_description,long_description
+Assets Under Management,Total market value of assets managed,AUM represents the total market value of all investment assets that a financial advisor manages on behalf of clients. This includes stocks bonds mutual funds and other securities.
+Time Weighted Return,Investment return excluding cash flows,TWR measures the compound rate of growth in a portfolio removing the distorting effects of cash inflows and outflows. It is the standard for comparing portfolio performance.
+Benchmark Return,Market index return for comparison,The return of a standard market index used to evaluate portfolio performance relative to the broader market.
+Cost Basis,Original purchase price,The original value or purchase price of an asset used to calculate capital gains or losses for tax purposes.
+Risk Tolerance,Client willingness to accept risk,A measure of how much market volatility and potential loss a client is willing to accept in pursuit of investment returns. Categories: Conservative Moderate Aggressive.
+Investment Objectives,Client financial goals,The primary financial goals a client aims to achieve through their investments such as retirement wealth accumulation income generation or capital preservation.
+Qualified Investor,Investor meeting regulatory criteria,An investor who meets specific income or net worth thresholds allowing access to certain investment products not available to retail investors.
+Know Your Customer,Identity verification process,KYC is a regulatory requirement to verify the identity of clients and assess their suitability for financial services helping prevent fraud and money laundering.
+Anti Money Laundering,Financial crime prevention,AML refers to regulations and procedures designed to prevent criminals from disguising illegally obtained funds as legitimate income.
+Suitability,Investment appropriateness assessment,Suitability analysis ensures that investment recommendations align with a client's financial situation risk tolerance and investment objectives.
+Target Allocation,Desired asset distribution,The strategic mix of asset classes that a portfolio aims to maintain based on the client's goals and risk tolerance.
+Unrealized Gain Loss,Profit or loss on unsold holdings,The difference between the current market value and cost basis of a security that is still held. Becomes realized when the position is closed.

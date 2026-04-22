@@ -1,0 +1,14 @@
+// Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
+terraform {
+
+  backend "s3" {
+
+    bucket         = "###APP_NAME###-###ENV_NAME###-tf-back-end-###AWS_ACCOUNT_ID###-###AWS_PRIMARY_REGION###"
+    key            = "###ENV_NAME###/datazone/data-assets-glossary/terraform.tfstate"
+    dynamodb_table = "###APP_NAME###-###ENV_NAME###-tf-back-end-lock"
+    region         = "###AWS_PRIMARY_REGION###"
+    encrypt        = true
+  }
+}

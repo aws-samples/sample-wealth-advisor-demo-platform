@@ -1,0 +1,54 @@
+{
+  "meetings": [
+    {
+      "date": "2024-09-15",
+      "meeting_type": "Video",
+      "subject": "Quarterly Review",
+      "notes": "Discussed current withdrawal rate of $10,500/month. Client supporting daughter's graduate school ($3,000/month) and maintaining two households after divorce. Social Security starts at 67 but client considering early retirement at 66. Reviewed ESG allocation - client satisfied with holdings. Mentioned potential inheritance from mother's estate, timing uncertain."
+    },
+    {
+      "date": "2024-03-10",
+      "meeting_type": "In-Person",
+      "subject": "Annual Review",
+      "notes": "Portfolio review post-divorce settlement. Received $1.45M from asset division. Set up systematic withdrawals. Client wants to maintain current lifestyle while daughter completes MBA (2 more years). Discussed need to revisit withdrawal rate once tuition support ends."
+    }
+  ],
+  "emails": [
+    {
+      "date": "2024-11-20",
+      "subject": "Inheritance Update",
+      "body": "Mother's health declining. Estate attorney estimates $400-600k inheritance but probate could take 12-18 months."
+    },
+    {
+      "date": "2024-10-05",
+      "subject": "Early Retirement Question",
+      "body": "Thinking about retiring next June instead of waiting until 67. Can we model what that looks like?"
+    }
+  ],
+  "tasks": [
+    {
+      "due_date": "2025-01-15",
+      "subject": "Retirement Projection",
+      "summary": "Model early retirement at 66 vs 67 with current withdrawal rate",
+      "status": "Pending"
+    },
+    {
+      "due_date": "2025-03-10",
+      "subject": "Annual Review",
+      "summary": "Schedule annual review - discuss withdrawal sustainability and daughter's graduation timeline",
+      "status": "Pending"
+    },
+    {
+      "due_date": "2024-04-15",
+      "subject": "Systematic Withdrawal Setup",
+      "summary": "Configured systematic monthly withdrawals of $10,500 from brokerage account",
+      "status": "Completed"
+    },
+    {
+      "due_date": "2024-10-15",
+      "subject": "ESG Allocation Review",
+      "summary": "Reviewed and rebalanced ESG fund allocation per quarterly review discussion",
+      "status": "Completed"
+    }
+  ]
+}

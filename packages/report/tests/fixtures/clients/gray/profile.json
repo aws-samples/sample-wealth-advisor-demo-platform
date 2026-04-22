@@ -1,0 +1,54 @@
+{
+  "client_id": "CLT-001",
+  "names": ["Lisa Gray", "Jack Gray"],
+  "dates_of_birth": ["1952-03-20", "1953-04-25"],
+  "client_since": "2014-05-14",
+  "aum": 2850000,
+  "risk_profile": "Moderate",
+  "service_model": "Advisory",
+  "activity_level": "Low",
+  "sophistication": "Intermediate",
+  "qualified_investor": false,
+  "domicile": "US",
+  "tax_jurisdiction": "US - Florida",
+  "restrictions": ["No alternative investments", "No margin trading", "No individual bonds below investment grade"],
+  "document_links": [
+    {"label": "Investor Profile", "url": "https://docs.example.com/clients/CLT-001/investor-profile.pdf"},
+    {"label": "Investment Guidelines", "url": "https://docs.example.com/clients/CLT-001/guidelines.pdf"},
+    {"label": "Client Brochure", "url": "https://docs.example.com/clients/CLT-001/brochure.pdf"}
+  ],
+  "associated_accounts": [
+    {
+      "account_type": "Joint Brokerage",
+      "value": 1200000,
+      "description": "Primary investment account",
+      "currency": "USD",
+      "risk_profile": "Moderate",
+      "inception_date": "2014-05-14"
+    },
+    {
+      "account_type": "Lisa IRA",
+      "value": 850000,
+      "description": "Traditional IRA with QCD setup",
+      "currency": "USD",
+      "risk_profile": "Moderate",
+      "inception_date": "2014-06-01"
+    },
+    {
+      "account_type": "Jack IRA",
+      "value": 650000,
+      "description": "Traditional IRA",
+      "currency": "USD",
+      "risk_profile": "Moderate",
+      "inception_date": "2014-06-01"
+    },
+    {
+      "account_type": "Real Estate",
+      "value": 500000,
+      "description": "Florida vacation home",
+      "currency": "USD",
+      "risk_profile": null,
+      "inception_date": "2018-03-15"
+    }
+  ]
+}

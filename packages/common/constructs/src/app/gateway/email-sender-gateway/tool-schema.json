@@ -1,0 +1,19 @@
+[
+  {
+    "name": "send_email",
+    "description": "Send an email via SES. Supports plain text body and optional S3 file attachment.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "to": { "type": "string", "description": "Recipient email address" },
+        "subject": { "type": "string", "description": "Email subject line" },
+        "body": { "type": "string", "description": "Email body text" },
+        "attachment_url": {
+          "type": "string",
+          "description": "Optional S3 URL for file attachment"
+        }
+      },
+      "required": ["to", "subject", "body"]
+    }
+  }
+]

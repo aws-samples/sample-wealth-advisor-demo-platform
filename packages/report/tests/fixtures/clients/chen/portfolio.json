@@ -1,0 +1,51 @@
+{
+  "holdings": [
+    {"asset": "US Equities", "allocation": 0.40, "value": 580000},
+    {"asset": "International Equities", "allocation": 0.15, "value": 217500},
+    {"asset": "Fixed Income", "allocation": 0.25, "value": 362500},
+    {"asset": "ESG Funds", "allocation": 0.15, "value": 217500},
+    {"asset": "Cash", "allocation": 0.05, "value": 72500}
+  ],
+  "positions": [
+    {"ticker": "VOO", "name": "Vanguard S&P 500 ETF", "quantity": 800, "purchase_price": 385.20, "current_price": 420.50, "market_value": 336400, "unrealized_gain_loss": 28240, "asset_class": "US Equities"},
+    {"ticker": "MSFT", "name": "Microsoft Corporation", "quantity": 400, "purchase_price": 340.80, "current_price": 365.25, "market_value": 146100, "unrealized_gain_loss": 9780, "asset_class": "US Equities"},
+    {"ticker": "GOOGL", "name": "Alphabet Inc. Class A", "quantity": 650, "purchase_price": 142.60, "current_price": 149.85, "market_value": 97402.50, "unrealized_gain_loss": 4712.50, "asset_class": "US Equities"},
+    {"ticker": "VXUS", "name": "Vanguard Total International Stock ETF", "quantity": 3500, "purchase_price": 59.80, "current_price": 62.15, "market_value": 217525, "unrealized_gain_loss": 8225, "asset_class": "International Equities"},
+    {"ticker": "AGG", "name": "iShares Core US Aggregate Bond ETF", "quantity": 2000, "purchase_price": 105.40, "current_price": 102.85, "market_value": 205700, "unrealized_gain_loss": -5100, "asset_class": "Fixed Income"},
+    {"ticker": "VCIT", "name": "Vanguard Intermediate-Term Corporate Bond ETF", "quantity": 1800, "purchase_price": 86.90, "current_price": 87.11, "market_value": 156798, "unrealized_gain_loss": 378, "asset_class": "Fixed Income"},
+    {"ticker": "ESGU", "name": "iShares MSCI USA ESG Select ETF", "quantity": 1200, "purchase_price": 95.60, "current_price": 102.40, "market_value": 122880, "unrealized_gain_loss": 8160, "asset_class": "ESG Funds"},
+    {"ticker": "SUSA", "name": "iShares MSCI USA ESG Select ETF", "quantity": 1000, "purchase_price": 92.80, "current_price": 94.62, "market_value": 94620, "unrealized_gain_loss": 1820, "asset_class": "ESG Funds"},
+    {"ticker": "VMOT", "name": "Vanguard Short-Term Treasury ETF", "quantity": 1450, "purchase_price": 49.95, "current_price": 50.00, "market_value": 72500, "unrealized_gain_loss": 72.50, "asset_class": "Cash"}
+  ],
+  "performance": {
+    "ytd": 0.031,
+    "one_year": 0.065,
+    "since_inception": 0.054,
+    "volatility": 0.098,
+    "max_drawdown": -0.15
+  },
+  "cash_flows": [
+    {"period": "2024-Q4", "inflows": 0, "outflows": 32000},
+    {"period": "2024-Q3", "inflows": 0, "outflows": 32000},
+    {"period": "2024-Q2", "inflows": 0, "outflows": 32000},
+    {"period": "2024-Q1", "inflows": 0, "outflows": 32000}
+  ],
+  "income_expense_analysis": {
+    "monthly_income": 3200,
+    "monthly_expenses": 10500,
+    "sustainability_years": 12
+  },
+  "target_allocation": [
+    {"asset": "US Equities", "target": 0.35, "lower_band": 0.25, "upper_band": 0.45},
+    {"asset": "International Equities", "target": 0.15, "lower_band": 0.10, "upper_band": 0.20},
+    {"asset": "Fixed Income", "target": 0.25, "lower_band": 0.20, "upper_band": 0.35},
+    {"asset": "ESG Funds", "target": 0.20, "lower_band": 0.10, "upper_band": 0.25},
+    {"asset": "Cash", "target": 0.05, "lower_band": 0.03, "upper_band": 0.07}
+  ],
+  "projected_cash_flows": [
+    {"period": "2025-Q1", "known_inflows": 2400, "estimated_outflows": 32000, "inflow_sources": {"Dividends": 1500, "Interest": 900}},
+    {"period": "2025-Q2", "known_inflows": 2600, "estimated_outflows": 32000, "inflow_sources": {"Dividends": 1600, "Interest": 1000}},
+    {"period": "2025-Q3", "known_inflows": 2400, "estimated_outflows": 25000, "inflow_sources": {"Dividends": 1500, "Interest": 900}},
+    {"period": "2025-Q4", "known_inflows": 2600, "estimated_outflows": 25000, "inflow_sources": {"Dividends": 1600, "Interest": 1000}}
+  ]
+}

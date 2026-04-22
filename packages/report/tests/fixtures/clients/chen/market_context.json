@@ -1,0 +1,32 @@
+{
+  "as_of_date": "2025-01-15",
+  "benchmark_returns": [
+    {"name": "S&P 500", "ytd": 0.023, "one_year": 0.112},
+    {"name": "Bloomberg US Agg Bond", "ytd": 0.005, "one_year": 0.032},
+    {"name": "MSCI ESG Leaders", "ytd": 0.019, "one_year": 0.085}
+  ],
+  "sector_performance": [
+    {"sector": "Technology", "ytd": 0.035},
+    {"sector": "Healthcare", "ytd": 0.012},
+    {"sector": "Clean Energy", "ytd": -0.015},
+    {"sector": "Financials", "ytd": 0.028},
+    {"sector": "ESG Leaders", "ytd": 0.021}
+  ],
+  "notable_events": [
+    {
+      "date": "2024-10-15",
+      "description": "Fed rate cut of 50bps supported bond prices and ESG fixed income",
+      "impact": "Positive"
+    },
+    {
+      "date": "2024-12-01",
+      "description": "New SEC climate disclosure rules boosted ESG fund inflows",
+      "impact": "Positive"
+    },
+    {
+      "date": "2025-01-10",
+      "description": "Clean energy sector underperformed on subsidy uncertainty",
+      "impact": "Negative"
+    }
+  ]
+}

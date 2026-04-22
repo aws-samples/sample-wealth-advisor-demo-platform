@@ -1,0 +1,155 @@
+document_id,client_id,account_id,document_type,document_name,upload_date,file_size_kb,storage_location
+DOC00000005,CL00004,AC000063,Statement,Year-End Statement,2024-03-19,731,
+DOC00000126,CL00004,AC000056,Statement,Annual Summary Statement,2024-04-25,602,
+DOC00000027,CL00004,AC000048,Statement,Quarterly Portfolio Statement,2024-08-29,270,/documents/contracts/quarterly_portfolio_statement_20240829.pdf
+DOC00000018,CL00004,AC000017,Report,Benchmark Comparison Report,2024-09-11,1122,
+DOC00000151,CL00004,,Statement,Performance Statement,2024-12-20,860,/documents/disclosures/performance_statement_20241220.pdf
+DOC00000024,CL00004,AC000029,Disclosure,Proxy Voting Disclosure,2025-03-22,1452,/documents/reports/2025/proxy_voting_disclosure_20250322.pdf
+DOC00000021,CL00004,AC000016,Statement,Holdings Statement,2025-04-27,734,/documents/statements/2025/04/holdings_statement_20250427.pdf
+DOC00000002,CL00004,AC000093,Statement,Quarterly Portfolio Statement,2025-07-15,813,/archive/2025/statement/quarterly_portfolio_statement_20250715.pdf
+DOC00000108,CL00036,AC000008,Statement,Quarterly Portfolio Statement,2023-12-16,301,/documents/disclosures/quarterly_portfolio_statement_20231216.pdf
+DOC00000142,CL00036,,Report,Asset Allocation Report,2025-02-14,1342,/documents/reports/2025/asset_allocation_report_20250214.pdf
+DOC00000034,CL00036,AC000044,Report,Asset Allocation Report,2025-04-16,864,
+DOC00000047,CL00036,AC000053,Disclosure,Conflict of Interest Disclosure,2025-12-11,337,
+DOC00000022,CL00008,,Report,Goal Progress Report,2024-06-13,996,/documents/disclosures/goal_progress_report_20240613.pdf
+DOC00000082,CL00008,AC000007,Statement,Transaction Statement,2024-07-30,514,/documents/statements/2024/07/transaction_statement_20240730.pdf
+DOC00000063,CL00008,AC000056,Report,Investment Analysis Report,2025-06-04,1190,/documents/tax/2025/investment_analysis_report_20250604.pdf
+DOC00000139,CL00007,AC000009,Report,Portfolio Performance Report,2024-02-06,1794,
+DOC00000014,CL00007,AC000095,Statement,Fee Statement,2024-02-24,494,/secure/client_docs/CL00007/fee_statement_20240224.pdf
+DOC00000050,CL00007,AC000036,Statement,Transaction Statement,2024-09-13,694,
+DOC00000076,CL00007,AC000014,Statement,Performance Statement,2024-10-21,723,/documents/reports/2024/performance_statement_20241021.pdf
+DOC00000062,CL00026,,Report,Market Commentary Report,2024-03-10,580,/documents/contracts/market_commentary_report_20240310.pdf
+DOC00000098,CL00026,,Statement,Fee Statement,2024-05-23,249,/archive/2024/statement/fee_statement_20240523.pdf
+DOC00000045,CL00026,,Contract,Trust Agreement,2024-05-29,525,
+DOC00000101,CL00026,AC000012,Report,Goal Progress Report,2024-10-02,1039,
+DOC00000010,CL00005,AC000011,Report,Goal Progress Report,2024-03-30,1327,/documents/tax/2024/goal_progress_report_20240330.pdf
+DOC00000046,CL00005,,Disclosure,Privacy Policy Notice,2024-05-05,377,/client_files/CL00005/statements/privacy_policy_notice_20240505.pdf
+DOC00000041,CL00005,AC000059,Disclosure,Privacy Policy Notice,2025-04-18,1020,/documents/contracts/privacy_policy_notice_20250418.pdf
+DOC00000006,CL00005,AC000091,Tax Form,1099-INT Interest Statement,2025-07-05,404,/documents/tax/2025/1099-int_interest_statement_20250705.pdf
+DOC00000124,CL00005,AC000074,Report,Market Commentary Report,2025-07-28,995,/documents/contracts/market_commentary_report_20250728.pdf
+DOC00000123,CL00001,AC000054,Report,Market Commentary Report,2023-12-24,789,/compliance/disclosures/market_commentary_report_20231224.pdf
+DOC00000028,CL00001,,Contract,Trust Agreement,2024-07-22,445,
+DOC00000061,CL00001,AC000041,Disclosure,Fee Schedule Disclosure,2024-08-13,479,/client_files/CL00001/statements/fee_schedule_disclosure_20240813.pdf
+DOC00000120,CL00001,AC000018,Report,Asset Allocation Report,2025-04-20,1924,/documents/disclosures/asset_allocation_report_20250420.pdf
+DOC00000095,CL00001,,Statement,Holdings Statement,2025-10-29,593,/client_files/CL00001/statements/holdings_statement_20251029.pdf
+DOC00000137,CL00001,AC000086,Tax Form,IRA Distribution Form,2025-11-14,212,/tax_documents/2025/ira_distribution_form_20251114.pdf
+DOC00000121,CL00001,,Statement,Fee Statement,2025-11-17,376,/documents/reports/2025/fee_statement_20251117.pdf
+DOC00000148,CL00017,AC000018,Statement,Holdings Statement,2024-01-19,750,
+DOC00000138,CL00017,,Contract,Wire Transfer Agreement,2024-07-17,199,/compliance/disclosures/wire_transfer_agreement_20240717.pdf
+DOC00000096,CL00017,AC000079,Disclosure,Investment Advisory Agreement,2025-06-02,1176,/documents/tax/2025/investment_advisory_agreement_20250602.pdf
+DOC00000153,CL00017,AC000004,Report,Asset Allocation Report,2025-09-25,1276,/documents/reports/2025/asset_allocation_report_20250925.pdf
+DOC00000008,CL00031,AC000026,Statement,Year-End Statement,2024-03-13,668,/documents/statements/2024/03/year-end_statement_20240313.pdf
+DOC00000080,CL00032,,Disclosure,Conflict of Interest Disclosure,2024-05-23,752,/compliance/disclosures/conflict_of_interest_disclosure_20240523.pdf
+DOC00000079,CL00031,,Statement,Monthly Account Statement,2024-07-21,257,
+DOC00000150,CL00032,AC000094,Tax Form,1099-MISC Miscellaneous Income,2024-09-11,249,/documents/disclosures/1099-misc_miscellaneous_income_20240911.pdf
+DOC00000011,CL00032,AC000038,Statement,Holdings Statement,2024-10-13,691,
+DOC00000125,CL00031,,Report,Asset Allocation Report,2025-02-09,1497,/secure/client_docs/CL00031/asset_allocation_report_20250209.pdf
+DOC00000089,CL00031,AC000097,Statement,Transaction Statement,2025-03-06,361,/compliance/disclosures/transaction_statement_20250306.pdf
+DOC00000013,CL00031,AC000012,Report,Portfolio Performance Report,2025-04-07,1254,/documents/statements/2025/04/portfolio_performance_report_20250407.pdf
+DOC00000112,CL00013,AC000005,Statement,Year-End Statement,2024-02-14,778,
+DOC00000070,CL00013,,Tax Form,Tax Lot Detail Report,2024-03-04,239,/documents/contracts/tax_lot_detail_report_20240304.pdf
+DOC00000147,CL00013,AC000001,Report,Risk Assessment Report,2024-09-28,1643,
+DOC00000154,CL00013,AC000067,Tax Form,IRA Distribution Form,2025-02-10,157,/archive/2025/tax_form/ira_distribution_form_20250210.pdf
+DOC00000143,CL00013,AC000002,Report,Tax Loss Harvesting Report,2025-06-05,696,
+DOC00000068,CL00013,AC000043,Statement,Fee Statement,2025-06-19,646,/documents/tax/2025/fee_statement_20250619.pdf
+DOC00000090,CL00013,AC000018,Disclosure,Conflict of Interest Disclosure,2025-10-04,965,/documents/tax/2025/conflict_of_interest_disclosure_20251004.pdf
+DOC00000132,CL00019,,Statement,Annual Summary Statement,2024-06-27,636,/documents/contracts/annual_summary_statement_20240627.pdf
+DOC00000093,CL00025,,Statement,Monthly Account Statement,2024-01-30,799,/client_files/CL00025/statements/monthly_account_statement_20240130.pdf
+DOC00000116,CL00025,,Disclosure,Form ADV Disclosure,2024-02-06,1305,/client_files/CL00025/statements/form_adv_disclosure_20240206.pdf
+DOC00000017,CL00025,,Disclosure,Investment Policy Statement,2024-05-03,547,/secure/client_docs/CL00025/investment_policy_statement_20240503.pdf
+DOC00000091,CL00025,AC000034,Report,Risk Assessment Report,2024-11-02,867,/documents/tax/2024/risk_assessment_report_20241102.pdf
+DOC00000023,CL00025,AC000040,Tax Form,Tax Cost Basis Report,2025-01-03,262,/tax_documents/2025/tax_cost_basis_report_20250103.pdf
+DOC00000149,CL00025,AC000051,Statement,Tax Statement,2025-03-30,436,
+DOC00000152,CL00025,AC000032,Statement,Quarterly Portfolio Statement,2025-05-27,766,
+DOC00000051,CL00025,AC000072,Statement,Holdings Statement,2025-06-19,389,/documents/reports/2025/holdings_statement_20250619.pdf
+DOC00000131,CL00014,,Tax Form,1099-MISC Miscellaneous Income,2024-02-29,213,/compliance/disclosures/1099-misc_miscellaneous_income_20240229.pdf
+DOC00000135,CL00035,AC000095,Contract,Beneficiary Designation,2024-02-29,614,
+DOC00000073,CL00035,,Statement,Monthly Account Statement,2024-09-23,945,/documents/disclosures/monthly_account_statement_20240923.pdf
+DOC00000078,CL00035,AC000038,Tax Form,1099-MISC Miscellaneous Income,2024-11-16,127,/documents/contracts/1099-misc_miscellaneous_income_20241116.pdf
+DOC00000007,CL00035,AC000053,Report,Investment Analysis Report,2025-07-19,1175,
+DOC00000035,CL00035,AC000057,Tax Form,Year-End Tax Summary,2025-10-17,323,/documents/disclosures/year-end_tax_summary_20251017.pdf
+DOC00000110,CL00015,AC000011,Report,Market Commentary Report,2024-01-14,614,/documents/disclosures/market_commentary_report_20240114.pdf
+DOC00000141,CL00015,AC000033,Report,Portfolio Performance Report,2024-02-01,687,/secure/client_docs/CL00015/portfolio_performance_report_20240201.pdf
+DOC00000038,CL00015,AC000034,Disclosure,Fee Schedule Disclosure,2024-07-11,742,/tax_documents/2024/fee_schedule_disclosure_20240711.pdf
+DOC00000039,CL00015,AC000034,Tax Form,1099-B Proceeds Statement,2024-12-09,198,/documents/contracts/1099-b_proceeds_statement_20241209.pdf
+DOC00000048,CL00015,,Report,Risk Assessment Report,2025-03-08,1733,
+DOC00000075,CL00028,AC000082,Disclosure,Regulatory Disclosure,2024-07-06,1473,
+DOC00000087,CL00028,AC000056,Statement,Year-End Statement,2025-06-02,389,/documents/contracts/year-end_statement_20250602.pdf
+DOC00000030,CL00029,,Statement,Consolidated Statement,2024-01-30,637,/archive/2024/statement/consolidated_statement_20240130.pdf
+DOC00000057,CL00029,,Contract,Trading Authorization,2024-11-13,767,/documents/statements/2024/11/trading_authorization_20241113.pdf
+DOC00000026,CL00029,AC000091,Tax Form,Tax Lot Detail Report,2024-12-17,215,
+DOC00000117,CL00029,,Statement,Transaction Statement,2024-12-21,612,/documents/tax/2024/transaction_statement_20241221.pdf
+DOC00000049,CL00029,AC000026,Disclosure,Risk Disclosure Document,2025-01-12,693,/documents/statements/2025/01/risk_disclosure_document_20250112.pdf
+DOC00000114,CL00029,AC000024,Report,Asset Allocation Report,2025-05-07,1047,/documents/reports/2025/asset_allocation_report_20250507.pdf
+DOC00000052,CL00029,,Statement,Quarterly Portfolio Statement,2025-09-28,379,
+DOC00000083,CL00029,AC000043,Report,Investment Analysis Report,2025-10-10,658,
+DOC00000015,CL00022,AC000077,Statement,Year-End Statement,2024-08-25,295,/documents/reports/2024/year-end_statement_20240825.pdf
+DOC00000053,CL00022,AC000094,Tax Form,1099-INT Interest Statement,2025-07-05,180,/documents/reports/2025/1099-int_interest_statement_20250705.pdf
+DOC00000032,CL00034,,Statement,Consolidated Statement,2024-01-07,349,/secure/client_docs/CL00034/consolidated_statement_20240107.pdf
+DOC00000100,CL00034,AC000037,Statement,Tax Statement,2024-06-09,345,/documents/disclosures/tax_statement_20240609.pdf
+DOC00000025,CL00034,AC000054,Report,Market Commentary Report,2025-01-14,821,/compliance/disclosures/market_commentary_report_20250114.pdf
+DOC00000127,CL00034,,Report,Investment Research Report,2025-08-19,1831,
+DOC00000133,CL00034,,Report,Goal Progress Report,2025-09-13,1927,/documents/tax/2025/goal_progress_report_20250913.pdf
+DOC00000065,CL00021,AC000045,Statement,Monthly Account Statement,2024-01-16,716,/documents/disclosures/monthly_account_statement_20240116.pdf
+DOC00000019,CL00021,AC000031,Report,Investment Analysis Report,2024-03-21,1798,/documents/contracts/investment_analysis_report_20240321.pdf
+DOC00000094,CL00021,AC000040,Statement,Annual Summary Statement,2024-12-09,439,/secure/client_docs/CL00021/annual_summary_statement_20241209.pdf
+DOC00000072,CL00018,,Statement,Holdings Statement,2024-01-10,308,
+DOC00000099,CL00018,,Tax Form,Year-End Tax Summary,2024-02-02,269,/client_files/CL00018/statements/year-end_tax_summary_20240202.pdf
+DOC00000042,CL00018,AC000060,Tax Form,Tax Lot Detail Report,2024-03-09,106,/secure/client_docs/CL00018/tax_lot_detail_report_20240309.pdf
+DOC00000092,CL00018,AC000012,Statement,Holdings Statement,2024-04-28,421,/documents/disclosures/holdings_statement_20240428.pdf
+DOC00000055,CL00018,AC000021,Statement,Consolidated Statement,2025-02-18,310,
+DOC00000066,CL00018,,Tax Form,1099-INT Interest Statement,2025-07-24,250,/documents/disclosures/1099-int_interest_statement_20250724.pdf
+DOC00000128,CL00002,AC000013,Statement,Consolidated Statement,2024-07-21,974,/compliance/disclosures/consolidated_statement_20240721.pdf
+DOC00000040,CL00002,AC000099,Report,Rebalancing Report,2025-09-06,595,/secure/client_docs/CL00002/rebalancing_report_20250906.pdf
+DOC00000085,CL00002,,Tax Form,1099-INT Interest Statement,2025-11-12,167,/documents/statements/2025/11/1099-int_interest_statement_20251112.pdf
+DOC00000107,CL00012,AC000006,Disclosure,Fee Schedule Disclosure,2023-12-25,331,/documents/disclosures/fee_schedule_disclosure_20231225.pdf
+DOC00000029,CL00012,AC000012,Statement,Transaction Statement,2024-08-06,701,/documents/statements/2024/08/transaction_statement_20240806.pdf
+DOC00000060,CL00012,AC000087,Report,Portfolio Performance Report,2024-10-16,939,/documents/contracts/portfolio_performance_report_20241016.pdf
+DOC00000113,CL00012,AC000049,Statement,Fee Statement,2025-06-25,429,/archive/2025/statement/fee_statement_20250625.pdf
+DOC00000031,CL00033,AC000070,Report,Benchmark Comparison Report,2023-12-20,1350,/documents/statements/2023/12/benchmark_comparison_report_20231220.pdf
+DOC00000054,CL00009,AC000075,Statement,Transaction Statement,2024-06-14,325,
+DOC00000043,CL00023,,Disclosure,Investment Advisory Agreement,2024-12-05,680,/tax_documents/2024/investment_advisory_agreement_20241205.pdf
+DOC00000081,CL00009,AC000002,Report,Investment Research Report,2025-01-30,1614,/documents/reports/2025/investment_research_report_20250130.pdf
+DOC00000012,CL00023,AC000034,Statement,Consolidated Statement,2025-02-24,538,
+DOC00000056,CL00033,AC000097,Statement,Year-End Statement,2025-04-14,708,/documents/disclosures/year-end_statement_20250414.pdf
+DOC00000115,CL00033,,Statement,Annual Summary Statement,2025-04-30,468,/tax_documents/2025/annual_summary_statement_20250430.pdf
+DOC00000144,CL00033,,Report,Tax Loss Harvesting Report,2025-05-06,1023,/documents/contracts/tax_loss_harvesting_report_20250506.pdf
+DOC00000146,CL00009,AC000026,Report,Goal Progress Report,2025-09-28,1406,/tax_documents/2025/goal_progress_report_20250928.pdf
+DOC00000074,CL00023,,Disclosure,Risk Disclosure Document,2025-10-24,576,/compliance/disclosures/risk_disclosure_document_20251024.pdf
+DOC00000088,CL00009,AC000048,Contract,Trust Agreement,2025-11-28,226,/documents/disclosures/trust_agreement_20251128.pdf
+DOC00000102,CL00033,AC000044,Disclosure,Privacy Policy Notice,2025-12-13,693,/documents/contracts/privacy_policy_notice_20251213.pdf
+DOC00000001,CL00010,,Report,Rebalancing Report,2024-02-14,1321,/client_files/CL00010/statements/rebalancing_report_20240214.pdf
+DOC00000059,CL00010,AC000047,Statement,Year-End Statement,2024-07-21,819,/documents/reports/2024/year-end_statement_20240721.pdf
+DOC00000086,CL00010,,Statement,Tax Statement,2025-06-09,732,/documents/disclosures/tax_statement_20250609.pdf
+DOC00000130,CL00024,AC000048,Report,Investment Research Report,2024-07-16,1448,/secure/client_docs/CL00024/investment_research_report_20240716.pdf
+DOC00000111,CL00024,,Disclosure,Regulatory Disclosure,2025-07-03,821,/archive/2025/disclosure/regulatory_disclosure_20250703.pdf
+DOC00000145,CL00024,AC000059,Report,Goal Progress Report,2025-08-13,744,/client_files/CL00024/statements/goal_progress_report_20250813.pdf
+DOC00000118,CL00024,AC000032,Tax Form,Tax Withholding Statement,2025-09-06,184,/documents/tax/2025/tax_withholding_statement_20250906.pdf
+DOC00000020,CL00020,,Statement,Fee Statement,2023-12-20,474,
+DOC00000003,CL00020,,Contract,Power of Attorney,2024-01-31,382,/tax_documents/2024/power_of_attorney_20240131.pdf
+DOC00000109,CL00020,AC000082,Statement,Year-End Statement,2024-06-26,422,
+DOC00000069,CL00020,AC000023,Tax Form,Realized Gains/Losses Report,2024-08-21,400,/compliance/disclosures/realized_gains/losses_report_20240821.pdf
+DOC00000037,CL00020,AC000023,Tax Form,Tax Cost Basis Report,2024-12-26,445,
+DOC00000077,CL00020,AC000089,Report,Market Commentary Report,2025-07-27,1991,/client_files/CL00020/statements/market_commentary_report_20250727.pdf
+DOC00000129,CL00020,AC000019,Report,Rebalancing Report,2025-08-14,1641,/archive/2025/report/rebalancing_report_20250814.pdf
+DOC00000119,CL00020,AC000012,Report,Asset Allocation Report,2025-08-21,1248,
+DOC00000106,CL00020,,Statement,Quarterly Portfolio Statement,2025-09-17,302,/compliance/disclosures/quarterly_portfolio_statement_20250917.pdf
+DOC00000016,CL00011,,Disclosure,Risk Disclosure Document,2025-01-02,1057,
+DOC00000067,CL00030,,Contract,Account Opening Agreement,2024-05-10,460,/compliance/disclosures/account_opening_agreement_20240510.pdf
+DOC00000104,CL00030,AC000040,Statement,Tax Statement,2024-09-19,854,/archive/2024/statement/tax_statement_20240919.pdf
+DOC00000103,CL00030,,Report,Rebalancing Report,2025-01-02,1382,/documents/reports/2025/rebalancing_report_20250102.pdf
+DOC00000064,CL00030,AC000001,Disclosure,Custody Disclosure,2025-04-03,1414,/documents/contracts/custody_disclosure_20250403.pdf
+DOC00000097,CL00030,AC000058,Statement,Holdings Statement,2025-04-28,349,/compliance/disclosures/holdings_statement_20250428.pdf
+DOC00000009,CL00006,,Report,Asset Allocation Report,2024-02-21,1977,
+DOC00000036,CL00006,AC000059,Disclosure,Form ADV Disclosure,2024-04-30,1113,/archive/2024/disclosure/form_adv_disclosure_20240430.pdf
+DOC00000071,CL00027,AC000063,Contract,Account Opening Agreement,2024-05-14,768,/tax_documents/2024/account_opening_agreement_20240514.pdf
+DOC00000084,CL00006,AC000023,Disclosure,Conflict of Interest Disclosure,2024-06-29,660,/tax_documents/2024/conflict_of_interest_disclosure_20240629.pdf
+DOC00000105,CL00027,AC000031,Report,Investment Research Report,2024-09-23,1793,
+DOC00000044,CL00027,AC000019,Report,Risk Assessment Report,2025-02-04,1350,/documents/statements/2025/02/risk_assessment_report_20250204.pdf
+DOC00000122,CL00006,AC000018,Report,Rebalancing Report,2025-08-14,777,
+DOC00000058,CL00006,AC000074,Statement,Consolidated Statement,2025-10-07,490,
+DOC00000140,CL00006,,Report,Rebalancing Report,2025-11-21,1008,/documents/contracts/rebalancing_report_20251121.pdf
+DOC00000004,CL00006,AC000082,Statement,Year-End Statement,2025-12-02,393,
+DOC00000134,CL00003,AC000036,Statement,Monthly Account Statement,2024-12-23,229,/compliance/disclosures/monthly_account_statement_20241223.pdf
+DOC00000136,CL00003,AC000065,Statement,Monthly Account Statement,2025-03-12,673,/documents/tax/2025/monthly_account_statement_20250312.pdf
+DOC00000033,CL00003,,Statement,Quarterly Portfolio Statement,2025-05-16,837,

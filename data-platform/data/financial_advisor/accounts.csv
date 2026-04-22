@@ -1,0 +1,100 @@
+account_id,client_id,account_type,account_name,opening_date,investment_strategy,status,current_balance
+AC000002,CL00019,Individual,James Phillips Individual Account,2024-09-16,Balanced,Active,22404998.09
+AC000038,CL00019,IRA,James Phillips IRA,2025-02-08,Income,Active,29377118.23
+AC000032,CL00019,Individual,James Phillips Individual Account,2025-02-23,Conservative Growth,Active,29621403.36
+AC000025,CL00004,Joint,Susan Douglas & Whitney Joint Account,2024-04-18,Aggressive Growth,Active,41027753.14
+AC000046,CL00004,Individual,Susan Douglas Individual Account,2024-09-28,Aggressive Growth,Active,22780131.63
+AC000053,CL00004,Individual,Susan Douglas Individual Account,2025-02-01,Income,Active,20846210.32
+AC000040,CL00004,Individual,Susan Douglas Individual Account,2025-06-25,Aggressive Growth,Active,8907502.47
+AC000004,CL00007,Individual,Christopher Lynch Individual Account,2024-05-27,Conservative Growth,Active,3966303.94
+AC000061,CL00007,IRA,Christopher Lynch IRA,2025-02-09,Conservative Growth,Active,1128617.57
+AC000020,CL00007,Joint,Christopher Lynch & Ryan Joint Account,2025-12-02,Balanced,Active,2387818.00
+AC000013,CL00026,Individual,Timothy Boyer Individual Account,2025-07-21,Conservative Growth,Active,36790507.66
+AC000095,CL00005,Joint,Charles Perry & Robert Joint Account,2023-02-23,Aggressive Growth,Active,274667.58
+AC000056,CL00005,Individual,Charles Perry Individual Account,2023-02-27,Aggressive Growth,Active,444541.56
+AC000017,CL00005,Individual,Charles Perry Individual Account,2025-10-09,Income,Active,171524.09
+AC000052,CL00015,Individual,Lisa Moyer Individual Account,2023-03-13,Aggressive Growth,Active,4658362.82
+AC000048,CL00015,Individual,Lisa Moyer Individual Account,2024-12-13,Income,Active,3080786.54
+AC000087,CL00015,Individual,Lisa Moyer Individual Account,2025-03-21,Income,Active,3790340.60
+AC000045,CL00031,Joint,Steven Jackson & Jessica Joint Account,2023-07-19,Aggressive Growth,Active,4998512.35
+AC000003,CL00031,Joint,Steven Jackson & Wendy Joint Account,2023-08-07,Income,Active,2004586.44
+AC000010,CL00031,Joint,Steven Jackson & Glenn Joint Account,2025-02-01,Aggressive Growth,Active,1705943.64
+AC000086,CL00032,Individual,Tina Buchanan Individual Account,2025-12-02,Aggressive Growth,Active,769894.72
+AC000083,CL00035,Joint,Bryan Brown & Sandra Joint Account,2022-12-13,Conservative Growth,Active,364065.83
+AC000042,CL00035,Joint,Bryan Brown & Cameron Joint Account,2023-03-18,Aggressive Growth,Active,382874.73
+AC000089,CL00014,Individual,Logan Hall Individual Account,2023-07-28,Aggressive Growth,Active,2625444.14
+AC000031,CL00014,Joint,Logan Hall & Albert Joint Account,2024-05-06,Aggressive Growth,Active,3042688.27
+AC000084,CL00035,Joint,Bryan Brown & Mary Joint Account,2024-06-11,Aggressive Growth,Active,363512.01
+AC000019,CL00035,Joint,Bryan Brown & William Joint Account,2024-10-03,Balanced,Active,571745.75
+AC000096,CL00035,Individual,Bryan Brown Individual Account,2024-12-27,Aggressive Growth,Active,896487.90
+AC000060,CL00014,Joint,Logan Hall & Breanna Joint Account,2025-05-26,Conservative Growth,Active,3972047.54
+AC000082,CL00014,Individual,Logan Hall Individual Account,2025-06-06,Balanced,Active,2448509.45
+AC000080,CL00013,Trust,Natasha Johnston Living Trust,2024-03-15,Income,Active,19175448.27
+AC000091,CL00013,IRA,Natasha Johnston IRA,2024-03-23,Balanced,Active,43184557.05
+AC000006,CL00013,IRA,Natasha Johnston IRA,2024-04-12,Balanced,Active,21904113.07
+AC000063,CL00013,Individual,Natasha Johnston Individual Account,2024-05-18,Aggressive Growth,Active,19814886.85
+AC000015,CL00013,IRA,Natasha Johnston IRA,2024-07-31,Conservative Growth,Active,23744849.57
+AC000065,CL00013,Individual,Natasha Johnston Individual Account,2024-09-21,Conservative Growth,Active,10092896.24
+AC000097,CL00013,Individual,Natasha Johnston Individual Account,2025-01-24,Aggressive Growth,Active,17251220.04
+AC000072,CL00013,Individual,Natasha Johnston Individual Account,2025-09-10,Aggressive Growth,Active,47618114.48
+AC000049,CL00025,Individual,Dylan Baker Individual Account,2025-07-17,Aggressive Growth,Active,37903889.60
+AC000011,CL00025,Joint,Dylan Baker & Elizabeth Joint Account,2025-09-10,Conservative Growth,Active,21869092.48
+AC000058,CL00025,IRA,Dylan Baker IRA,2025-10-05,Aggressive Growth,Active,12440090.20
+AC000054,CL00034,IRA,Kelly White IRA,2024-03-21,Income,Active,9390696.90
+AC000070,CL00034,Individual,Kelly White Individual Account,2024-09-16,Income,Active,28421554.94
+AC000085,CL00034,Individual,Kelly White Individual Account,2025-11-14,Conservative Growth,Active,22500508.12
+AC000068,CL00034,Individual,Kelly White Individual Account,2025-11-29,Aggressive Growth,Active,14793196.65
+AC000026,CL00012,Joint,Natalie Allen & Tiffany Joint Account,2025-03-22,Aggressive Growth,Active,34035770.06
+AC000036,CL00018,IRA,Molly Young IRA,2023-07-28,Balanced,Active,40511181.21
+AC000064,CL00018,Joint,Molly Young & Elizabeth Joint Account,2024-01-27,Aggressive Growth,Active,42168686.82
+AC000044,CL00018,Individual,Molly Young Individual Account,2024-01-30,Balanced,Active,37542226.35
+AC000062,CL00018,Joint,Molly Young & Derek Joint Account,2025-05-13,Aggressive Growth,Active,32863042.82
+AC000099,CL00010,Joint,Cameron Evans & Thomas Joint Account,2023-08-11,Balanced,Active,35800720.01
+AC000009,CL00010,Individual,Cameron Evans Individual Account,2024-09-21,Income,Active,5872823.11
+AC000001,CL00009,Joint,Rebecca Villarreal & Sarah Joint Account,2023-12-21,Income,Active,508744.92
+AC000005,CL00009,IRA,Rebecca Villarreal IRA,2025-02-27,Conservative Growth,Active,912040.06
+AC000050,CL00023,Trust,Derrick Molina Living Trust,2025-02-28,Conservative Growth,Active,3282778.48
+AC000067,CL00023,Joint,Derrick Molina & Shaun Joint Account,2025-04-22,Aggressive Growth,Active,1230736.90
+AC000055,CL00009,Individual,Rebecca Villarreal Individual Account,2025-08-06,Conservative Growth,Active,613318.11
+AC000079,CL00033,Joint,Ryan Castillo & Kenneth Joint Account,2025-08-19,Conservative Growth,Active,29973029.85
+AC000073,CL00009,Trust,Rebecca Villarreal Living Trust,2025-10-08,Income,Active,347155.21
+AC000016,CL00024,Individual,Hector Davidson Individual Account,2023-04-16,Balanced,Active,3723986.85
+AC000034,CL00024,Individual,Hector Davidson Individual Account,2023-05-14,Aggressive Growth,Active,2728606.47
+AC000023,CL00024,Joint,Hector Davidson & Thomas Joint Account,2023-10-08,Aggressive Growth,Active,4131149.21
+AC000014,CL00024,Joint,Hector Davidson & Daniel Joint Account,2023-10-13,Income,Active,4128985.98
+AC000027,CL00024,IRA,Hector Davidson IRA,2024-11-28,Balanced,Active,2161929.26
+AC000012,CL00024,Joint,Hector Davidson & Julie Joint Account,2025-02-27,Aggressive Growth,Active,3699440.10
+AC000090,CL00022,Individual,Gary Lee Individual Account,2024-03-30,Aggressive Growth,Active,2054032.09
+AC000021,CL00022,Individual,Gary Lee Individual Account,2024-08-17,Balanced,Active,3014423.46
+AC000057,CL00022,Individual,Gary Lee Individual Account,2025-01-29,Balanced,Active,1463975.11
+AC000007,CL00002,Individual,Grace Johnson Individual Account,2025-01-20,Aggressive Growth,Active,536741.36
+AC000024,CL00021,Individual,Robert Clark Individual Account,2024-04-28,Balanced,Active,23564022.20
+AC000076,CL00028,IRA,Dylan Harper IRA,2025-03-20,Conservative Growth,Active,3428913.90
+AC000071,CL00016,Individual,Lisa Garner Individual Account,2025-07-31,Conservative Growth,Active,38699000.84
+AC000037,CL00016,Individual,Lisa Garner Individual Account,2025-08-20,Conservative Growth,Active,14617826.60
+AC000028,CL00016,Individual,Lisa Garner Individual Account,2025-09-02,Conservative Growth,Active,47464762.86
+AC000047,CL00016,Individual,Lisa Garner Individual Account,2025-11-19,Conservative Growth,Active,32793510.42
+AC000033,CL00029,Individual,Melissa Boyd Individual Account,2024-03-08,Aggressive Growth,Active,3276131.19
+AC000043,CL00029,Joint,Melissa Boyd & Jamie Joint Account,2024-11-04,Aggressive Growth,Active,1843490.54
+AC000022,CL00029,Individual,Melissa Boyd Individual Account,2024-12-02,Conservative Growth,Active,3519689.96
+AC000030,CL00029,Individual,Melissa Boyd Individual Account,2025-10-22,Balanced,Active,1202198.11
+AC000059,CL00029,Individual,Melissa Boyd Individual Account,2025-11-03,Income,Active,1212634.24
+AC000039,CL00008,Individual,John Thomas Individual Account,2021-12-31,Aggressive Growth,Active,5126503.15
+AC000081,CL00008,Individual,John Thomas Individual Account,2024-04-18,Income,Active,32328237.83
+AC000088,CL00001,IRA,Brittney Wright IRA,2025-04-23,Income,Active,4166576.44
+AC000051,CL00001,Individual,Brittney Wright Individual Account,2025-06-30,Income,Active,2863871.55
+AC000077,CL00001,Individual,Brittney Wright Individual Account,2025-10-28,Aggressive Growth,Active,3771485.91
+AC000029,CL00001,Joint,Brittney Wright & Melissa Joint Account,2025-11-04,Balanced,Active,4607947.30
+AC000078,CL00030,Joint,Joseph Anderson & Robert Joint Account,2022-10-11,Aggressive Growth,Active,350507.27
+AC000069,CL00030,Joint,Joseph Anderson & Scott Joint Account,2023-12-31,Income,Active,432656.65
+AC000041,CL00030,Joint,Joseph Anderson & Travis Joint Account,2024-12-02,Conservative Growth,Active,930871.46
+AC000018,CL00030,Joint,Joseph Anderson & Julie Joint Account,2025-04-06,Income,Active,956175.38
+AC000098,CL00020,Individual,Tina Lewis Individual Account,2024-04-11,Conservative Growth,Active,15228173.87
+AC000092,CL00020,Individual,Tina Lewis Individual Account,2024-11-22,Conservative Growth,Active,8699957.50
+AC000035,CL00020,Joint,Tina Lewis & Zachary Joint Account,2025-10-12,Aggressive Growth,Active,17404936.25
+AC000094,CL00006,Individual,Theresa Stephenson Individual Account,2024-05-10,Aggressive Growth,Active,4065549.67
+AC000008,CL00027,Trust,Jesse Scott Irrevocable Trust,2025-03-21,Conservative Growth,Active,3512021.27
+AC000066,CL00027,Individual,Jesse Scott Individual Account,2025-03-23,Conservative Growth,Active,2300031.94
+AC000075,CL00006,Trust,Theresa Stephenson Living Trust,2025-10-05,Conservative Growth,Active,1995983.30
+AC000074,CL00003,Joint,Dennis Stewart & Cheryl Joint Account,2024-02-27,Balanced,Active,538228.12
+AC000093,CL00003,Individual,Dennis Stewart Individual Account,2025-06-05,Balanced,Active,524832.29
