@@ -23,7 +23,7 @@ The future of wealth management, featuring:
    -  [Get full details](packages/report/README.md)
 
 - 💬 **Smart chat** 
-   - Natural language chat interface for portfolio inquiries, market insights, and client reporting with multi-channel communication (text, voice). Additionally, schedule recurring updates to receive the latest information to your email automatically
+   - Natural language chat interface for portfolio inquiries, market insights, and client reporting with multi-channel communication (text and voice). Additionally, schedule recurring updates to receive the latest information to your email automatically
    - [Get full details for overall chat functions in text and audio](packages/advisor_chat/README.md)
    - [Get full details for scheduler function](packages/scheduler_executor/README.md)
 - 📚 **Data Lake** 
