@@ -14,7 +14,7 @@ The future of wealth management, featuring:
    - [Get full details](packages/market_events_coordinator/README.md)
 
 
-- 🔍 **Client Search** - Intelligent natural language client search using TEXT2SQL technology
+- 🔍 **Client Search** - Intelligent natural language client search using TEXT2SQL technology 
     - [Get full details](packages/client_search/README.md)
 - 💡 **Advisor Client Intelligence and Deep Analysis** 
    - Graph technology revolutionizes client analysis by modeling complex relationships between advisors, clients, locations, investments, and risk profiles—enabling discovery of hidden insights, effective client segmentation, and identification of cross-sell and up-sell opportunities that traditional keyword or TEXT2SQL searches cannot uncover.
