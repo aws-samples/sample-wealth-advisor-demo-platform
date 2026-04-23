@@ -1,4 +1,4 @@
-# Wealth Management and Advisor Demo Portal
+# Wealth Management and Advisor Demo Portal 
 
 An innovative advisor platform architected with AWS-native services including AI/ML, graph databases, and modern data lake infrastructure.
 
