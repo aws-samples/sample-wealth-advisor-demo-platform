@@ -2,13 +2,9 @@
 
 An innovative advisor platform architected with AWS-native services including AI/ML, graph databases, and modern data lake infrastructure.
 
-<!-- Demo Video -->
-<video width="560" height="315" autoplay muted loop playsinline controls>
-  <source src="images/video_recording.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+## AWS Show and Tell - Generative AI
+[![Watch Demo Video](https://img.youtube.com/vi/GAlSsR0QgSE/0.jpg)](https://www.youtube.com/watch?v=GAlSsR0QgSE)
 
-[Watch the AWS Show and Tell - Generative AI session](https://www.youtube.com/watch?v=GAlSsR0QgSE)
 ## Overview and Key Features
 
 The future of wealth management, featuring:
