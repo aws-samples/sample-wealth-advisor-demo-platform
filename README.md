@@ -476,7 +476,8 @@ REDSHIFT_HOST=localhost
 REDSHIFT_PORT=5439
 ```
 
-### **Step 4**: Then start everything. It will take ~2 minutes for initial setup and configuration, then http://localhost:4200 will appear for exploring the solution in your local :
+### **Step 4**: Then start everything and run in local environment
+It will take ~2 minutes for initial setup and configuration, then http://localhost:4200 will appear for exploring the solution in your local
 
 ```sh
 pnpm nx serve-local @wealth-management-portal/ui
