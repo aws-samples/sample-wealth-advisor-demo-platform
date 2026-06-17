@@ -20,7 +20,7 @@
     "@tanstack/react-query-devtools": "5.91.3",
     "@tanstack/react-router": "1.158.0",
     "aws-cdk": "2.1104.0",
-    "aws-cdk-lib": "2.237.1",
+    "aws-cdk-lib": "2.246.0",
     "aws-rum-web": "^2.0.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
