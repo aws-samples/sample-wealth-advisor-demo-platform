@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/aws-samples-sample-wealth-advisor-demo-platform-badge.png)](https://mseep.ai/app/aws-samples-sample-wealth-advisor-demo-platform)
+
 # Wealth Management and Advisor Demo Portal 
 
 An innovative advisor platform architected with AWS-native services including AI/ML, graph databases, and modern data lake infrastructure.
