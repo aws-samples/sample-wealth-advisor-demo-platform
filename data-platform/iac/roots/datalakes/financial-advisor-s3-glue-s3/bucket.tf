@@ -9,7 +9,7 @@ module "financial_advisor_data_bucket" {
   source  = "../../../templates/modules/bucket"
   APP     = var.APP
   ENV     = var.ENV
-  NAME    = "financial-advisor-s3-glue-s3-data"
+  NAME    = "fa-data"
   USAGE   = "financial-advisor"
   CMK_ARN = data.aws_kms_key.s3_kms_key.arn
 }

@@ -1,5 +1,10 @@
 import { CfnOutput, CfnResource, RemovalPolicy, Stack } from 'aws-cdk-lib';
-import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
+import {
+  CfnDistribution,
+  Distribution,
+  SecurityPolicyProtocol,
+  ViewerProtocolPolicy,
+} from 'aws-cdk-lib/aws-cloudfront';
 import { S3BucketOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
@@ -136,10 +141,22 @@ export class StaticWebsite extends Construct {
         ],
       },
     );
+    // CloudFront's default certificate omits ViewerCertificate from the high-level
+    // construct. Add it explicitly so the distribution rejects obsolete TLS versions.
+    const cfnDistribution = this.cloudFrontDistribution.node
+      .defaultChild as CfnDistribution;
+    cfnDistribution.addPropertyOverride(
+      'DistributionConfig.ViewerCertificate',
+      {
+        CloudFrontDefaultCertificate: true,
+        MinimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
+      },
+    );
+
     suppressRules(
       this.cloudFrontDistribution,
       ['CKV_AWS_174'],
-      'Cloudfront default certificate does not use TLS 1.2',
+      'The default CloudFront certificate cannot be represented as an ACM certificate for Checkov; the L1 distribution override explicitly sets MinimumProtocolVersion to TLSv1.2_2021.',
     );
 
     // Grant CloudFront OAC permission to decrypt KMS-encrypted S3 objects

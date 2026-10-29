@@ -18,6 +18,11 @@ import { RuntimeConfig } from './runtime-config.js';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { suppressRules } from './checkov.js';
+import {
+  AwsCustomResource,
+  AwsCustomResourcePolicy,
+  PhysicalResourceId,
+} from 'aws-cdk-lib/custom-resources';
 
 const WEB_CLIENT_ID = 'WebClient';
 /**
@@ -111,6 +116,56 @@ export class UserIdentity extends Construct {
     new CfnOutput(this, `${id}-IdentityPoolId`, {
       value: this.identityPool.identityPoolId,
     });
+
+    this.seedDemoUser();
+  }
+
+  private seedDemoUser() {
+    const username = 'demo-advisor';
+    const password = 'WealthDemo2026!';
+
+    const createUser = new AwsCustomResource(this, 'SeedDemoUser', {
+      onCreate: {
+        service: 'CognitoIdentityServiceProvider',
+        action: 'adminCreateUser',
+        parameters: {
+          UserPoolId: this.userPool.userPoolId,
+          Username: username,
+          TemporaryPassword: password,
+          UserAttributes: [
+            { Name: 'email', Value: 'demo@wealth-advisor.example' },
+            { Name: 'email_verified', Value: 'true' },
+            { Name: 'given_name', Value: 'Demo' },
+            { Name: 'family_name', Value: 'Advisor' },
+          ],
+          MessageAction: 'SUPPRESS',
+        },
+        physicalResourceId: PhysicalResourceId.of('seed-demo-user'),
+        ignoreErrorCodesMatching: 'UsernameExistsException',
+      },
+      policy: AwsCustomResourcePolicy.fromSdkCalls({
+        resources: [this.userPool.userPoolArn],
+      }),
+    });
+
+    const setPassword = new AwsCustomResource(this, 'SetDemoUserPassword', {
+      onCreate: {
+        service: 'CognitoIdentityServiceProvider',
+        action: 'adminSetUserPassword',
+        parameters: {
+          UserPoolId: this.userPool.userPoolId,
+          Username: username,
+          Password: password,
+          Permanent: true,
+        },
+        physicalResourceId: PhysicalResourceId.of('set-demo-user-password'),
+      },
+      policy: AwsCustomResourcePolicy.fromSdkCalls({
+        resources: [this.userPool.userPoolArn],
+      }),
+    });
+
+    setPassword.node.addDependency(createUser);
   }
 
   private createUserPool = () =>

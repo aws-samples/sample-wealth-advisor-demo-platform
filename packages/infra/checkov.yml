@@ -1,11 +1,11 @@
-# Defines the checks to skip entirely. Remove if your requirements differ.
+# CDK creates cross-region reference provider Lambdas after construct metadata
+# is finalized. These framework-managed providers cannot be configured with
+# application concurrency, DLQ, or VPC settings. Application Lambdas carry
+# resource-level rationales in ApplicationStack instead of relying on these IDs.
 skip-check:
-  # Lambda function suppressions
-  - CKV_AWS_115 # Concurrent execution limit
-  - CKV_AWS_116 # Dead Letter Queue
-  - CKV_AWS_117 # Lambda functions in VPC
-  - CKV_AWS_173 # Encrypt Lambda environment variables
-  - CKV_AWS_272 # Code signing
+  - CKV_AWS_115
+  - CKV_AWS_116
+  - CKV_AWS_117
 output:
   - cli
   - json

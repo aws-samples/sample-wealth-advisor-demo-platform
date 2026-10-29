@@ -1,0 +1,184 @@
+{
+  "name": "wealth_management_portal.due_diligence",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/due_diligence/wealth_management_portal_due_diligence",
+  "tags": [],
+  "metadata": {
+    "generator": "py#project",
+    "ports": [8086, 8087, 8088, 8089, 8090, 8091, 8092],
+    "components": [
+      { "generator": "py#strands-agent", "name": "dd-supervisor",       "port": 8086 },
+      { "generator": "py#strands-agent", "name": "evidence-gatherer",   "port": 8087 },
+      { "generator": "py#strands-agent", "name": "framework-assessor",  "port": 8088 },
+      { "generator": "py#strands-agent", "name": "quant-analyst",       "port": 8089 },
+      { "generator": "py#strands-agent", "name": "report-drafter",      "port": 8090 },
+      { "generator": "py#strands-agent", "name": "qa-agent",            "port": 8091 },
+      { "generator": "py#fast-api", "name": "portfolio-dd-api",         "port": 8092 }
+    ]
+  },
+  "targets": {
+    "add": { "executor": "@nxlv/python:add", "options": {} },
+    "build": {
+      "dependsOn": ["lint", "compile", "test", "bundle", "docker"],
+      "options": { "outputPath": "{workspaceRoot}/dist/packages/due_diligence" }
+    },
+    "bundle": {
+      "dependsOn": ["bundle-x86", "bundle-arm"]
+    },
+    "bundle-x86": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/due_diligence/bundle-x86"],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/due_diligence --package wealth_management_portal.due_diligence -o dist/packages/due_diligence/bundle-x86/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform x86_64-manylinux_2_28 --target dist/packages/due_diligence/bundle-x86 -r dist/packages/due_diligence/bundle-x86/requirements.txt"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "bundle-arm": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/due_diligence/bundle-arm"],
+      "options": {
+        "commands": [
+          "uv export --frozen --no-dev --no-editable --project packages/due_diligence --package wealth_management_portal.due_diligence -o dist/packages/due_diligence/bundle-arm/requirements.txt",
+          "uv pip install -n --no-deps --no-installer-metadata --no-compile-bytecode --python-platform aarch64-manylinux_2_28 --target dist/packages/due_diligence/bundle-arm -r dist/packages/due_diligence/bundle-arm/requirements.txt",
+          "find dist/packages/due_diligence/bundle-arm -name '*darwin*.so' -delete"
+        ],
+        "parallel": false
+      },
+      "dependsOn": ["compile"]
+    },
+    "compile": {
+      "executor": "@nxlv/python:build",
+      "outputs": ["{workspaceRoot}/dist/packages/due_diligence/build"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/packages/due_diligence/build",
+        "publish": false,
+        "lockedVersions": true,
+        "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "format": {
+      "executor": "@nxlv/python:ruff-format",
+      "outputs": [],
+      "options": { "filePatterns": ["wealth_management_portal_due_diligence", "tests"] },
+      "cache": true
+    },
+    "install": {
+      "executor": "@nxlv/python:install",
+      "options": { "silent": false, "args": "", "verbose": false, "debug": false }
+    },
+    "lint": {
+      "executor": "@nxlv/python:ruff-check",
+      "outputs": [],
+      "options": { "lintFilePatterns": ["wealth_management_portal_due_diligence", "tests"] },
+      "cache": true,
+      "dependsOn": ["format"]
+    },
+    "test": {
+      "executor": "@nxlv/python:run-commands",
+      "outputs": [
+        "{workspaceRoot}/reports/{projectRoot}/unittests",
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "command": "uv run pytest tests/",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true
+    },
+    "dd-supervisor-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --no-cache --platform linux/arm64 -t wealth-management-portal-dd-supervisor:latest packages/due_diligence/wealth_management_portal_due_diligence/supervisor_agent --build-context workspace=dist/packages/due_diligence"
+        ]
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "evidence-gatherer-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --no-cache --platform linux/arm64 -t wealth-management-portal-dd-evidence-gatherer:latest packages/due_diligence/wealth_management_portal_due_diligence/evidence_gatherer --build-context workspace=dist/packages/due_diligence"
+        ]
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "framework-assessor-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --no-cache --platform linux/arm64 -t wealth-management-portal-dd-framework-assessor:latest packages/due_diligence/wealth_management_portal_due_diligence/framework_assessor --build-context workspace=dist/packages/due_diligence"
+        ]
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "quant-analyst-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --no-cache --platform linux/arm64 -t wealth-management-portal-dd-quant-analyst:latest packages/due_diligence/wealth_management_portal_due_diligence/quant_analyst --build-context workspace=dist/packages/due_diligence"
+        ]
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "report-drafter-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --no-cache --platform linux/arm64 -t wealth-management-portal-dd-report-drafter:latest packages/due_diligence/wealth_management_portal_due_diligence/report_drafter --build-context workspace=dist/packages/due_diligence"
+        ]
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "qa-agent-docker": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build --no-cache --platform linux/arm64 -t wealth-management-portal-dd-qa-agent:latest packages/due_diligence/wealth_management_portal_due_diligence/qa_agent --build-context workspace=dist/packages/due_diligence"
+        ]
+      },
+      "dependsOn": ["bundle-arm"]
+    },
+    "docker": {
+      "dependsOn": ["dd-supervisor-docker", "evidence-gatherer-docker", "framework-assessor-docker", "quant-analyst-docker", "report-drafter-docker", "qa-agent-docker"]
+    },
+    "api-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["uv run fastapi dev wealth_management_portal_due_diligence/api/main.py --port 8092"],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    },
+    "supervisor-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["uv run fastapi dev wealth_management_portal_due_diligence/supervisor_agent/main.py --port 8086"],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    },
+    "evidence-gatherer-serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["uv run fastapi dev wealth_management_portal_due_diligence/evidence_gatherer/main.py --port 8087"],
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    }
+  }
+}

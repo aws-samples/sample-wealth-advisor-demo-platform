@@ -7,6 +7,13 @@ set -euo pipefail
 PROJECT_NAME="${1:?Usage: $0 <project-name> <buildspec-file>}"
 BUILDSPEC="${2:?Usage: $0 <project-name> <buildspec-file>}"
 REGION="${AWS_REGION:-us-west-2}"
+EXPECTED_AWS_ACCOUNT_ID="${EXPECTED_AWS_ACCOUNT_ID:?Set EXPECTED_AWS_ACCOUNT_ID to the intended 12-digit AWS account before starting a build}"
+
+ACTUAL_AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text --region "$REGION")
+if [[ "$ACTUAL_AWS_ACCOUNT_ID" != "$EXPECTED_AWS_ACCOUNT_ID" ]]; then
+  echo "✗ AWS account mismatch. Expected $EXPECTED_AWS_ACCOUNT_ID, got $ACTUAL_AWS_ACCOUNT_ID." >&2
+  exit 1
+fi
 
 echo "🚀 Starting build: $PROJECT_NAME (buildspec: $BUILDSPEC)"
 BUILD_OUTPUT=$(aws codebuild start-build \

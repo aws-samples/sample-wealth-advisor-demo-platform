@@ -37,9 +37,12 @@ export class ThemeSchedulerGenerateGeneralThemes extends Function {
         WEB_CRAWLER_MCP_ARN: props.webCrawlerMcpArn,
         THEME_BEDROCK_MODEL_ID:
           scope.node.tryGetContext('themeBedrockModelId') ??
-          'us.anthropic.claude-sonnet-4-5-20250929-v1:0',
+          'us.anthropic.claude-sonnet-5',
         THEME_HOURS: '48',
         THEME_LIMIT: '6',
+        // Cap sources per crawl so the crawl+per-article Athena INSERTs finish
+        // within the 15-min Lambda timeout. 0/unset = uncapped.
+        THEME_CRAWL_MAX_SOURCES: '8',
       },
     });
   }

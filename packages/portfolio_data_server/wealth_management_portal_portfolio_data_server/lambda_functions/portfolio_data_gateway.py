@@ -128,10 +128,97 @@ async def _get_client_report_data_async(client_id):
 
 
 def _get_client_report_data(event):
+    if os.environ.get("DATA_ENGINE", "athena").lower() == "athena":
+        return _get_client_report_data_athena(event["client_id"])
     return asyncio.run(_get_client_report_data_async(event["client_id"]))
 
 
+def _get_client_report_data_athena(client_id: str) -> dict:
+    """Fetch client report data via Athena (S3 Tables) — no Redshift needed."""
+    from wealth_management_portal_portfolio_data_access.repositories.data_api_base_repository import (
+        DataApiBaseRepository,
+    )
+
+    repo = DataApiBaseRepository()
+
+    client_rows = repo._execute_and_wait(
+        "SELECT * FROM clients WHERE client_id = :client_id",
+        [{"name": "client_id", "value": client_id}],
+    )
+    if not client_rows:
+        return {"error": f"Client '{client_id}' not found. Use list_clients to see available clients."}
+
+    holdings = repo._execute_and_wait(
+        """SELECT h.*, s.security_name, s.asset_class, s.sector, s.currency
+           FROM holdings h
+           LEFT JOIN securities s ON h.security_id = s.security_id
+           WHERE h.client_id = :client_id""",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    performance = repo._execute_and_wait(
+        "SELECT * FROM performance WHERE client_id = :client_id",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    transactions = repo._execute_and_wait(
+        "SELECT * FROM transactions WHERE client_id = :client_id ORDER BY transaction_date DESC LIMIT 50",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    portfolios = repo._execute_and_wait(
+        "SELECT * FROM portfolios WHERE client_id = :client_id",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    interactions = repo._execute_and_wait(
+        "SELECT * FROM interactions WHERE client_id = :client_id ORDER BY interaction_date DESC LIMIT 50",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    themes = repo._execute_and_wait(
+        "SELECT * FROM themes WHERE client_id = '__GENERAL__' ORDER BY generated_at DESC LIMIT 6",
+        [],
+    )
+
+    restrictions = repo._execute_and_wait(
+        "SELECT * FROM client_investment_restrictions WHERE client_id = :client_id",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    accounts = repo._execute_and_wait(
+        "SELECT * FROM accounts WHERE client_id = :client_id",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    income_expense = repo._execute_and_wait(
+        "SELECT * FROM client_income_expense WHERE client_id = :client_id",
+        [{"name": "client_id", "value": client_id}],
+    )
+
+    recommended_products = repo._execute_and_wait(
+        "SELECT * FROM recommended_products LIMIT 20",
+        [],
+    )
+
+    return {
+        "client": client_rows[0],
+        "restrictions": restrictions or [],
+        "accounts": accounts or [],
+        "portfolios": portfolios or [],
+        "holdings_with_securities": holdings or [],
+        "performance": performance or [],
+        "transactions": transactions or [],
+        "interactions": interactions or [],
+        "income_expense": income_expense[0] if income_expense else None,
+        "recommended_products": recommended_products or [],
+        "themes": themes or [],
+    }
+
+
 def _save_report(event):
+    if os.environ.get("DATA_ENGINE", "athena").lower() == "athena":
+        return _save_report_athena(event)
     repo = ReportRepository(_conn_factory)
     report = ClientReport(
         report_id=event["report_id"],
@@ -145,7 +232,61 @@ def _save_report(event):
     return {"ok": True}
 
 
+def _save_report_athena(event):
+    """Save report record via Athena INSERT INTO."""
+    from wealth_management_portal_portfolio_data_access.repositories.data_api_base_repository import (
+        DataApiBaseRepository,
+    )
+
+    repo = DataApiBaseRepository()
+    report_id = event["report_id"]
+    client_id = event["client_id"]
+    s3_path = event.get("s3_path", "")
+    status = event.get("status", "complete")
+    nba = (event.get("next_best_action") or "").replace("'", "''")[:500]
+
+    sql = f"""
+        INSERT INTO client_reports (report_id, client_id, s3_path, status, generated_date, next_best_action)
+        VALUES ('{report_id}', '{client_id}', '{s3_path}', '{status}', current_timestamp, '{nba}')
+    """
+    repo._execute_and_wait(sql)
+    return {"ok": True}
+
+
 def _save_article(event):
+    if os.environ.get("DATA_ENGINE", "athena").lower() == "athena":
+        from wealth_management_portal_portfolio_data_access.repositories.data_api_base_repository import (
+            DataApiBaseRepository,
+        )
+
+        published_date = event.get("published_date")
+        pub = (
+            datetime.fromisoformat(published_date.replace("Z", "+00:00")) if published_date else datetime.now()
+        ).strftime("%Y-%m-%d %H:%M:%S")
+        created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Athena rejects empty-string ExecutionParameters, so map empty/None to a
+        # sentinel and convert back to NULL with NULLIF in the SQL.
+        _NULL = "__NULL__"
+        DataApiBaseRepository()._execute_parameterized(
+            "INSERT INTO articles "
+            "(content_hash, url, title, content, summary, published_date, source, author, file_path, created_at) "
+            "VALUES (?, ?, ?, ?, NULLIF(?, '__NULL__'), CAST(? AS timestamp), ?, "
+            "NULLIF(?, '__NULL__'), NULLIF(?, '__NULL__'), CAST(? AS timestamp))",
+            [
+                event["content_hash"],
+                event["url"],
+                event["title"],
+                event["content"],
+                event.get("summary") or _NULL,
+                pub,
+                event["source"],
+                event.get("author") or _NULL,
+                event.get("file_path") or _NULL,
+                created,
+            ],
+        )
+        return {"ok": True, "content_hash": event["content_hash"]}
+
     repo = ArticleRepository(_conn_factory)
     published_date = event.get("published_date")
     article = Article(
@@ -172,6 +313,13 @@ def _get_existing_article_hashes(event):
 
 
 def _get_existing_article_urls(event):
+    if os.environ.get("DATA_ENGINE", "athena").lower() == "athena":
+        from wealth_management_portal_portfolio_data_access.repositories.data_api_base_repository import (
+            DataApiBaseRepository,
+        )
+
+        rows = DataApiBaseRepository()._execute_and_wait("SELECT url FROM articles", [])
+        return {"ok": True, "urls": [r["url"] for r in rows if r.get("url")]}
     repo = ArticleRepository(_conn_factory)
     return {"ok": True, "urls": list(repo.get_existing_urls())}
 

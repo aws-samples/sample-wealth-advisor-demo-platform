@@ -37,7 +37,7 @@ export class ThemeSchedulerGeneratePortfolioThemes extends Function {
         WEB_CRAWLER_MCP_ARN: props.webCrawlerMcpArn,
         THEME_BEDROCK_MODEL_ID:
           scope.node.tryGetContext('themeBedrockModelId') ??
-          'us.anthropic.claude-sonnet-4-5-20250929-v1:0',
+          'us.anthropic.claude-sonnet-5',
         TOP_N_STOCKS: '5',
         THEMES_PER_STOCK: '3',
         THEME_HOURS: '48',

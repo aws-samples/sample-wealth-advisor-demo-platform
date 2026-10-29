@@ -83,7 +83,7 @@ resource "aws_glue_job" "load_financial_advisor_data" {
     "--enable-continuous-cloudwatch-log" = "true"
     "--job-bookmark-option"              = "job-bookmark-disable"
     "--datalake-formats"                 = "iceberg"
-    "--extra-jars"                       = "s3://${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-jars/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar"
+    "--extra-jars"                       = "s3://${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-jars/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar"
     "--SOURCE_PATH"                      = "s3://${module.financial_advisor_data_bucket.bucket_id}/${each.key}.csv"
     "--TABLE_NAME"                       = each.key
     "--NAMESPACE"                        = "financial_advisor"

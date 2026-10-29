@@ -16,7 +16,7 @@ describe('NeptuneGraph', () => {
     template.hasResourceProperties('AWS::NeptuneGraph::Graph', {
       GraphName: 'wealth-mgmt-graph',
       ProvisionedMemory: 16,
-      PublicConnectivity: true,
+      PublicConnectivity: false,
       DeletionProtection: false,
     });
   });

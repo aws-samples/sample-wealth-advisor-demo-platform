@@ -86,7 +86,7 @@ def invoke_narrative_generator(components: dict) -> dict:
         config=_BEDROCK_CLIENT_CONFIG,
     )
     response = bedrock.converse(
-        modelId=os.environ.get("REPORT_BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-5-20250929-v1:0"),
+        modelId=os.environ.get("REPORT_BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5"),
         system=[{"text": system_prompt}],
         messages=[{"role": "user", "content": [{"text": "Submit the narrative sections."}]}],
         toolConfig=tool_config,

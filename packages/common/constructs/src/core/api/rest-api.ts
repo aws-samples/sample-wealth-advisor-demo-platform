@@ -1,10 +1,16 @@
 import { Construct } from 'constructs';
+import { Stack } from 'aws-cdk-lib';
 import {
   RestApi as _RestApi,
   RestApiProps as _RestApiProps,
   IResource,
   Stage,
+  AccessLogFormat,
+  LogGroupLogDestination,
 } from 'aws-cdk-lib/aws-apigateway';
+import { Key } from 'aws-cdk-lib/aws-kms';
+import { ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { RuntimeConfig } from '../runtime-config.js';
 import { OperationDetails, RestApiIntegration } from './utils.js';
 import { suppressRules } from '../checkov.js';
@@ -67,19 +73,32 @@ export class RestApi<
     super(scope, id);
     this.integrations = integrations;
 
-    // Create the API Gateway REST API
-    this.api = new _RestApi(this, 'Api', props);
+    const accessLogKey = new Key(this, 'AccessLogKey', {
+      enableKeyRotation: true,
+    });
+    accessLogKey.grantEncryptDecrypt(
+      new ServicePrincipal(`logs.${Stack.of(this).region}.amazonaws.com`),
+    );
+    const accessLogGroup = new LogGroup(this, 'AccessLogGroup', {
+      retention: RetentionDays.ONE_WEEK,
+      encryptionKey: accessLogKey,
+    });
+
+    // Create the API Gateway REST API with encrypted JSON access logging.
+    const deployOptions = props.deployOptions ?? {};
+    this.api = new _RestApi(this, 'Api', {
+      ...props,
+      deployOptions: {
+        ...deployOptions,
+        accessLogDestination: new LogGroupLogDestination(accessLogGroup),
+        accessLogFormat: AccessLogFormat.jsonWithStandardFields(),
+      },
+    });
 
     suppressRules(
       this.api,
       ['CKV_AWS_120'],
       'Caching not required for this use case',
-      (c) => c instanceof Stage,
-    );
-    suppressRules(
-      this.api,
-      ['CKV_AWS_76'],
-      'API Gateway access logging disabled due to account-level CloudWatch Logs role ARN requirement',
       (c) => c instanceof Stage,
     );
 

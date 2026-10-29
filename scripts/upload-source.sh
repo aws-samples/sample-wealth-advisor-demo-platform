@@ -4,9 +4,16 @@ set -euo pipefail
 # Zips the repository and uploads it to the CI source S3 bucket.
 # The bucket name is read from the ci-infra CloudFormation stack output.
 
-STACK_NAME="wealth-management-portal-ci-infra-Ci"
+STACK_NAME="${CI_INFRA_STACK_NAME:-wealth-management-portal-ci-infra-Ci}"
 REGION="${AWS_REGION:-us-west-2}"
-ZIP_PATH="/tmp/wealth-mgmt-source.zip"
+EXPECTED_AWS_ACCOUNT_ID="${EXPECTED_AWS_ACCOUNT_ID:?Set EXPECTED_AWS_ACCOUNT_ID to the intended 12-digit AWS account before uploading}"
+ZIP_PATH="${DEPLOY_ZIP:-/tmp/wealth-mgmt-source.zip}"
+
+ACTUAL_AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text --region "$REGION")
+if [[ "$ACTUAL_AWS_ACCOUNT_ID" != "$EXPECTED_AWS_ACCOUNT_ID" ]]; then
+  echo "✗ AWS account mismatch. Expected $EXPECTED_AWS_ACCOUNT_ID, got $ACTUAL_AWS_ACCOUNT_ID." >&2
+  exit 1
+fi
 
 echo "📦 Resolving source bucket from CloudFormation stack..."
 SOURCE_BUCKET=$(aws cloudformation describe-stacks \

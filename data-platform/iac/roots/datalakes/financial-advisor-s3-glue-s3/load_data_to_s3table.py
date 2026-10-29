@@ -14,12 +14,19 @@ from pyspark.sql.types import BooleanType
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-args = getResolvedOptions(sys.argv, ['JOB_NAME', 'SOURCE_PATH', 'TABLE_NAME', 'NAMESPACE', 'TABLE_BUCKET_ARN'])
+# EXPECTED_ROWS is optional: when provided, the job fails if the parsed row
+# count does not match, turning a silent data-quality failure into a loud one.
+_optional = [a for a in ('EXPECTED_ROWS',) if f'--{a}' in sys.argv]
+args = getResolvedOptions(
+    sys.argv,
+    ['JOB_NAME', 'SOURCE_PATH', 'TABLE_NAME', 'NAMESPACE', 'TABLE_BUCKET_ARN'] + _optional,
+)
 
 SOURCE_PATH = args.get('SOURCE_PATH')
 TABLE_NAME = args.get('TABLE_NAME')
 NAMESPACE = args.get("NAMESPACE")
 TABLE_BUCKET_ARN = args.get("TABLE_BUCKET_ARN")
+EXPECTED_ROWS = args.get("EXPECTED_ROWS")
 
 conf = SparkConf()
 conf.set("spark.sql.defaultCatalog", "s3tablescatalog")
@@ -41,8 +48,29 @@ try:
     target_table = f"s3tablescatalog.{NAMESPACE}.{TABLE_NAME}"
     target_schema = spark.table(target_table).schema
 
-    # Read CSV as all strings
-    source_df = spark.read.csv(SOURCE_PATH, header=True, inferSchema=False)
+    # Read CSV as all strings. The seed CSVs use RFC 4180 doubled-quote
+    # escaping and contain newlines inside quoted fields, so quote/escape/
+    # multiLine must be set explicitly — Spark's defaults corrupt the data
+    # (field-shifting and row-splitting). multiLine=True disables input
+    # splitting (single task per file); acceptable, largest seed file ~6.6 MB.
+    source_df = spark.read.csv(
+        SOURCE_PATH,
+        header=True,
+        inferSchema=False,
+        quote='"',
+        escape='"',
+        multiLine=True,
+    )
+    source_count = source_df.count()
+    logger.info(f"Parsed {source_count} rows from {SOURCE_PATH}")
+
+    if EXPECTED_ROWS is not None:
+        expected = int(EXPECTED_ROWS)
+        if source_count != expected:
+            raise ValueError(
+                f"Row-count mismatch for {TABLE_NAME}: parsed {source_count}, "
+                f"expected {expected}. Refusing to load likely-corrupt data."
+            )
     source_df.createOrReplaceTempView("csv_source")
 
     # Build per-column SQL cast expressions

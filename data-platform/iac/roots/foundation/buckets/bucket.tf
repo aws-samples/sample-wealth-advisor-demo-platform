@@ -79,10 +79,10 @@ module "smus_projects_bucket" {
 module "smus_cfn_bucket" {
 
   source = "../../../templates/modules/bucket"
-  
+
   APP       = var.APP
   ENV       = var.ENV
-  NAME      = "smus-project-cfn-template"
+  NAME      = "smus-cfn"
   USAGE     = "smus_projects"
   CMK_ARN   = data.aws_kms_key.kms_key.arn
 }

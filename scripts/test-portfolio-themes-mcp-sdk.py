@@ -53,7 +53,7 @@ async def main():
         epilog=(
             "Example:\n"
             "  python scripts/test-portfolio-themes-mcp-sdk.py \\\n"
-            "    arn:aws:bedrock-agentcore:us-west-2:507139572291:runtime/wealthmanagementionWebCrawlerMcpBFEAD281-2iGk6CG7c5 \\\n"
+            "    arn:aws:bedrock-agentcore:us-west-2:<AWS_ACCOUNT_ID>:runtime/<WebCrawlerMcpRuntimeId> \\\n"
             "    --client-id CL00001"
         ),
     )

@@ -24,9 +24,9 @@ phases:
 
   pre_build:
     commands:
-      # Makefile targets reference a 'datapipeline' IAM user for Lake Formation admin
+      # Some legacy Terraform policies reference this principal. Keep the
+      # compatibility user present, but never grant it AdministratorAccess.
       - aws iam create-user --user-name datapipeline 2>/dev/null || true
-      - aws iam attach-user-policy --user-name datapipeline --policy-arn arn:aws:iam::aws:policy/AdministratorAccess 2>/dev/null || true
       - cd data-platform && scripts/ci-init.sh
 
   build:

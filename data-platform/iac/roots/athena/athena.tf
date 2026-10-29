@@ -34,3 +34,25 @@ resource "aws_athena_workgroup" "athena_workgroup" {
     Usage = "athena"
   }
 }
+
+resource "aws_athena_workgroup" "s3tables_workgroup" {
+
+  name = "s3tables"
+
+  configuration {
+
+    enforce_workgroup_configuration    = true
+    publish_cloudwatch_metrics_enabled = true
+
+    result_configuration {
+
+      output_location = var.ATHENA_OUTPUT_BUCKET
+    }
+  }
+
+  tags = {
+    Application = var.APP
+    Environment = var.ENV
+    Usage = "athena-s3tables"
+  }
+}

@@ -106,7 +106,7 @@ class ThemeProcessor:
     def __init__(
         self,
         mcp_client,
-        bedrock_region: str = "us-east-1",
+        bedrock_region: str = os.environ.get("AWS_REGION", "us-west-2"),
         use_cross_region: bool = True,
     ):
         """
@@ -126,7 +126,7 @@ class ThemeProcessor:
         self.use_cross_region = use_cross_region
 
         # Model ID
-        self.model_id = os.environ.get("THEME_BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-5-20250929-v1:0")
+        self.model_id = os.environ.get("THEME_BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
 
     def get_recent_articles(self, hours: int = 48) -> list[Article]:
         """
@@ -496,7 +496,7 @@ class PortfolioThemeProcessor(ThemeProcessor):
     def __init__(
         self,
         mcp_client,
-        bedrock_region: str = "us-east-1",
+        bedrock_region: str = os.environ.get("AWS_REGION", "us-west-2"),
         use_cross_region: bool = True,
     ):
         """Initialize portfolio theme processor"""

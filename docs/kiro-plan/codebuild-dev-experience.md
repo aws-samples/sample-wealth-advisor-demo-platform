@@ -20,7 +20,7 @@ All 9 work units are **complete**. Code is written and `ci-infra` builds success
 
 ### Post-implementation fixes
 
-- Moved `TEST_USER_EMAIL`/`TEST_USER_PASSWORD` out of the `ci-stack.ts` project env vars and into `buildspec-app.yml`'s `env.parameter-store` section only. Reason: project-level Parameter Store vars are resolved at build start for *every* build — if those SSM params don't exist, the existing GitLab pipeline would break.
+- Moved `TEST_USER_EMAIL`/`TEST_USER_PASSWORD` out of the `ci-stack.ts` project env vars and into `buildspec-app.yml`'s `env.parameter-store` section only. Reason: project-level Parameter Store vars are resolved at build start for *every* build — if those SSM params don't exist, the previous pipeline would break.
 
 ### Decisions made during installation testing
 
@@ -30,12 +30,12 @@ All 9 work units are **complete**. Code is written and `ci-infra` builds success
 
 3. **`buildspec-app.yml` simplified** — replaced 6 infrastructure SSM param-store entries with 2 platform identifiers (`APP_NAME`, `ENV_NAME`). Infrastructure is auto-discovered by `generate-env-from-ssm.sh` at build time. Reduced from 17 to 13 parameter-store entries.
 
-4. **`ci-stack.ts` left unchanged for now** — the existing GitLab `buildspec.yml` still depends on the project-level infra env vars. Plan: after validating the new CodeBuild flow end-to-end, migrate the GitLab buildspec to also use `generate-env-from-ssm.sh`, then remove the redundant infra SSM env vars from `ci-stack.ts`.
+4. **`ci-stack.ts` was updated after validation** — the CodeBuild flow now uses `generate-env-from-ssm.sh`, so redundant infrastructure SSM environment variables were removed from `ci-stack.ts`.
 
-5. **GitLab migration plan** — once CodeBuild CI/CD is validated:
+5. **CodeBuild deployment path** — after end-to-end validation:
 
-6. **Source upload step was missing from the plan** — both CodeBuild projects use S3 as their source, but the plan never documented uploading the repo to S3 before triggering builds. The GitLab pipeline handles this automatically (zips and uploads in its deploy stage), but manual triggers need an explicit upload step. Created `scripts/upload-source.sh` to resolve the bucket from CloudFormation outputs, zip the repo (excluding `.git`), and upload as `source.zip`. Added as step 3 in the README CI/CD section.
-   - Update `packages/ci-infra/buildspec.yml` to use `generate-env-from-ssm.sh` (same as `buildspec-app.yml`)
+6. **Source upload step was missing from the plan** — both CodeBuild projects use S3 as their source, but the plan never documented uploading the repo to S3 before triggering builds. The deployment helper handles this explicitly by zipping and uploading the source before triggering CodeBuild. Created `scripts/upload-source.sh` to resolve the bucket from CloudFormation outputs, zip the repo (excluding `.git`), and upload as `source.zip`. Added as step 3 in the README CI/CD section.
+   - Keep both root buildspecs using `generate-env-from-ssm.sh` for environment discovery.
    - Remove infra SSM env vars (`REDSHIFT_VPC_ID`, `PRIVATE_SUBNET_IDS`, `REDSHIFT_SECURITY_GROUP_ID`, `PRIVATE_ROUTE_TABLE_ID`, `REDSHIFT_WORKGROUP`, `PRIVATE_SUBNET_AZ`) from `ci-stack.ts` project env vars
    - Remove corresponding SSM params from `setup-ssm-params.sh` (already done)
 
@@ -51,7 +51,7 @@ Testing in progress. Status:
 6. ✅ Deploy QuickSight dataset — automated in buildspec (Issue 27)
 7. ✅ `buildspec-app.yml` — Phase 2 build **SUCCEEDED** (after fixing Issues 29–31)
 8. ⬜ Test idempotency — re-trigger both buildspecs in a fresh account
-9. ⬜ Verify existing GitLab pipeline still works
+9. ⬜ Verify the parameterized direct deployment helper still works
 
 ### Issues Found and Fixed During Installation Testing
 
@@ -81,7 +81,7 @@ Testing in progress. Status:
   - `aws_instance.msk_client`: `data.aws_ami.amazon_linux_2023` with `most_recent = true` returns a different AMI as AWS publishes updates. AMI is force-new, triggers EC2 replacement.
   - Fixed all three with `lifecycle { ignore_changes }` blocks, with comments explaining why and how to force updates when genuinely needed (`terraform taint`).
 
-**Issue 12: Terraform state surgery** — Removed `aws_security_group.lambda_sg` and `module.data_generator_lambda.aws_lambda_function.function` from MSK module state after manually deleting the Lambda to unblock stuck ENIs. State is stored in S3 (`finadv-dev1-tf-back-end-849404653027-us-west-2`), so changes from local machine apply to CodeBuild runs.
+**Issue 12: Terraform state surgery** — Removed `aws_security_group.lambda_sg` and `module.data_generator_lambda.aws_lambda_function.function` from MSK module state after manually deleting the Lambda to unblock stuck ENIs. State is stored in S3 (`finadv-dev1-tf-back-end-<ACCOUNT_ID>-us-west-2`), so changes from local machine apply to CodeBuild runs.
 
 **Issue 13: Stale Terraform lock + orphaned VPCs (again)** — Build #17 was manually stopped while MSK `terraform apply` was running, leaving a stale DynamoDB lock. Build #18 succeeded through VPC creation (new VPC + NAT gateway + endpoints) but failed at MSK due to the stale lock. Build #19 then tried to create *another* VPC (VPC module state was empty — never persisted) and hit VPC/EIP quota limits. Root cause: the VPC Terraform module never successfully saved state across any build, so every build attempted a fresh VPC creation.
   - Cleared the stale lock from DynamoDB (`finadv-dev1-tf-back-end-lock`)
@@ -124,13 +124,13 @@ Testing in progress. Status:
 
 **Issue 26b: Redshift admin GRANT step automated** — The manual "Grant Redshift access via Query Editor v2" step was automatable. Created new make target `grant-redshift-admin-access` in `Makefile.template` that discovers the admin secret ARN via Secrets Manager, gets the workgroup name from SSM, and runs all 7 SQL statements (CREATE USER + GRANTs for both `IAMR:{ADMIN_ROLE}` and `IAM:datapipeline`) via `aws redshift-data execute-statement` with polling. Added to `buildspec-platform.yml` after `deploy-redshift-ddl`. Removed from post_build manual steps. Manual steps reduced from 3 to 2.
 
-**Issue 27: QuickSight role assignment is NOT a console-only step** — Investigation revealed that the "Assign QuickSight role" console step was a misdiagnosis. The `aws_quicksight_vpc_connection` Terraform resource already passes `role_arn` directly in the API call — it does not depend on the account-level QuickSight role setting (which is what the console step configures). Smoke test confirmed: `aws quicksight create-vpc-connection --role-arn arn:aws:iam::849404653027:role/finadv-dev1-quicksight-service-role ...` succeeded and reached `CREATION_SUCCESSFUL / AVAILABLE` status without any prior console step. Root cause of the original belief: the console step sets the *default account-level IAM role* for QuickSight's AWS resource access, but VPC connections take their own `role_arn` parameter independently. Fix: removed the QuickSight role assignment manual step, folded `make deploy-quicksight-dataset` back into `buildspec-platform.yml` after `deploy-quicksight-subscription`. No new IAM permissions needed (CodeBuild role already has `AdministratorAccess`). Manual steps reduced from 2 to 1.
+**Issue 27: QuickSight role assignment is NOT a console-only step** — Investigation revealed that the "Assign QuickSight role" console step was a misdiagnosis. The `aws_quicksight_vpc_connection` Terraform resource already passes `role_arn` directly in the API call — it does not depend on the account-level QuickSight role setting (which is what the console step configures). Smoke test confirmed: `aws quicksight create-vpc-connection --role-arn arn:aws:iam::<ACCOUNT_ID>:role/finadv-dev1-quicksight-service-role ...` succeeded and reached `CREATION_SUCCESSFUL / AVAILABLE` status without any prior console step. Root cause of the original belief: the console step sets the *default account-level IAM role* for QuickSight's AWS resource access, but VPC connections take their own `role_arn` parameter independently. Fix: removed the QuickSight role assignment manual step, folded `make deploy-quicksight-dataset` back into `buildspec-platform.yml` after `deploy-quicksight-subscription`. No new IAM permissions needed (CodeBuild role already has `AdministratorAccess`). Manual steps reduced from 2 to 1.
 
 **Issue 28: IDC password reset cannot be automated** — Confirmed via AWS re:Post (official AWS answer, 4 upvotes), AWS documentation, and exhaustive review of the `sso-admin` and `identitystore` CLI API references. Neither API namespace has any `ResetPassword`, `GeneratePassword`, `SendInvite`, or `SendActivationEmail` operation. The only workaround documented by AWS is the IAM Identity Center console. The "Send email OTP" setting (Settings → Authentication → Standard authentication → Send email OTP) can be enabled to auto-send a verification email on first sign-in attempt, but this is also a console-only configuration. The IDC password reset remains a manual step.
 
 **Issue 29: `buildspec-app.yml` YAML parse error** — CodeBuild's YAML parser rejected `echo ""` (empty string) and the `\|` in grep patterns as YAML structure. Error: `Expected Commands[6] to be of string type: found subkeys instead`. Fixed by collapsing all post_build commands into a single `|` multiline block (same pattern used for `buildspec-platform.yml` in Issue 3).
 
-**Issue 30: Project-level SSM env vars block builds when params don't exist** — `ci-stack.ts` had 8 infrastructure SSM params (`REDSHIFT_VPC_ID`, `PRIVATE_SUBNET_IDS`, `REDSHIFT_SECURITY_GROUP_ID`, `PRIVATE_ROUTE_TABLE_ID`, `REDSHIFT_WORKGROUP`, `PRIVATE_SUBNET_AZ`, `ENABLE_COMPLIANCE_REPORTING`, `COMPLIANCE_REPORTING_BUCKET`) as project-level `PARAMETER_STORE` env vars. These are resolved at build start for *every* build — if any don't exist in SSM, the build fails before even downloading source. Root cause: these were kept for backward compat with the GitLab `buildspec.yml` (Decision #4), but `generate-env-from-ssm.sh` now auto-discovers all of them. Fix: removed all 8 from `ci-stack.ts`, added `APP_NAME`/`ENV_NAME` instead (needed by `generate-env-from-ssm.sh`). Updated GitLab `buildspec.yml` to use `generate-env-from-ssm.sh` in pre_build. Compliance reporting hardcoded as `false`/empty in buildspec env vars (internal-only feature). Redeployed `ci-infra`.
+**Issue 30: Project-level SSM env vars block builds when params don't exist** — `ci-stack.ts` had 8 infrastructure SSM params (`REDSHIFT_VPC_ID`, `PRIVATE_SUBNET_IDS`, `REDSHIFT_SECURITY_GROUP_ID`, `PRIVATE_ROUTE_TABLE_ID`, `REDSHIFT_WORKGROUP`, `PRIVATE_SUBNET_AZ`, `ENABLE_COMPLIANCE_REPORTING`, `COMPLIANCE_REPORTING_BUCKET`) as project-level `PARAMETER_STORE` env vars. These are resolved at build start for *every* build — if any don't exist in SSM, the build fails before even downloading source. Root cause: these were kept for backward compatibility with the previous buildspec (Decision #4), but `generate-env-from-ssm.sh` now auto-discovers all of them. Fix: removed all 8 from `ci-stack.ts`, added `APP_NAME`/`ENV_NAME` instead (needed by `generate-env-from-ssm.sh`). Updated the buildspec to use `generate-env-from-ssm.sh` in pre_build. Compliance reporting hardcoded as `false`/empty in buildspec env vars (internal-only feature). Redeployed `ci-infra`.
 
 **Issue 31: App project CodeBuild role not a Lake Formation admin** — Phase 2's `grant-lf-permissions` failed because the app project's CodeBuild role (`DeployProjectRole`) wasn't in the LF DataLakeAdmins list. Issue 26 only fixed this for the platform project's role. Fix: added LF admin self-registration to `buildspec-app.yml` — reads current LF admin list, converts the assumed-role ARN to IAM role ARN (same sed as Issue 29b), appends if not already present, writes back. Idempotent and doesn't clobber existing admins.
 
@@ -142,7 +142,7 @@ Testing in progress. Status:
 
 **Phase 1**: Build #38 SUCCEEDED — all data-platform make targets completed, including QuickSight dataset (Issue 27). LF admin self-registration working (Issue 29b). Redshift admin grants automated (Issue 26b).
 
-**Phase 2**: Build SUCCEEDED — CDK deploy, LF grants, Redshift grants, Neptune data load, Cognito test user creation all passed. Application smoke-tested via CloudFront URL (`dwt962s2me795.cloudfront.net`).
+**Phase 2**: Build SUCCEEDED — CDK deploy, LF grants, Redshift grants, Neptune data load, Cognito test user creation all passed. Application smoke-tested via the deployed CloudFront URL.
 
 **What's deployed and working:**
 - ✅ VPC, KMS keys, IAM roles, S3 buckets
@@ -166,7 +166,7 @@ Testing in progress. Status:
 
 **Key improvements made during testing:**
 - `generate-env-from-ssm.sh` is fully hands-free (auto-resolves region, app/env names, all config from SSM)
-- Project-level SSM env vars removed from `ci-stack.ts` — both buildspecs and GitLab pipeline use `generate-env-from-ssm.sh`
+- Project-level SSM env vars removed from `ci-stack.ts` — both buildspecs and the direct deployment helper use `generate-env-from-ssm.sh`
 - Manual steps reduced from 3 to 1 (Redshift grants automated, QuickSight role assignment was unnecessary)
 - Compliance reporting decoupled from CI/CD (hardcoded off, internal-only feature)
 
@@ -174,7 +174,7 @@ Testing in progress. Status:
 
 - **Phase 1 (data-platform)**: Deployed via `make` targets wrapping Terraform. Requires interactive `make init` (prompts for account ID, app name, env name, regions, admin role). ~10 sequential deployment stages with manual wait gates (Glue jobs, CloudFormation stacks) and console steps (IDC password resets, Redshift Query Editor grants, QuickSight role assignment).
 - **Phase 2 (application)**: Deployed via CDK. Requires interactive `pnpm nx setup` (generates `.env` from prompts), then `pnpm nx deploy`. Post-deploy steps: Lake Formation grants, Redshift grants, Cognito user creation, Neptune data load.
-- **Existing CI**: `packages/ci-infra` has a CodeBuild project (`wealth-mgmt-deploy`) that runs Phase 2 only — synth, checkov, diff, deploy. Reads config from SSM parameters. Triggered via GitLab.
+- **Existing CI**: `packages/ci-infra` has a CodeBuild project (`wealth-mgmt-deploy`) that runs Phase 2 only — synth, checkov, diff, deploy. Reads config from SSM parameters. Triggered by the parameterized deployment helper or a future GitHub OIDC workflow.
 
 ## Design Decision: Two Buildspecs
 
@@ -1002,7 +1002,7 @@ And guard the existing `rl.close()` call after the interactive prompts to avoid 
    TEST_USER_PASSWORD: { value: '/wealth-management-portal/test-user-password', type: PARAMETER_STORE },
    ```
 
-3. **Update GitLab trigger role** to also grant `codebuild:StartBuild` and `codebuild:BatchGetBuilds` on the new platform project.
+3. **Update the direct deployment permissions** to also grant `codebuild:StartBuild` and `codebuild:BatchGetBuilds` on the new platform project.
 
 4. **Add CfnOutput** for the new project name: `PlatformCodeBuildProjectName`.
 
@@ -1011,7 +1011,7 @@ And guard the existing `rl.close()` call after the interactive prompts to avoid 
 - Two CodeBuild projects defined: `wealth-mgmt-deploy` (existing, updated) and `wealth-mgmt-platform-deploy` (new)
 - Platform project has 4-hour timeout, LARGE compute, x86 image
 - App project has new `TEST_USER_EMAIL`/`TEST_USER_PASSWORD` env vars
-- GitLab trigger role covers both projects
+- The deployment path covers both projects
 
 ---
 
@@ -1078,7 +1078,7 @@ And guard the existing `rl.close()` call after the interactive prompts to avoid 
 
 ### Re-deploy After Code Changes
 
-Only Phase 2 needs to re-run — triggered automatically by GitLab CI or manually.
+Only Phase 2 needs to re-run — triggered by the deployment helper or manually.
 
 ---
 
@@ -1142,7 +1142,7 @@ Not part of the CI buildspecs — these are manual, destructive operations:
 ## Out of Scope
 
 - **Fully eliminating manual steps** — IDC password resets require console access (no API available). All other previously-manual steps (Redshift grants, QuickSight role assignment, QuickSight dataset deploy) have been automated.
-- **GitLab pipeline integration** — the existing `.gitlab-ci.yml` / trigger role setup is already handled by `ci-infra`. This plan focuses on the buildspecs themselves.
+- **Deployment integration** — the direct helper and CodeBuild stack provide the deployment path. This plan focuses on the buildspecs themselves.
 - **Teardown automation** — reverse-order destroy is a separate concern.
 - **Multi-account / multi-environment orchestration** — each account runs its own pair of buildspecs with its own SSM parameters.
 

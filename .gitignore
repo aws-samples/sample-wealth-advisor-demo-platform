@@ -1,15 +1,30 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # compiled output
-dist
-tmp
-out-tsc
+dist/
+tmp/
+out-tsc/
 *.tsbuildinfo
+build/
+
+# CDK
+cdk.out/
+cdk.context.json
+
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+.ruff_cache/
+
 # dependencies
-node_modules
+node_modules/
+
 # IDEs and editors
 /.idea
 .project
@@ -24,6 +39,8 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.kiro/
+
 # misc
 /.sass-cache
 /connect.lock
@@ -34,20 +51,30 @@ node_modules
 # System Files
 .DS_Store
 Thumbs.db
+
+# Nx
 .nx/cache
 .nx/workspace-data
+.tanstack/
+
+# Vite
 vitest.config.*.timestamp*
+vite.config.*.timestamp*
+
+# Runtime/environment
 runtime-config.json
 /reports
-vite.config.*.timestamp*
 .env
-.kiro/
+.env.local
+.env.*.local
+
 # Nx Plugin analysis documents
 NX_PLUGIN_SUMMARY.md
 NX_PLUGIN_ALIGNMENT.md
 ACTION_PLAN.md
 project-graph.html
 static/
+
 # Local documentation files (migration/session notes)
 AGENTCORE_MIGRATION_COMPLETE.md
 AGENTCORE_MIGRATION_SESSION_SUMMARY.md
@@ -56,7 +83,7 @@ TESTING_GUIDE.md
 TESTING_SUMMARY.md
 TEST_RESULTS_SUMMARY.md
 THEME_SCHEDULER_DEPLOYMENT_STATUS.md
-WEB_CRAWLER_AGENTCORE_MIGRATION.md.worktrees/
+WEB_CRAWLER_AGENTCORE_MIGRATION.md
 .worktrees/
 
 # Terraform
@@ -64,7 +91,14 @@ WEB_CRAWLER_AGENTCORE_MIGRATION.md.worktrees/
 *.tfstate
 *.tfstate.backup
 **/.terraform.lock.hcl
+**/tfplan
 
+# Draw.io temp files
+*.drawio.bkp
+*.drawio.dtmp
+.$*.drawio.*
+
+# Claude Code
 .claude/worktrees
 .claude/settings.local.json
 
@@ -78,3 +112,14 @@ session-manager-plugin.pkg
 response.json
 *.backup
 mfa_response.json
+
+# Large media (use Git LFS for videos if needed)
+*.mp4
+*.mov
+*.avi
+
+# Backup files
+*.bak
+*.orig
+
+# Lock files (Python)

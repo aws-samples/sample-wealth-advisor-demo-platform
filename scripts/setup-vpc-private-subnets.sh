@@ -3,8 +3,9 @@
 set -e
 
 # Configuration
-VPC_ID="vpc-0a9c92e6fe62049c1"
-REGION="us-west-2"
+# VPC_ID must be provided via environment, e.g. export VPC_ID=vpc-xxxxxxxxxxxxxxxxx
+VPC_ID="${VPC_ID:?VPC_ID env var is required (e.g. export VPC_ID=vpc-xxxxxxxx)}"
+REGION="${REGION:-us-west-2}"
 SUBNET_1_CIDR="172.31.64.0/20"
 SUBNET_1_AZ="us-west-2b"
 SUBNET_1_NAME="wealth-mgmt-private-1"

@@ -15,6 +15,7 @@ def _make_context(tool_name):
     return ctx
 
 
+@patch.dict("os.environ", {"DATA_ENGINE": "redshift"})
 @patch(
     "wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway._conn_factory",
 )

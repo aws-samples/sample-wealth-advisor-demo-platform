@@ -25,6 +25,7 @@ const applyOverrides = (runtimeConfig: IRuntimeConfig) => {
     runtimeConfig.apis.Api = 'http://localhost:8000/';
     runtimeConfig.apis.IntelligenceApi = 'http://localhost:9000/';
     runtimeConfig.apis.GraphSearchApi = 'http://localhost:8005/';
+    runtimeConfig.apis.PortfolioDDApi = 'http://localhost:8092/';
   }
   return runtimeConfig;
 };

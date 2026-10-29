@@ -2,21 +2,23 @@ version: 0.2
 
 env:
   variables:
-    ENABLE_COMPLIANCE_REPORTING: "false"
-    COMPLIANCE_REPORTING_BUCKET: ""
+    ENABLE_COMPLIANCE_REPORTING: 'false'
+    COMPLIANCE_REPORTING_BUCKET: ''
   parameter-store:
-    # Platform identifiers — used by generate-env-from-ssm.sh to auto-discover
+    # Platform identifiers - used by generate-env-from-ssm.sh to auto-discover
     # VPC, subnets, security group, route table, and Redshift workgroup from
     # data-platform SSM params (/{APP_NAME}/{ENV_NAME}/...)
     APP_NAME: /wealth-management-portal/platform/app-name
     ENV_NAME: /wealth-management-portal/platform/env-name
     AWS_REGION: /wealth-management-portal/aws-region
-    # App config — values that can't be auto-discovered
+    ACCOUNT_ID: /wealth-management-portal/platform/account-id
+    # App config - values that can't be auto-discovered
     REDSHIFT_DATABASE: /wealth-management-portal/redshift-database
     SES_SENDER_EMAIL: /wealth-management-portal/ses-sender-email
     REPORT_BEDROCK_MODEL_ID: /wealth-management-portal/report-bedrock-model-id
     TAVILY_API_KEY: /wealth-management-portal/tavily-api-key
     THEME_BEDROCK_MODEL_ID: /wealth-management-portal/theme-bedrock-model-id
+    DD_KNOWLEDGE_BASE_ID: /wealth-management-portal/dd-knowledge-base-id
     DEPLOY_BASTION: /wealth-management-portal/deploy-bastion
     TEST_USER_EMAIL: /wealth-management-portal/test-user-email
     TEST_USER_PASSWORD: /wealth-management-portal/test-user-password
@@ -45,6 +47,14 @@ phases:
 
   pre_build:
     commands:
+      - |
+        set -euo pipefail
+        ACTUAL_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text --region "$AWS_REGION")
+        if [[ "$ACTUAL_ACCOUNT_ID" != "$ACCOUNT_ID" ]]; then
+          echo "ERROR: AWS account mismatch. Expected $ACCOUNT_ID, got $ACTUAL_ACCOUNT_ID." >&2
+          exit 1
+        fi
+        echo "Verified deployment account: $ACTUAL_ACCOUNT_ID"
       - export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
       - scripts/generate-env-from-ssm.sh
 
@@ -55,9 +65,9 @@ phases:
       - pnpm nx run infra:build
       - pnpm nx bootstrap @wealth-management-portal/infra
       - pnpm nx deploy @wealth-management-portal/infra
-      # Verify SES sender identity (non-blocking — app works without it)
+      # Verify SES sender identity (non-blocking - app works without it)
       - ./scripts/setup-ses-identity.sh "$SES_SENDER_EMAIL" "$AWS_REGION" || true
-      # Add caller as Lake Formation admin (CodeBuild assumed-role → IAM role ARN)
+      # Add caller as Lake Formation admin (CodeBuild assumed-role to IAM role ARN)
       - |
         CALLER_ROLE=$(aws sts get-caller-identity --query Arn --output text --region $AWS_REGION | sed 's|arn:aws:sts:|arn:aws:iam:|;s|:assumed-role/\([^/]*\)/.*|:role/\1|')
         echo "Adding LF admin: $CALLER_ROLE"
@@ -79,32 +89,26 @@ phases:
           aws lakeformation put-data-lake-settings --region $AWS_REGION --cli-input-json file:///tmp/lf-settings.json
           echo "Added as LF admin"
         fi
-      # Post-deploy grants
-      - pnpm nx grant-lf-permissions @wealth-management-portal/infra
-      - pnpm nx grant-redshift-permissions @wealth-management-portal/infra
-      # Load graph data
-      - uv run python scripts/load-neptune-data.py --region $AWS_REGION
-      # Trigger step functions once to seed initial data (schedulers are deployed disabled)
+      - "pnpm nx grant-lf-permissions @wealth-management-portal/infra || echo 'WARNING: LF grants skipped (data platform not yet deployed)'"
+      - "pnpm nx grant-redshift-permissions @wealth-management-portal/infra || echo 'WARNING: Redshift grants skipped (data platform not yet deployed)'"
+      - "uv run python scripts/load-neptune-data.py --region $AWS_REGION || echo 'WARNING: Neptune data load skipped'"
       - |
         echo "Triggering step function executions..."
         REPORT_SM_ARN=$(aws stepfunctions list-state-machines --region $AWS_REGION --query "stateMachines[?contains(name,'ReportScheduler')].stateMachineArn | [0]" --output text)
         THEME_SM_ARN=$(aws stepfunctions list-state-machines --region $AWS_REGION --query "stateMachines[?contains(name,'ThemeScheduler')].stateMachineArn | [0]" --output text)
         if [ "$REPORT_SM_ARN" != "None" ] && [ -n "$REPORT_SM_ARN" ]; then
           aws stepfunctions start-execution --state-machine-arn "$REPORT_SM_ARN" --region $AWS_REGION
-          echo "  ✓ Started ReportScheduler execution"
+          echo "  Started ReportScheduler execution"
         else
-          echo "  ✗ ReportScheduler state machine not found"
-          exit 1
+          echo "  ReportScheduler state machine not found - skipping (deploy the app stack first)"
         fi
         if [ "$THEME_SM_ARN" != "None" ] && [ -n "$THEME_SM_ARN" ]; then
           aws stepfunctions start-execution --state-machine-arn "$THEME_SM_ARN" --region $AWS_REGION
-          echo "  ✓ Started ThemeScheduler execution"
+          echo "  Started ThemeScheduler execution"
         else
-          echo "  ✗ ThemeScheduler state machine not found"
-          exit 1
+          echo "  ThemeScheduler state machine not found - skipping (deploy the app stack first)"
         fi
-      # Create test user (non-interactive)
-      - pnpm nx create-user @wealth-management-portal/infra -- --email=$TEST_USER_EMAIL --password=$TEST_USER_PASSWORD
+      - pnpm nx create-user @wealth-management-portal/infra -- --email="$TEST_USER_EMAIL"
 
   post_build:
     commands:

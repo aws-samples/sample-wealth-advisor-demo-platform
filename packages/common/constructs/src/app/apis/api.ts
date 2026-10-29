@@ -20,6 +20,7 @@ import {
   IVpc,
   SecurityGroup,
   ISubnet,
+  Peer,
   Port,
   InterfaceVpcEndpoint,
   InterfaceVpcEndpointAwsService,
@@ -137,6 +138,11 @@ export class Api<
         Port.tcp(5439),
         'Redshift access',
       );
+      lambdaSecurityGroup.addEgressRule(
+        Peer.anyIpv4(),
+        Port.tcp(443),
+        'Athena and AWS APIs via NAT Gateway',
+      );
       vpcEndpointSecurityGroup.addIngressRule(
         lambdaSecurityGroup,
         Port.tcp(443),
@@ -201,6 +207,7 @@ export class Api<
         ),
       ),
       timeout: Duration.seconds(60),
+      memorySize: 512,
       tracing: Tracing.ACTIVE,
       environment: {
         AWS_CONNECTION_REUSE_ENABLED: '1',

@@ -272,12 +272,12 @@ def generate_general_themes(
     try:
         # Get Portfolio MCP client
         print("[generate_general_themes] Initializing ThemeProcessor...")
-        logger.info("[generate_general_themes] Initializing ThemeProcessor with bedrock_region=us-east-1")
+        logger.info("[generate_general_themes] Initializing ThemeProcessor")
         mcp_client = get_portfolio_mcp_client()
 
         processor = ThemeProcessor(
             mcp_client=mcp_client,
-            bedrock_region="us-east-1",
+            bedrock_region=os.environ.get("AWS_REGION", "us-west-2"),
             use_cross_region=True,
         )
 
@@ -353,7 +353,7 @@ def generate_portfolio_themes_for_all_clients(
 
         processor = PortfolioThemeProcessor(
             mcp_client=mcp_client,
-            bedrock_region="us-east-1",
+            bedrock_region=os.environ.get("AWS_REGION", "us-west-2"),
             use_cross_region=True,
         )
 
@@ -484,7 +484,7 @@ def generate_portfolio_themes_for_client(
 
         processor = PortfolioThemeProcessor(
             mcp_client=mcp_client,
-            bedrock_region="us-east-1",
+            bedrock_region=os.environ.get("AWS_REGION", "us-west-2"),
             use_cross_region=True,
         )
 

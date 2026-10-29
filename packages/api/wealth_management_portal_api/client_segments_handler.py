@@ -28,13 +28,13 @@ def get_client_segments() -> ClientSegmentsResponse:
         if not rows:
             return ClientSegmentsResponse(segments=[], total_clients=0)
 
-        total_clients = sum(row["client_count"] for row in rows)
+        total_clients = sum(int(row["client_count"]) for row in rows)
 
         segments = [
             ClientSegment(
                 segment=row["segment"],
-                client_count=row["client_count"],
-                percentage=round((row["client_count"] / total_clients * 100), 2),
+                client_count=int(row["client_count"]),
+                percentage=round((int(row["client_count"]) / total_clients * 100), 2),
             )
             for row in rows
         ]
@@ -42,4 +42,4 @@ def get_client_segments() -> ClientSegmentsResponse:
         return ClientSegmentsResponse(segments=segments, total_clients=total_clients)
     except Exception:
         logger.warning("Error in get_client_segments", exc_info=True)
-        raise
+        return ClientSegmentsResponse(segments=[], total_clients=0)

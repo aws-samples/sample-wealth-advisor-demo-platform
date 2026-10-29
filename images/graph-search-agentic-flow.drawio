@@ -1,0 +1,93 @@
+<mxfile host="Electron">
+  <diagram id="graph-flow" name="Graph Search">
+    <mxGraphModel dx="1141" dy="707" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="600" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#232F3E;" value="Graph Search &amp;mdash; Natural Language to openCypher (Strands SDK)" vertex="1">
+          <mxGeometry height="30" width="500" x="330" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="user" parent="1" style="shape=mxgraph.aws4.user;fillColor=#232F3E;strokeColor=none;fontColor=#232F3E;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Financial&#xa;Advisor" vertex="1">
+          <mxGeometry height="75" width="60" x="60" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="apigw" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" value="API Gateway&#xa;Graph Search API" vertex="1">
+          <mxGeometry height="50" width="50" x="195" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="runtime" parent="1" style="swimlane;startSize=36;fillColor=#f0fdf4;strokeColor=#01A88D;fontStyle=1;fontSize=13;fontColor=#01A88D;html=1;rounded=0;" value="AgentCore Runtime" vertex="1">
+          <mxGeometry height="320" width="450" x="330" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="badge" parent="runtime" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock_agentcore;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="5" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="agent" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="Graph Search Agent (Strands SDK)&#xa;Tools: generate_cypher, execute_query&#xa;&#xa;1. Receive NL query&#xa;2. Generate openCypher via Bedrock&#xa;3. Execute against Neptune&#xa;4. Stream results back" vertex="1">
+          <mxGeometry height="130" width="350" x="50" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="enrich" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="/api/enrich endpoint&#xa;Backfills connections +&#xa;column explanations" vertex="1">
+          <mxGeometry height="70" width="200" x="50" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="KtrlateebqH1GHNFStPJ-1" parent="runtime" style="shape=image;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;aspect=fixed;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOTAiIGhlaWdodD0iNDYzIiB2aWV3Qm94PSIwIDAgMjkwIDQ2MyIgZmlsbD0ibm9uZSI+JiN4YTs8cGF0aCBkPSJNOTcuMjkwMiA1Mi43ODg0Qzg1LjA2NzQgNDkuMTY2NyA3Mi4yMjM0IDU2LjEzODkgNjguNjAxNyA2OC4zNjE2QzY0Ljk4MDEgODAuNTg0MyA3MS45NTI0IDkzLjQyODMgODQuMTc0OSA5Ny4wNTAxTDIzNS4xMTcgMTM5Ljc3NUMyNDUuMjIzIDE0Mi43NjkgMjQ2LjM1NyAxNTYuNjI4IDIzNi44NzQgMTYxLjIyNkwzMi41NDYgMjYwLjI5MUMtMTQuOTQzOSAyODMuMzE2IC05LjE2MTA3IDM1Mi43NCA0MS40ODM1IDM2Ny41OTFMMTg5LjU1MSA0MTEuMDA5TDE5MC4xMjUgNDExLjE2OUMyMDIuMTgzIDQxNC4zNzYgMjE0LjY2NSA0MDcuMzk2IDIxOC4xOTYgMzk1LjM1NUMyMjEuNzg0IDM4My4xMjIgMjE0Ljc3NCAzNzAuMjk2IDIwMi41NDEgMzY2LjcwOUw1NC40NzM4IDMyMy4yOTFDNDQuMzQ0NyAzMjAuMzIxIDQzLjE4NzkgMzA2LjQzNiA1Mi42ODU3IDMwMS44MzFMMjU3LjAxNCAyMDIuNzY2QzMwNC40MzIgMTc5Ljc3NiAyOTguNzU4IDExMC40ODMgMjQ4LjIzMyA5NS41MTJMOTcuMjkwMiA1Mi43ODg0WiIgZmlsbD0iIzk4OTg5OCIvPiYjeGE7PHBhdGggZD0iTTI1OS4xNDcgMC45ODE4MTJDMjcxLjM4OSAtMi41NzQ5OCAyODQuMTk3IDQuNDY1NzEgMjg3Ljc1NCAxNi43MDc0QzI5MS4zMTEgMjguOTQ5MiAyODQuMjcgNDEuNzU3IDI3Mi4wMjggNDUuMzEzOEw3MS4xNzI3IDEwMy42NzFDNDAuNzE0MiAxMTIuNTIxIDM3LjE5NzYgMTU0LjI2MiA2NS43NDU5IDE2OC4wODNMMjQxLjM0MyAyNTMuMDkzQzMwNy44NzIgMjg1LjMwMiAyOTkuNzk0IDM4Mi41NDYgMjI4Ljg2MiA0MDMuMzM2TDMwLjQwNDEgNDYxLjUwMkMxOC4xNzA3IDQ2NS4wODggNS4zNDcwOCA0NTguMDc4IDEuNzYxNTMgNDQ1Ljg0NEMtMS44MjM5IDQzMy42MTEgNS4xODYzNyA0MjAuNzg3IDE3LjQxOTcgNDE3LjIwMkwyMTUuODc4IDM1OS4wMzVDMjQ2LjI3NyAzNTAuMTI1IDI0OS43MzkgMzA4LjQ0OSAyMjEuMjI2IDI5NC42NDVMNDUuNjI5NyAyMDkuNjM1Qy0yMC45ODM0IDE3Ny4zODYgLTEyLjc3NzIgNzkuOTg5MyA1OC4yOTI4IDU5LjM0MDJMMjU5LjE0NyAwLjk4MTgxMloiIGZpbGw9IiMwMEZGNzciLz4mI3hhOzwvc3ZnPg==" value="" vertex="1">
+          <mxGeometry height="25" width="15.66" x="330" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp" parent="1" style="swimlane;startSize=36;fillColor=#f0fdf4;strokeColor=#01A88D;fontStyle=1;fontSize=13;fontColor=#01A88D;html=1;rounded=0;" value="AgentCore Gateway" vertex="1">
+          <mxGeometry height="100" width="450" x="330" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp-badge" parent="mcp" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock_agentcore;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="4" y="4" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp-gw" parent="mcp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="Neptune Analytics Gateway&#xa;(AgentCore, Strands MCPClient)" vertex="1">
+          <mxGeometry height="45" width="200" x="230" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="bedrock" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock;" value="Amazon Bedrock&lt;br&gt;Claude Sonnet 5&lt;br&gt;(Cypher generation)" vertex="1">
+          <mxGeometry height="60" width="60" x="900" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="neptune" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.neptune;labelBackgroundColor=none;" value="Amazon Neptune&#xa;Analytics&#xa;(Knowledge Graph)" vertex="1">
+          <mxGeometry height="60" width="60" x="900" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontColor=#666666;labelBackgroundColor=none;" value="Graph Data Model:&#xa;• Advisor • Client • Company&#xa;• City • Stock • RiskProfile" vertex="1">
+          <mxGeometry height="50" width="180" x="880" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#232F3E;" target="apigw" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="320" />
+              <mxPoint x="170" y="205" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="apigw" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#232F3E;" target="agent" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="agent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;labelBackgroundColor=none;" target="mcp-gw" value="tool call">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="320" />
+              <mxPoint x="660" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="agent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;dashed=1;labelBackgroundColor=none;" target="bedrock" value="generate openCypher">
+          <mxGeometry relative="1" x="0.0058" y="14" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="mcp-gw" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8C4FFF;dashed=1;labelBackgroundColor=none;" target="neptune" value="execute query">
+          <mxGeometry relative="1" x="-0.5675" y="-13" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="870" y="487.48" />
+              <mxPoint x="870" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#999999;" target="user" value="SSE stream">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="337.48" />
+              <mxPoint x="280" y="337.48" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

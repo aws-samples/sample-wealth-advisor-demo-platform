@@ -16,62 +16,16 @@ import {
 import { PageLayout, SearchBox } from './PageLayout';
 import { useApiClient } from '../hooks/useApiClient';
 import { useApi } from '../hooks/useApi';
-import type { Api } from '../generated/api/client.gen';
-
-function ReportCell({ clientId, api }: { clientId: string; api: Api }) {
-  const [state, setState] = useState<'idle' | 'loading' | 'error'>('idle');
-
-  const handleClick = () => {
-    setState('loading');
-    api
-      .clientReport({ clientId })
-      .then((r) => {
-        if (r.status === 'complete' && r.presignedUrl) {
-          window.open(r.presignedUrl, '_blank');
-        } else {
-          alert(`Report status: ${r.status}`);
-        }
-        setState('idle');
-      })
-      .catch(() => {
-        setState('error');
-      });
-  };
-
-  if (state === 'loading')
-    return <span className="text-xs text-gray-400">Loading…</span>;
-  if (state === 'error')
-    return <span className="text-xs text-red-400">Failed</span>;
-  return (
-    <button
-      onClick={handleClick}
-      className="text-xs text-blue-600 hover:text-blue-700"
-    >
-      📋 View Report
-    </button>
-  );
-}
+import { useRuntimeConfig } from '../hooks/useRuntimeConfig';
+import { useAuth } from 'react-oidc-context';
+import { ReportCell } from './ReportCell';
+import { UPCOMING_MEETINGS, ADVISOR_ALERTS } from '../data/seed';
 
 interface MetricCard {
   title: string;
   value: string;
   change: string;
   icon: string;
-}
-
-interface Meeting {
-  id: string;
-  clientName: string;
-  time: string;
-  type: string;
-}
-
-interface Alert {
-  id: string;
-  type: 'compliance' | 'market';
-  title: string;
-  message: string;
-  severity: 'high' | 'medium' | 'low';
 }
 
 export function AdvisorDashboard() {
@@ -95,6 +49,13 @@ export function AdvisorDashboard() {
   const segmentsQuery = useQuery(apiOptions.clientSegments.queryOptions());
   const summaryQuery = useQuery(apiOptions.dashboardSummary.queryOptions());
   const topClientsQuery = useQuery(apiOptions.topClients.queryOptions());
+  const reportsSummaryQuery = useQuery({
+    ...apiOptions.reportsSummary.queryOptions(),
+    retry: false,
+  });
+  const clientsWithReports = new Set(
+    reportsSummaryQuery.data?.clientsWithReports ?? [],
+  );
 
   const marketThemes = themesQuery.data?.success
     ? (themesQuery.data.themes ?? [])
@@ -143,10 +104,37 @@ export function AdvisorDashboard() {
     setExpandedThemeId(marketThemes[0].themeId);
   }
 
+  const runtimeConfig = useRuntimeConfig();
+  const auth = useAuth();
+  const [themesRefreshing, setThemesRefreshing] = useState(false);
+
   const fetchMarketThemes = () => {
-    queryClient.invalidateQueries(
-      apiOptions.marketThemes.queryFilter({ limit: 6 }),
-    );
+    setThemesRefreshing(true);
+    const baseUrl = runtimeConfig.apis.Api.replace(/\/$/, '');
+    const token = auth.user?.id_token;
+    fetch(`${baseUrl}/market-themes/refresh`, {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) {
+          setThemesRefreshing(false);
+          return;
+        }
+        let attempts = 0;
+        const poll = setInterval(() => {
+          attempts++;
+          queryClient.invalidateQueries(
+            apiOptions.marketThemes.queryFilter({ limit: 6 }),
+          );
+          if (attempts >= 12) {
+            clearInterval(poll);
+            setThemesRefreshing(false);
+          }
+        }, 20000);
+      })
+      .catch(() => setThemesRefreshing(false));
   };
 
   const metrics: MetricCard[] = [
@@ -192,43 +180,8 @@ export function AdvisorDashboard() {
     },
   ];
 
-  const upcomingMeetings: Meeting[] = [
-    {
-      id: '1',
-      clientName: 'Michael Chen',
-      time: '10:00 AM',
-      type: 'Portfolio Review',
-    },
-    {
-      id: '2',
-      clientName: 'Sarah Johnson',
-      time: '2:00 PM',
-      type: 'Financial Planning',
-    },
-    {
-      id: '3',
-      clientName: 'David Lee',
-      time: '4:00 PM',
-      type: 'Investment Strategy',
-    },
-  ];
-
-  const alerts: Alert[] = [
-    {
-      id: '1',
-      type: 'compliance',
-      title: 'Compliance Alert',
-      message: 'Annual compliance review due for 5 clients',
-      severity: 'high',
-    },
-    {
-      id: '2',
-      type: 'market',
-      title: 'Market Alert',
-      message: 'S&P 500 volatility increased by 15%',
-      severity: 'medium',
-    },
-  ];
+  const upcomingMeetings = UPCOMING_MEETINGS.slice(0, 3);
+  const alerts = ADVISOR_ALERTS;
 
   return (
     <PageLayout
@@ -508,7 +461,7 @@ export function AdvisorDashboard() {
                         padding: '8px 12px',
                       }}
                       formatter={(value, name, props: any) => [
-                        `${value} clients (${props.payload.percentage.toFixed(1)}%)`,
+                        `${value} clients (${(props.payload.percentage ?? 0).toFixed(1)}%)`,
                         props.payload.segment,
                       ]}
                     />
@@ -533,9 +486,13 @@ export function AdvisorDashboard() {
               </h2>
               <button
                 onClick={fetchMarketThemes}
-                className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                disabled={themesRefreshing}
+                className={`text-sm flex items-center gap-1 ${themesRefreshing ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:text-blue-800'}`}
               >
-                <span>🔄</span> Refresh
+                <span className={themesRefreshing ? 'animate-spin' : ''}>
+                  🔄
+                </span>{' '}
+                {themesRefreshing ? 'Refreshing...' : 'Refresh'}
               </button>
             </div>
             <div className="min-h-[200px]">
@@ -656,7 +613,7 @@ export function AdvisorDashboard() {
                                 className="text-gray-500 cursor-help"
                                 title="Calculated from article count, source diversity, recency, and keyword relevance."
                               >
-                                Score: {theme.score.toFixed(1)}/100
+                                Score: {(theme.score ?? 0).toFixed(1)}/100
                               </span>
                               <span className="text-gray-500">•</span>
                               <div className="relative">
@@ -710,8 +667,8 @@ export function AdvisorDashboard() {
                                   }}
                                   className="text-blue-600 hover:text-blue-800 hover:underline"
                                 >
-                                  {theme.articleCount} articles from{' '}
-                                  {theme.sources.join(', ')}
+                                  {theme.articleCount ?? 0} articles from{' '}
+                                  {(theme.sources ?? []).join(', ')}
                                 </button>
 
                                 {/* Popover */}
@@ -847,9 +804,10 @@ export function AdvisorDashboard() {
                     </p>
                     <button
                       onClick={fetchMarketThemes}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      disabled={themesRefreshing}
+                      className={`px-4 py-2 rounded-lg transition-colors ${themesRefreshing ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                     >
-                      Load Themes
+                      {themesRefreshing ? 'Refreshing...' : 'Load Themes'}
                     </button>
                   </div>
                 </div>
@@ -1008,10 +966,19 @@ export function AdvisorDashboard() {
                         {client.clientSentiment}
                       </td>
                       <td className="py-3">
-                        <ReportCell clientId={client.clientId} api={api} />
+                        <ReportCell
+                          clientId={client.clientId}
+                          hasReport={clientsWithReports.has(client.clientId)}
+                        />
                       </td>
                       <td className="py-3 text-gray-700 text-xs">
-                        &ldquo;{client.nextBestAction}&rdquo;
+                        {client.nextBestAction ? (
+                          <>&ldquo;{client.nextBestAction}&rdquo;</>
+                        ) : (
+                          <span className="text-gray-400">
+                            No recommendation available
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))}

@@ -6,7 +6,7 @@ Only requires: boto3 + requests (same deps as the lambda).
 
 Usage:
   AWS_PROFILE=wealth_management python scripts/test-general-themes-lambda.py \
-    arn:aws:bedrock-agentcore:us-west-2:507139572291:runtime/wealthmanagementionWebCrawlerMcpBFEAD281-2iGk6CG7c5
+    arn:aws:bedrock-agentcore:us-west-2:<AWS_ACCOUNT_ID>:runtime/<WebCrawlerMcpRuntimeId>
 """
 
 import argparse

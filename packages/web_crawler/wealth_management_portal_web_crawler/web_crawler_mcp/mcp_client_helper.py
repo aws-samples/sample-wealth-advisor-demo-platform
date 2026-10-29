@@ -37,7 +37,7 @@ def get_portfolio_mcp_client() -> MCPClient:
     if gateway_url:
         # Use streamable HTTP client with SigV4 auth via Gateway (production)
         credentials = boto3.Session().get_credentials().get_frozen_credentials()
-        region = os.getenv("AWS_REGION", "us-east-1")
+        region = os.getenv("AWS_REGION", "us-west-2")
         auth = SigV4HTTPXAuth(credentials, region)
         return MCPClient(lambda: streamablehttp_client(gateway_url, auth=auth, timeout=120, terminate_on_close=False))
     else:

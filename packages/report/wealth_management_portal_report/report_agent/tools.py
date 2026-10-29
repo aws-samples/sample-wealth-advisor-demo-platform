@@ -118,42 +118,92 @@ def _get_mcp_client() -> MCPClient:
         credentials = boto3.Session().get_credentials().get_frozen_credentials()
         region = os.getenv("AWS_REGION", "us-east-1")
         auth = SigV4HTTPXAuth(credentials, region)
-        return MCPClient(lambda: streamablehttp_client(gateway_url, auth=auth, timeout=120, terminate_on_close=False))
+        return MCPClient(lambda: streamablehttp_client(gateway_url, auth=auth, timeout=300, terminate_on_close=False))
     else:
         raise ValueError("PORTFOLIO_GATEWAY_URL environment variable is required")
+
+
+def _fetch_data_athena(client_id: str) -> dict:
+    """Fetch client report data directly via Athena (no MCP Gateway needed)."""
+    from wealth_management_portal_portfolio_data_access.repositories.data_api_base_repository import (
+        DataApiBaseRepository,
+    )
+
+    repo = DataApiBaseRepository()
+    params = [{"name": "client_id", "value": client_id}]
+
+    client_rows = repo._execute_and_wait("SELECT * FROM clients WHERE client_id = :client_id", params)
+    if not client_rows:
+        return {"error": f"Client '{client_id}' not found"}
+
+    holdings = repo._execute_and_wait(
+        "SELECT h.*, s.security_name, s.asset_class, s.sector, s.ticker "
+        "FROM holdings AS h "
+        "JOIN portfolios AS p ON h.portfolio_id = p.portfolio_id "
+        "JOIN accounts AS a ON p.account_id = a.account_id "
+        "LEFT JOIN securities AS s ON h.security_id = s.security_id "
+        "WHERE a.client_id = :client_id",
+        params,
+    )
+    performance = repo._execute_and_wait(
+        "SELECT pf.* FROM performance AS pf "
+        "JOIN portfolios AS p ON pf.portfolio_id = p.portfolio_id "
+        "JOIN accounts AS a ON p.account_id = a.account_id "
+        "WHERE a.client_id = :client_id",
+        params,
+    )
+    transactions = repo._execute_and_wait(
+        "SELECT t.* FROM transactions AS t "
+        "JOIN accounts AS a ON t.account_id = a.account_id "
+        "WHERE a.client_id = :client_id ORDER BY t.transaction_date DESC LIMIT 50",
+        params,
+    )
+    portfolios = repo._execute_and_wait(
+        "SELECT p.* FROM portfolios AS p "
+        "JOIN accounts AS a ON p.account_id = a.account_id "
+        "WHERE a.client_id = :client_id",
+        params,
+    )
+    interactions = repo._execute_and_wait(
+        "SELECT * FROM interactions WHERE client_id = :client_id ORDER BY interaction_date DESC LIMIT 50",
+        params,
+    )
+    themes = repo._execute_and_wait(
+        "SELECT * FROM themes WHERE client_id = '__GENERAL__' ORDER BY generated_at DESC LIMIT 6", []
+    )
+    restrictions = repo._execute_and_wait(
+        "SELECT * FROM client_investment_restrictions WHERE client_id = :client_id", params
+    )
+    accounts = repo._execute_and_wait("SELECT * FROM accounts WHERE client_id = :client_id", params)
+    income_expense = repo._execute_and_wait("SELECT * FROM client_income_expense WHERE client_id = :client_id", params)
+    recommended_products = repo._execute_and_wait("SELECT * FROM recommended_products LIMIT 20", [])
+
+    return {
+        "client": client_rows[0],
+        "restrictions": restrictions or [],
+        "accounts": accounts or [],
+        "portfolios": portfolios or [],
+        "holdings_with_securities": holdings or [],
+        "performance": performance or [],
+        "transactions": transactions or [],
+        "interactions": interactions or [],
+        "income_expense": income_expense[0] if income_expense else None,
+        "recommended_products": recommended_products or [],
+        "themes": themes or [],
+    }
 
 
 def fetch_report_data(client_id: str, mcp_client=None) -> ReportData:
     """
     Fetch and generate client briefing report data.
 
-    Args:
-        client_id: Redshift client ID (e.g., "CLT-001").
-        mcp_client: Optional pre-initialized MCP client. If provided, caller manages lifecycle.
-
-    Returns:
-        ReportData with components (deterministic_sections, synthesis_prompts, chart_svgs)
-        and typed models (profile, portfolio, communications) for NBA generation.
+    Queries Athena/S3 Tables directly for performance (avoids MCP Gateway timeout).
     """
-    if mcp_client:
-        logger.info("fetch_report_data started: client_id=%s", client_id)
-        names = _build_tool_name_map(mcp_client, ["get_client_report_data"])
-        result = mcp_client.call_tool_sync(
-            "get_client_report_data_001", names["get_client_report_data"], {"client_id": client_id}
-        )
-        data = _extract_mcp_data(result)
-    else:
-        logger.info("fetch_report_data started: client_id=%s", client_id)
-        _client = _get_mcp_client()
-        with _client as client:
-            names = _build_tool_name_map(client, ["get_client_report_data"])
-            result = client.call_tool_sync(
-                "get_client_report_data_001", names["get_client_report_data"], {"client_id": client_id}
-            )
-            data = _extract_mcp_data(result)
+    logger.info("fetch_report_data started: client_id=%s", client_id)
+    data = _fetch_data_athena(client_id)
 
     if "error" in data:
-        raise RuntimeError(f"MCP get_client_report_data failed: {data['error']}")
+        raise RuntimeError(f"Data fetch failed: {data['error']}")
 
     logger.info("fetch_report_data completed: client_id=%s keys=%s", client_id, list(data.keys()))
 

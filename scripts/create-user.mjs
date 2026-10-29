@@ -81,7 +81,8 @@ async function main() {
     process.exit(1);
   }
 
-  if (args.email && args.password) rl.close();
+  const environmentPassword = process.env.TEST_USER_PASSWORD;
+  if (args.email && (args.password || environmentPassword)) rl.close();
 
   // Prompt for email
   let email;
@@ -105,6 +106,9 @@ async function main() {
   if (args.password) {
     if (!isValidPassword(args.password)) { console.error('  \u2717 Password must be at least 8 characters'); process.exit(1); }
     password = args.password;
+  } else if (environmentPassword) {
+    if (!isValidPassword(environmentPassword)) { console.error('  \u2717 TEST_USER_PASSWORD must be at least 8 characters'); process.exit(1); }
+    password = environmentPassword;
   } else {
     while (true) {
       password = await ask('Password (min 8 chars)');
@@ -113,7 +117,7 @@ async function main() {
     }
   }
 
-  if (!args.email || !args.password) rl.close();
+  if (!args.email || (!args.password && !environmentPassword)) rl.close();
 
   // Write CLI payloads to temp files instead of interpolating into shell commands.
   // This prevents shell injection — passwords with $, ", or backticks would be
@@ -128,7 +132,7 @@ async function main() {
         { Name: 'email_verified', Value: 'true' },
       ],
       MessageAction: 'SUPPRESS',
-    }));
+    }), { mode: 0o600 });
     execSync(
       `aws cognito-idp admin-create-user --region "${region}" --cli-input-json file://${tmpFile}`,
       { stdio: ['pipe', 'pipe', 'pipe'] }
@@ -154,7 +158,7 @@ async function main() {
       Username: username,
       Password: password,
       Permanent: true,
-    }));
+    }), { mode: 0o600 });
     execSync(
       `aws cognito-idp admin-set-user-password --region "${region}" --cli-input-json file://${tmpFile2}`,
       { stdio: ['pipe', 'pipe', 'pipe'] }

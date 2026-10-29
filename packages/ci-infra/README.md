@@ -1,12 +1,12 @@
 # ci-infra
 
-CDK application that provisions the CI/CD infrastructure for the wealth management portal. Deploys an S3 source bucket, a CodeBuild project, and an IAM role that GitLab CI assumes (via Credential Vendor) to trigger deployments. The actual application deployment is handled by CodeBuild using the buildspec in this package.
+CodeBuild deployment infrastructure for the Wealth Management Portal. This package provisions an S3 source bucket and two CodeBuild projects: one for the application and one for the data platform. Deployment is triggered by the repository's parameterized local helper or a future GitHub OIDC workflow; no external CI trust role is required.
 
 ## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│  GitLab CI (.gitlab-ci.yml)                                      │
+│  Direct deployment helper / GitHub OIDC workflow                 │
 │                                                                  │
 │  check stage          deploy stage (manual, main only)           │
 │  ┌──────────────┐     ┌──────────────────────────────────────┐   │
@@ -15,7 +15,7 @@ CDK application that provisions the CI/CD infrastructure for the wealth manageme
 │  │ compile       │     │ 3. poll until SUCCEEDED / FAILED     │   │
 │  └──────────────┘     └──────────────┬───────────────────────┘   │
 └──────────────────────────────────────┼───────────────────────────┘
-                                       │ assumes GitLabTriggerRole
+                                       │ uses verified AWS credentials
                                        ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │  AWS (provisioned by this package)                               │
@@ -33,7 +33,7 @@ CDK application that provisions the CI/CD infrastructure for the wealth manageme
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-- **GitLabTriggerRole** — IAM role assumed by GitLab runners via Credential Vendor. Trust policy scoped to the GitLab group and project. Grants `codebuild:StartBuild`, `codebuild:BatchGetBuilds`, and `s3:PutObject`.
+- **Direct deployment helper** — verifies the expected AWS account, uploads the source archive to the stack's S3 bucket, starts the selected CodeBuild project, and reports the build URL.
 - **S3 Source Bucket** — ephemeral bucket with 7-day lifecycle expiry. Receives zipped source from the deploy job; CodeBuild reads it as build input.
 - **CodeBuild Project** — ARM-based (`amazonlinux2-aarch64-standard:3.0`), 30-minute timeout, Docker-privileged. Environment variables sourced from SSM Parameter Store. Has `AdministratorAccess` for CDK deployments.
 - **Checkov** — static security scanner run against synthesized CloudFormation templates. Suppressions configured in `checkov.yml`.
@@ -45,7 +45,7 @@ packages/ci-infra/
 ├── src/
 │   ├── main.ts                # CDK app entry point — instantiates CiStage
 │   ├── stacks/
-│   │   └── ci-stack.ts        # S3 bucket, CodeBuild project, GitLab trigger role
+│   │   └── ci-stack.ts        # S3 bucket and CodeBuild projects
 │   └── stages/
 │       └── ci-stage.ts        # CDK Stage wrapper around CiStack
 ├── buildspec.yml              # CodeBuild build phases (install → synth → checkov → deploy)
@@ -63,10 +63,10 @@ packages/ci-infra/
 
 ## Pipeline Flow
 
-1. Push to `main` (or open MR) → GitLab runs `lint`, `test`, `compile` on affected projects via `nx affected`
-2. On `main` only, a manual `deploy` job becomes available
-3. Deploy job zips the repo, uploads to S3, triggers CodeBuild with `buildspec.yml`
-4. CodeBuild installs Node 22, pnpm, and uv, then runs: `nx synth` → `checkov` → `cdk diff` → `cdk deploy`
+1. Run the parameterized deployment helper with an explicit expected AWS account and region.
+2. The helper zips the source, excluding local environment files, and uploads it to the CI S3 bucket.
+3. The helper starts the selected CodeBuild project and reports the build status/URL.
+4. CodeBuild installs Node 22, pnpm, and uv, then runs: `nx synth` → `checkov` → `cdk diff` → `cdk deploy`.
 
 ## Testing
 
@@ -99,37 +99,50 @@ pnpm nx deploy @wealth-management-portal/ci-infra
 pnpm nx destroy @wealth-management-portal/ci-infra
 ```
 
-See `SETUP.md` for full setup instructions including GitLab variable configuration.
+See `SETUP.md` for the direct deployment setup and required environment variables.
 
 ## Configuration
 
 CodeBuild environment variables are sourced from SSM Parameter Store:
 
-| Parameter                                              | Description                        |
-|--------------------------------------------------------|------------------------------------|
-| `/wealth-management-portal/aws-region`                 | AWS region                         |
-| `/wealth-management-portal/redshift-vpc-id`            | VPC ID for Redshift access         |
-| `/wealth-management-portal/private-subnet-ids`         | Private subnet IDs (comma-sep)     |
-| `/wealth-management-portal/redshift-security-group-id` | Redshift security group ID         |
-| `/wealth-management-portal/private-route-table-id`     | Private route table ID             |
-| `/wealth-management-portal/redshift-workgroup`         | Redshift Serverless workgroup name |
-| `/wealth-management-portal/redshift-database`          | Redshift database name             |
-| `/wealth-management-portal/ses-sender-email`           | SES verified sender email          |
-| `/wealth-management-portal/report-bedrock-model-id`    | Bedrock model ID for reports       |
-| `/wealth-management-portal/tavily-api-key`             | Tavily API key for web search      |
-| `/wealth-management-portal/theme-bedrock-model-id`     | Bedrock model ID for themes        |
-| `/wealth-management-portal/deploy-bastion`             | Whether to deploy bastion host     |
-| `/wealth-management-portal/private-subnet-az`          | Private subnet availability zone   |
-| `/wealth-management-portal/enable-compliance-reporting`| Enable compliance reporting        |
-| `/wealth-management-portal/compliance-reporting-bucket`| S3 bucket for compliance reports   |
-| `/wealth-management-portal/neptune-graph-id`           | Neptune graph ID (CDK-managed — do not set manually) |
+| Parameter                                               | Description                                          |
+| ------------------------------------------------------- | ---------------------------------------------------- |
+| `/wealth-management-portal/aws-region`                  | AWS region                                           |
+| `/wealth-management-portal/redshift-vpc-id`             | VPC ID for Redshift access                           |
+| `/wealth-management-portal/private-subnet-ids`          | Private subnet IDs (comma-sep)                       |
+| `/wealth-management-portal/redshift-security-group-id`  | Redshift security group ID                           |
+| `/wealth-management-portal/private-route-table-id`      | Private route table ID                               |
+| `/wealth-management-portal/redshift-workgroup`          | Redshift Serverless workgroup name                   |
+| `/wealth-management-portal/redshift-database`           | Redshift database name                               |
+| `/wealth-management-portal/ses-sender-email`            | SES verified sender email                            |
+| `/wealth-management-portal/report-bedrock-model-id`     | Bedrock model ID for reports                         |
+| `/wealth-management-portal/tavily-api-key`              | Tavily API key for web search                        |
+| `/wealth-management-portal/theme-bedrock-model-id`      | Bedrock model ID for themes                          |
+| `/wealth-management-portal/deploy-bastion`              | Whether to deploy bastion host                       |
+| `/wealth-management-portal/private-subnet-az`           | Private subnet availability zone                     |
+| `/wealth-management-portal/enable-compliance-reporting` | Enable compliance reporting                          |
+| `/wealth-management-portal/compliance-reporting-bucket` | S3 bucket for compliance reports                     |
+| `/wealth-management-portal/neptune-graph-id`            | Neptune graph ID (CDK-managed — do not set manually) |
 
-CDK stack parameters (set at deploy time or via defaults):
+The application deployment also accepts `NEPTUNE_PUBLIC_CONNECTIVITY=false`; set it to `true` only for a reviewed requirement.
 
-| Parameter      | Default        | Description                  |
-|----------------|----------------|------------------------------|
-| `GitLabGroup`  | `taehyunh`     | GitLab group for trust policy|
-| `GitLabProject`| `wealth-management-portal` | GitLab project name |
+The direct deployment helper accepts these environment variables:
+
+| Variable                  | Default                                | Description                                                         |
+| ------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
+| `EXPECTED_AWS_ACCOUNT_ID` | _(required)_                           | Account guard; deployment stops on mismatch                         |
+| `AWS_REGION`              | `us-west-2`                            | Region containing the CI stack and CodeBuild project                |
+| `CI_INFRA_STACK_NAME`     | `wealth-management-portal-ci-infra-Ci` | CloudFormation stack used to discover the source bucket and project |
+| `SOURCE_BUCKET`           | _(discovered from stack)_              | Optional explicit source bucket override                            |
+| `CODEBUILD_PROJECT`       | _(discovered from stack)_              | Optional explicit CodeBuild project override                        |
+
+Example:
+
+```bash
+export EXPECTED_AWS_ACCOUNT_ID="<ACCOUNT_ID>"
+export AWS_REGION="us-west-2"
+./scripts/deploy-app.sh
+```
 
 ## Dependencies
 

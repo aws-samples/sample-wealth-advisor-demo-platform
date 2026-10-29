@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ClientSearch } from './ClientSearch';
 
 // Mock dependencies
@@ -65,6 +66,17 @@ vi.mock('../hooks/useApiClient', () => ({
   }),
 }));
 
+vi.mock('../hooks/useApi', () => ({
+  useApi: () => ({
+    reportsSummary: {
+      queryOptions: () => ({
+        queryKey: ['reportsSummary'],
+        queryFn: async () => ({ clientsWithReports: [] }),
+      }),
+    },
+  }),
+}));
+
 vi.mock('../hooks/useRuntimeConfig', () => ({
   useRuntimeConfig: () => ({
     intelligenceApiUrl: 'http://localhost:8001',
@@ -76,13 +88,21 @@ vi.mock('../hooks/useRuntimeConfig', () => ({
   }),
 }));
 
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: false } },
+});
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
+
 describe('ClientSearch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders search inputs', () => {
-    render(<ClientSearch />);
+    render(<ClientSearch />, { wrapper });
 
     const searchInputs = screen.getAllByPlaceholderText(/search/i);
     expect(searchInputs.length).toBeGreaterThan(0);
@@ -92,7 +112,7 @@ describe('ClientSearch', () => {
     const { useApiClient } = await import('../hooks/useApiClient');
     const mockApi = useApiClient();
 
-    render(<ClientSearch />);
+    render(<ClientSearch />, { wrapper });
 
     const nlSearchInput = screen.getByPlaceholderText(/natural language/i);
 
@@ -109,7 +129,7 @@ describe('ClientSearch', () => {
   });
 
   it.skip('displays search results', async () => {
-    render(<ClientSearch />);
+    render(<ClientSearch />, { wrapper });
 
     const nlSearchInput = screen.getByPlaceholderText(/natural language/i);
 
@@ -122,7 +142,7 @@ describe('ClientSearch', () => {
   });
 
   it('maintains separate state for two search boxes', async () => {
-    render(<ClientSearch />);
+    render(<ClientSearch />, { wrapper });
 
     await waitFor(() => {
       const searchInputs = screen.getAllByRole('textbox');

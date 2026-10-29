@@ -1,0 +1,76 @@
+<mxfile host="Electron">
+  <diagram id="redshift" name="Redshift">
+    <mxGraphModel dx="1118" dy="769" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#232F3E;" value="Redshift Serverless Architecture &amp;mdash; Primary Write Path" vertex="1">
+          <mxGeometry height="30" width="600" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;fillColor=#7AA116;strokeColor=none;fontColor=#232F3E;verticalLabelPosition=bottom;verticalAlign=top;html=1;labelBackgroundColor=none;fontSize=11;" value="Amazon S3&#xa;CSV Source Files&#xa;(fa-data bucket)" vertex="1">
+          <mxGeometry height="60" width="60" x="60" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="copy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="COPY Command&#xa;(bulk load from S3)" vertex="1">
+          <mxGeometry height="45" width="160" x="200" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rs-icon" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.redshift;" value="Amazon Redshift&#xa;Serverless&#xa;wg: financial-advisor-wg" vertex="1">
+          <mxGeometry height="60" width="60" x="430" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#232F3E;" target="copy" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" edge="1" parent="1" source="copy" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#232F3E;" target="rs-icon" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rs-container" parent="1" style="swimlane;startSize=36;fillColor=#f5f0ff;strokeColor=#8C4FFF;fontStyle=1;fontSize=13;fontColor=#8C4FFF;html=1;rounded=0;" value="Amazon Redshift Serverless (database: dev)" vertex="1">
+          <mxGeometry height="350" width="550" x="580" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="core" parent="rs-container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="Core Tables&#xa;clients, advisors, accounts&#xa;portfolios, holdings, securities&#xa;transactions, market_data" vertex="1">
+          <mxGeometry height="90" width="160" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ai" parent="rs-container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="AI/Feature Tables&#xa;themes, articles&#xa;client_reports&#xa;theme_article_associations" vertex="1">
+          <mxGeometry height="90" width="160" x="200" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="views" parent="rs-container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="Analytics Views&#xa;client_portfolio_holdings&#xa;advisor_dashboard_summary&#xa;aum_trends, asset_allocation" vertex="1">
+          <mxGeometry height="90" width="160" x="20" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="qs-snap" parent="rs-container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="QuickSight Snapshots&#xa;advisor_dashboard_qs&#xa;RUM metrics tables" vertex="1">
+          <mxGeometry height="90" width="160" x="200" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="iam" parent="rs-container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="IAM Auth + VPC Endpoints&#xa;(private subnet access only)" vertex="1">
+          <mxGeometry height="50" width="150" x="380" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="lambda" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" value="AWS Lambda&#xa;API Functions" vertex="1">
+          <mxGeometry height="50" width="50" x="200" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="repo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="DataApiBaseRepository&#xa;&amp;rarr; RedshiftClient (IAM auth)" vertex="1">
+          <mxGeometry height="50" width="220" x="340" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="la1" edge="1" parent="1" source="lambda" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ED7100;" target="repo" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="la2" edge="1" parent="1" source="repo" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8C4FFF;dashed=1;" target="rs-container" value="SQL via IAM">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qs" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quicksight;" value="Amazon QuickSight&#xa;Enterprise (VPC conn)" vertex="1">
+          <mxGeometry height="50" width="50" x="700" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="agents" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="Advisor Chat Agents&#xa;(via Portfolio Data MCP Gateway)" vertex="1">
+          <mxGeometry height="45" width="200" x="860" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" parent="1" style="swimlane;startSize=36;fillColor=#f5f5f5;strokeColor=#999999;fontStyle=1;fontSize=13;fontColor=#666666;html=1;rounded=0;" value="VPC (Private Subnets, 3 AZs)" vertex="1">
+          <mxGeometry height="160" width="500" x="60" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="bastion" parent="vpc" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;" value="Amazon EC2&#xa;Bastion Host (t4g.nano)&#xa;SSM tunnel port 5439" vertex="1">
+          <mxGeometry height="50" width="50" x="70" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vpce" parent="vpc" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="VPC Endpoints&#xa;Interface: Redshift, STS&#xa;Gateway: S3" vertex="1">
+          <mxGeometry height="50" width="180" x="240" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="qs-rs" edge="1" parent="1" source="qs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8C4FFF;dashed=1;" target="rs-container" value="VPC connection">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

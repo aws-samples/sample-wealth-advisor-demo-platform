@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: MIT-0
 
 data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
 
 locals {
   account_id    = data.aws_caller_identity.current.account_id
-  bucket_name   = "${local.account_id}-${var.APP}-${var.ENV}-${var.NAME}"
+  region        = data.aws_region.current.name
+  bucket_name   = "${local.account_id}-${var.APP}-${var.ENV}-${local.region}-${var.NAME}"
 }
 
 resource "aws_s3_bucket" "bucket" {

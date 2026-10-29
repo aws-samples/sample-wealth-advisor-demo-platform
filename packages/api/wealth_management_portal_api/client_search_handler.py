@@ -198,7 +198,7 @@ Rules:
         ),
     )
     response = bedrock.invoke_model(
-        modelId=os.environ.get("CLIENT_SEARCH_MODEL_ID", "us.anthropic.claude-sonnet-4-5-20250929-v1:0"),
+        modelId=os.environ.get("CLIENT_SEARCH_MODEL_ID", "us.anthropic.claude-sonnet-5"),
         body=json.dumps(
             {
                 "anthropic_version": "bedrock-2023-05-31",

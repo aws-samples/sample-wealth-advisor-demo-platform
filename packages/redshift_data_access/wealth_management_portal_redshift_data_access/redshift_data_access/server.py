@@ -12,7 +12,7 @@ from wealth_management_portal_portfolio_data_access.engine import iam_connection
 mcp = FastMCP(
     name="RedshiftDataAccess",
     host="0.0.0.0",
-    port=int(os.environ.get("PORT", 8000)),
+    port=int(os.environ.get("PORT", "8000")),
     stateless_http=True,
 )
 

@@ -9,9 +9,11 @@ from wealth_management_portal_api.main import app
 client = TestClient(app)
 
 
+@patch.dict("os.environ", {"DATA_ENGINE": "redshift"})
 @patch("wealth_management_portal_api.report_handler.boto3.client")
-@patch("wealth_management_portal_api.report_handler.ReportRepository")
-def test_client_report_existing_complete(mock_repo_class, mock_boto3_client):
+@patch("wealth_management_portal_portfolio_data_access.repositories.report_repository.ReportRepository")
+@patch("wealth_management_portal_portfolio_data_access.engine.iam_connection_factory")
+def test_client_report_existing_complete(mock_conn_factory, mock_repo_class, mock_boto3_client):
     """Test getting a complete report with presigned URL."""
     mock_report = MagicMock()
     mock_report.report_id = "report-123"
@@ -37,8 +39,10 @@ def test_client_report_existing_complete(mock_repo_class, mock_boto3_client):
     assert "next_best_action" in data
 
 
-@patch("wealth_management_portal_api.report_handler.ReportRepository")
-def test_client_report_not_found(mock_repo_class):
+@patch.dict("os.environ", {"DATA_ENGINE": "redshift"})
+@patch("wealth_management_portal_portfolio_data_access.repositories.report_repository.ReportRepository")
+@patch("wealth_management_portal_portfolio_data_access.engine.iam_connection_factory")
+def test_client_report_not_found(mock_conn_factory, mock_repo_class):
     """Test getting report when none exists."""
     mock_repo = MagicMock()
     mock_repo.get_latest_by_client.return_value = None
@@ -54,8 +58,10 @@ def test_client_report_not_found(mock_repo_class):
     assert "next_best_action" in data
 
 
-@patch("wealth_management_portal_api.report_handler.ReportRepository")
-def test_client_report_pending_no_url(mock_repo_class):
+@patch.dict("os.environ", {"DATA_ENGINE": "redshift"})
+@patch("wealth_management_portal_portfolio_data_access.repositories.report_repository.ReportRepository")
+@patch("wealth_management_portal_portfolio_data_access.engine.iam_connection_factory")
+def test_client_report_pending_no_url(mock_conn_factory, mock_repo_class):
     """Test getting a pending report (no presigned URL)."""
     mock_report = MagicMock()
     mock_report.report_id = "report-789"
@@ -77,8 +83,10 @@ def test_client_report_pending_no_url(mock_repo_class):
     assert "next_best_action" in data
 
 
-@patch("wealth_management_portal_api.report_handler.ReportRepository")
-def test_client_report_includes_next_best_action(mock_repo_class):
+@patch.dict("os.environ", {"DATA_ENGINE": "redshift"})
+@patch("wealth_management_portal_portfolio_data_access.repositories.report_repository.ReportRepository")
+@patch("wealth_management_portal_portfolio_data_access.engine.iam_connection_factory")
+def test_client_report_includes_next_best_action(mock_conn_factory, mock_repo_class):
     """Test that a non-null next_best_action value is returned in the response."""
     mock_report = MagicMock()
     mock_report.report_id = "report-321"

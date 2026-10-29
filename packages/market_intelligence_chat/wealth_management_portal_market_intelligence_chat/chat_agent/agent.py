@@ -1,3 +1,4 @@
+import os
 from contextlib import contextmanager
 
 import boto3
@@ -269,9 +270,11 @@ def generate_ai_response(query: str, stock_data: dict, themes: list[dict] | None
         Dictionary with AI-generated response
     """
     try:
-        config = Config(region_name="us-east-1", retries={"max_attempts": 3, "mode": "adaptive"})
+        config = Config(
+            region_name=os.environ.get("AWS_REGION", "us-west-2"), retries={"max_attempts": 3, "mode": "adaptive"}
+        )
         bedrock = boto3.client("bedrock-runtime", config=config)
-        model_id = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+        model_id = os.environ.get("CLIENT_SEARCH_MODEL_ID", "us.anthropic.claude-sonnet-5")
 
         # Prepare stock data summary
         quotes = stock_data.get("quotes", {})

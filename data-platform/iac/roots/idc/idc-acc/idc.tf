@@ -18,13 +18,34 @@ resource "null_resource" "create_idc_instance" {
   }
 }
 
-data "aws_ssoadmin_instances" "identity_center" {
+# Query the IDC instance across all three candidate regions.
+# The account has exactly one instance; at most one of these will return results.
+data "aws_ssoadmin_instances" "identity_center_primary" {
+  provider   = aws
+  depends_on = [null_resource.create_idc_instance]
+}
+
+data "aws_ssoadmin_instances" "identity_center_us_east_1" {
+  provider   = aws.us_east_1
+  depends_on = [null_resource.create_idc_instance]
+}
+
+data "aws_ssoadmin_instances" "identity_center_us_west_2" {
+  provider   = aws.us_west_2
   depends_on = [null_resource.create_idc_instance]
 }
 
 locals {
-  identity_store_id = data.aws_ssoadmin_instances.identity_center.identity_store_ids[0]
-  instance_arn      = data.aws_ssoadmin_instances.identity_center.arns[0]
+  # Pick the first data source that actually returned an instance ARN.
+  _primary_arns   = data.aws_ssoadmin_instances.identity_center_primary.arns
+  _ue1_arns       = data.aws_ssoadmin_instances.identity_center_us_east_1.arns
+  _uw2_arns       = data.aws_ssoadmin_instances.identity_center_us_west_2.arns
+  _primary_ids    = data.aws_ssoadmin_instances.identity_center_primary.identity_store_ids
+  _ue1_ids        = data.aws_ssoadmin_instances.identity_center_us_east_1.identity_store_ids
+  _uw2_ids        = data.aws_ssoadmin_instances.identity_center_us_west_2.identity_store_ids
+
+  instance_arn      = length(local._primary_arns) > 0 ? local._primary_arns[0] : (length(local._ue1_arns) > 0 ? local._ue1_arns[0] : local._uw2_arns[0])
+  identity_store_id = length(local._primary_ids) > 0 ? local._primary_ids[0] : (length(local._ue1_ids) > 0 ? local._ue1_ids[0] : local._uw2_ids[0])
 }
 
 

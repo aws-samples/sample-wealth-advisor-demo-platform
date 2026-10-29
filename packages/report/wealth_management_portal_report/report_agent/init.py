@@ -25,11 +25,18 @@ app.add_middleware(ExceptionMiddleware, handlers=app.exception_handlers)
 
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request, err):
-    print(request)
-    print(err)
+    import sys
+    import traceback
+
+    print(f"[REPORT-AGENT-ERROR] {request.method} {request.url}", file=sys.stderr, flush=True)
+    print(f"[REPORT-AGENT-ERROR] {type(err).__name__}: {err}", file=sys.stderr, flush=True)
+    traceback.print_exc(file=sys.stderr)
+    sys.stderr.flush()
     return JSONResponse(
         status_code=500,
-        content=InternalServerErrorDetails(detail="Internal Server Error").model_dump(),
+        content=InternalServerErrorDetails(
+            detail=f"Internal Server Error: {type(err).__name__}: {str(err)[:200]}"
+        ).model_dump(),
     )
 
 

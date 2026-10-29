@@ -71,7 +71,7 @@ def get_date_value(obj, key):
     if isinstance(value, date):
         return value
     elif isinstance(value, str):
-        return date.fromisoformat(value)
+        return date.fromisoformat(value.split(" ")[0].split("T")[0])
     else:
         return None
 
@@ -118,11 +118,16 @@ def build_client_profile(
     else:
         activity_level = ActivityLevel.LOW
 
+    first_name = get_value(client, "first_name") or get_value(client, "client_first_name") or ""
+    last_name = get_value(client, "last_name") or get_value(client, "client_last_name") or ""
+    client_name = get_value(client, "customer_name") or f"{first_name} {last_name}".strip() or "Unknown"
+    client_since = get_date_value(client, "created_date") or get_date_value(client, "client_since") or date.today()
+
     return ClientProfile(
         client_id=get_value(client, "client_id"),
-        names=[f"{get_value(client, 'client_first_name')} {get_value(client, 'client_last_name')}"],
+        names=[client_name],
         dates_of_birth=[get_date_value(client, "date_of_birth")] if get_date_value(client, "date_of_birth") else [],
-        client_since=get_date_value(client, "client_since") or date.today(),
+        client_since=client_since,
         aum=aum,
         risk_profile=(
             RiskProfile(get_value(client, "risk_tolerance"))
@@ -171,7 +176,9 @@ def build_portfolio(
     )  # avoid division by zero
 
     for h in holdings_with_securities:
-        purchase_price = float(h["cost_basis"] / h["quantity"]) if h.get("quantity") and h.get("cost_basis") else 0.0
+        purchase_price = (
+            float(h["cost_basis"]) / float(h["quantity"]) if h.get("quantity") and h.get("cost_basis") else 0.0
+        )
         current_price = float(h.get("current_price") or 0)
         market_value = float(h.get("market_value") or 0)
 
@@ -189,7 +196,7 @@ def build_portfolio(
             if h.get(date_key):
                 try:
                     if isinstance(h[date_key], str):
-                        inception_date = date.fromisoformat(h[date_key])
+                        inception_date = date.fromisoformat(h[date_key].split(" ")[0].split("T")[0])
                     elif isinstance(h[date_key], date):
                         inception_date = h[date_key]
                     break
@@ -324,7 +331,7 @@ def build_market_context(
                         get_value(t, "generated_at").date()
                         if isinstance(get_value(t, "generated_at"), datetime)
                         else (
-                            date.fromisoformat(get_value(t, "generated_at").split("T")[0])
+                            date.fromisoformat(get_value(t, "generated_at").split(" ")[0].split("T")[0])
                             if isinstance(get_value(t, "generated_at"), str)
                             else as_of_date
                         )

@@ -604,7 +604,7 @@ deploy-glue-jars:
 		"https://repo1.maven.org/maven2/software/amazon/s3tables/s3-tables-catalog-for-iceberg-runtime/0.1.7/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar"
 	
 	aws s3 cp "jars/s3-tables-catalog-for-iceberg-runtime-0.1.7.jar" \
-		"s3://$(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-glue-jars/" \
+		"s3://$(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-$(AWS_PRIMARY_REGION)-glue-jars/" \
 		--region "$(AWS_PRIMARY_REGION)"
 	
 	rm -rf jars/
@@ -780,7 +780,7 @@ deploy-financial-advisor-s3-glue-s3:
 
 destroy-financial-advisor-s3-glue-s3:
 	@echo "Emptying S3 buckets"
-	$(ENV_PATH)../utility-scripts/empty-s3.sh empty_s3_bucket_by_name "$(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-financial-advisor-s3-glue-s3-data" || true
+	$(ENV_PATH)../utility-scripts/empty-s3.sh empty_s3_bucket_by_name "$(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-$(AWS_PRIMARY_REGION)-fa-data" || true
 
 	@echo "Destroying Financial Advisor Infrastructure"
 	(cd iac/roots/datalakes/financial-advisor-s3-glue-s3; \
@@ -802,7 +802,7 @@ start-financial-advisor-glue-jobs:
 	@echo "Started All Financial Advisor Glue Jobs"
 
 REDSHIFT_TABLES = articles client_reports theme_article_associations themes
-DATA_BUCKET = $(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-financial-advisor-s3-glue-s3-data
+DATA_BUCKET = $(AWS_ACCOUNT_ID)-$(APP_NAME)-$(ENV_NAME)-$(AWS_PRIMARY_REGION)-fa-data
 REDSHIFT_COPY_ROLE := $(shell aws ssm get-parameter --name /$(APP_NAME)/$(ENV_NAME)/sagemaker/producer/role --query "Parameter.Value" --output text --region $(AWS_PRIMARY_REGION) 2>/dev/null)
 
 load-redshift-tables:

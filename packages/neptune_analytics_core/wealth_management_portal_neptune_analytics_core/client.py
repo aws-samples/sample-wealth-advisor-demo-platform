@@ -44,7 +44,7 @@ AWS_REGION = os.environ.get("AWS_REGION", "us-west-2")
 NEPTUNE_GRAPH_ID = os.environ.get("NEPTUNE_GRAPH_ID", "")
 BEDROCK_MODEL_ID = os.environ.get(
     "GRAPH_BEDROCK_MODEL_ID",
-    os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-5-20250929-v1:0"),
+    os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5"),
 )
 DEFAULT_NODE_LIMIT = int(os.environ.get("DEFAULT_NODE_LIMIT", _config.get("graph", {}).get("default_node_limit", 5000)))
 MAX_NODE_LIMIT = int(os.environ.get("MAX_NODE_LIMIT", _config.get("graph", {}).get("max_node_limit", 50000)))

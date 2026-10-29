@@ -39,5 +39,7 @@ def ping() -> str:
 
 if __name__ == "__main__":
     uvicorn.run(
-        "wealth_management_portal_market_events_coordinator.market_events_coordinator_agent.main:app", port=8080
+        "wealth_management_portal_market_events_coordinator.market_events_coordinator_agent.main:app",
+        host="0.0.0.0",
+        port=8080,
     )

@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Article(BaseModel):
@@ -58,6 +58,20 @@ class Theme(BaseModel):
         None, description="Matched ticker symbols (deprecated - use ticker field)"
     )
     relevance_reasoning: str | None = Field(None, description="Relevance explanation")
+
+    @field_validator("matched_tickers", mode="before")
+    @classmethod
+    def _coerce_matched_tickers(cls, v):
+        if v is None or isinstance(v, list):
+            return v
+        if isinstance(v, str):
+            try:
+                import json as _json
+
+                return _json.loads(v)
+            except Exception:
+                return [v] if v else None
+        return None
 
     model_config = ConfigDict(
         json_schema_extra={

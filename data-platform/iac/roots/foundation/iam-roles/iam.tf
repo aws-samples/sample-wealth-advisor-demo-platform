@@ -166,12 +166,12 @@ resource "aws_iam_role_policy" "glue_policy" {
           "s3:DeleteObject"
         ]
         Resource = [
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-scripts/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-dependencies/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-jars/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-spark-logs/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-temp/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-athena-output/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-scripts/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-dependencies/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-jars/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-spark-logs/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-temp/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-athena-output/*",
         ]
       },
       {
@@ -1216,12 +1216,12 @@ resource "aws_iam_policy" "quicksight_custom_service_policy" {
           "arn:aws:s3tables:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:bucket/*",
           "arn:aws:s3:::${var.APP}-${var.ENV}-athena-output-for-primary-workgroup-only",
           "arn:aws:s3:::${var.APP}-${var.ENV}-athena-output-for-primary-workgroup-only/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-athena-output",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-athena-output/*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-glue-*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-iceberg-*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-finops-inventory-*",
-          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-finops-billing-*"
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-athena-output",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-athena-output/*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-glue-*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-iceberg-*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-finops-inventory-*",
+          "arn:aws:s3:::${var.AWS_ACCOUNT_ID}-${var.APP}-${var.ENV}-${var.AWS_PRIMARY_REGION}-finops-billing-*"
         ]
       },
       {

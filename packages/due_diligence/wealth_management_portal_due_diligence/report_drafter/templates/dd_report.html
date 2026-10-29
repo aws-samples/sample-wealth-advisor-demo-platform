@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Portfolio Due Diligence Report — {{ portfolio_name }}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 11pt; color: #1a1a2e; line-height: 1.6; padding: 40px 50px; max-width: 900px; margin: 0 auto; }
+  .header { border-bottom: 3px solid #1a1a2e; padding-bottom: 20px; margin-bottom: 30px; }
+  .header h1 { font-size: 22pt; font-weight: 700; margin-bottom: 4px; }
+  .header .subtitle { color: #666; font-size: 10pt; }
+  .meta-row { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .score-badge { font-size: 28pt; font-weight: 800; }
+  .recommendation { display: inline-block; padding: 6px 16px; border-radius: 4px; font-size: 11pt; font-weight: 700; text-transform: uppercase; }
+  .rec-approve { background: #d4edda; color: #155724; }
+  .rec-reject { background: #f8d7da; color: #721c24; }
+  .rec-conditions { background: #fff3cd; color: #856404; }
+  .section { margin-bottom: 30px; }
+  .section h2 { font-size: 14pt; font-weight: 700; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; margin-bottom: 12px; color: #1a1a2e; }
+  .section h3 { font-size: 11pt; font-weight: 600; margin-top: 16px; margin-bottom: 6px; }
+  .narrative { white-space: pre-line; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin-top: 8px; }
+  th { text-align: left; background: #f8f9fa; padding: 8px 10px; border-bottom: 2px solid #dee2e6; font-weight: 600; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+  .score-bar { display: inline-block; width: 60px; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .fill-green { background: #28a745; }
+  .fill-amber { background: #ffc107; }
+  .fill-red { background: #dc3545; }
+  .rag-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 8pt; font-weight: 600; text-transform: uppercase; }
+  .rag-green { background: #d4edda; color: #155724; }
+  .rag-amber { background: #fff3cd; color: #856404; }
+  .rag-red { background: #f8d7da; color: #721c24; }
+  .rag-grey { background: #e9ecef; color: #6c757d; }
+  .hitl-note { background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 10px 14px; margin-top: 8px; font-size: 9.5pt; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #dee2e6; font-size: 8.5pt; color: #999; }
+  .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .category-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 12px 16px; }
+  .category-card .name { font-weight: 600; font-size: 10pt; margin-bottom: 4px; }
+  .category-card .weight { font-size: 8.5pt; color: #999; }
+  @media print { body { padding: 20px 30px; } }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Portfolio Due Diligence Report</h1>
+  <p class="subtitle">{{ portfolio_name }} | Manager: {{ manager_name }}</p>
+  <div class="meta-row">
+    <span class="recommendation {% if recommendation == 'APPROVE' %}rec-approve{% elif recommendation == 'REJECT' %}rec-reject{% else %}rec-conditions{% endif %}">
+      {{ recommendation }}
+    </span>
+    <span class="score-badge">{{ "%.1f"|format(overall_score) }}<span style="font-size:14pt;color:#999">/10</span></span>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Executive Summary</h2>
+  <p class="narrative">{{ executive_summary }}</p>
+</div>
+
+{% if category_summaries %}
+<div class="section">
+  <h2>Category Scorecard</h2>
+  <div class="category-grid">
+    {% for cat in category_summaries %}
+    <div class="category-card">
+      <div class="name">{{ cat.category | replace('_', ' ') | title }}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+        <span class="score-bar"><span class="score-fill {% if cat.weighted_score >= 7 %}fill-green{% elif cat.weighted_score >= 4 %}fill-amber{% else %}fill-red{% endif %}" style="width:{{ (cat.weighted_score / 10 * 100)|int }}%"></span></span>
+        <span style="font-weight:600;font-size:10pt;">{{ "%.1f"|format(cat.weighted_score) }}</span>
+        <span class="rag-badge rag-{{ cat.rag_status }}">{{ cat.rag_status }}</span>
+      </div>
+      <div class="weight">Weight: {{ (cat.weight * 100)|int }}%</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<div class="section">
+  <h2>Criteria Assessment</h2>
+  <table>
+    <thead>
+      <tr><th>Criterion</th><th>Score</th><th>Status</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+    {% for a in assessments %}
+      <tr>
+        <td><strong>{{ a.criterion_name or a.criterion_id }}</strong><br><span style="font-size:8pt;color:#999">{{ a.category | default('', true) | replace('_', ' ') | title }} &middot; Weight: {{ ((a.weight or 0) * 100)|int }}%</span></td>
+        <td style="white-space:nowrap">
+          <span class="score-bar"><span class="score-fill {% if (a.score or 0) >= 7 %}fill-green{% elif (a.score or 0) >= 4 %}fill-amber{% else %}fill-red{% endif %}" style="width:{{ ((a.score or 0) / 10 * 100)|int }}%"></span></span>
+          {{ "%.1f"|format(a.score or 0) }}
+        </td>
+        <td><span class="rag-badge rag-{{ a.rag_status }}">{{ a.rag_status }}</span></td>
+        <td style="max-width:300px;font-size:9pt">{{ a.rationale or a.summary }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if hitl_reasons %}
+<div class="section">
+  <h2>Human-in-the-Loop Review Required</h2>
+  <div class="hitl-note">
+    <strong>Flagged for manual review:</strong>
+    <ul style="margin-top:6px;padding-left:18px">
+      {% for reason in hitl_reasons %}
+      <li>{{ reason }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+{% if sections %}
+<div class="section">
+  <h2>Detailed Analysis</h2>
+  {% for s in sections %}
+  <h3>{{ s.title }}</h3>
+  <p class="narrative" style="margin-bottom:12px">{{ s.content }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="footer">
+  <p>Generated: {{ generated_at }} | This report was produced by an AI-assisted due diligence pipeline. All scores and assessments should be reviewed by a qualified analyst before making investment decisions.</p>
+</div>
+</body>
+</html>

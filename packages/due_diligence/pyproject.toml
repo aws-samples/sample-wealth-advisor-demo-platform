@@ -1,0 +1,76 @@
+[tool.coverage.run]
+branch = true
+source = [ "wealth_management_portal_due_diligence" ]
+
+[tool.coverage.report]
+exclude_lines = [ "if TYPE_CHECKING:" ]
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = """
+ --ignore=tests/integration
+ --cov
+ --cov-report html:'../../coverage/packages/due_diligence/html'
+ --cov-report xml:'../../coverage/packages/due_diligence/coverage.xml'
+ --html='../../reports/packages/due_diligence/unittests/html/index.html'
+ --junitxml='../../reports/packages/due_diligence/unittests/junit.xml'
+"""
+markers = [
+    "integration: marks tests as integration tests (deselect with '-m \"not integration\"')"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [ "wealth_management_portal_due_diligence" ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.ruff]
+exclude = [ ".ruff_cache", ".svn", ".tox", ".venv", "dist" ]
+line-length = 120
+indent-width = 4
+
+  [tool.ruff.lint]
+  select = [ "E", "F", "UP", "B", "SIM", "I" ]
+  ignore = [ ]
+  fixable = [ "ALL" ]
+  unfixable = [ ]
+
+[project]
+name = "wealth_management_portal.due_diligence"
+version = "1.0.0"
+description = "Portfolio Due Diligence AI — automated ODD/IDD for managed funds"
+requires-python = ">=3.12"
+readme = "README.md"
+dependencies = [
+  "wealth_management_portal.common_auth",
+  "fastapi==0.128.5",
+  "uvicorn==0.40.0",
+  "mangum==0.21.0",
+  "aws-lambda-powertools[tracer]>=3.24.0",
+  "boto3>=1.42.44",
+  "strands-agents==1.25.0",
+  "bedrock-agentcore>=0.1.7",
+  "pydantic>=2.12.5",
+  "jinja2>=3.1.0",
+  "httpx>=0.28.0",
+  "python-dotenv>=1.1.0",
+  "PyJWT[crypto]>=2.8.0",
+]
+
+[build-system]
+requires = [ "hatchling" ]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+"wealth_management_portal.common_auth" = { workspace = true }
+
+[dependency-groups]
+dev = [
+  "fastapi[standard]==0.128.5",
+  "python-dotenv>=1.2.1",
+  "pytest>=8.0.0",
+  "pytest-asyncio>=0.23.0",
+  "moto[s3,dynamodb]>=5.0.0",
+  "ruff>=0.11.0",
+]

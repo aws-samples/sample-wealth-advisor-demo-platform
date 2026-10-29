@@ -1,3 +1,4 @@
+export PATH="$HOME/.local/bin:$PATH"
 pnpm nx affected --target lint --base=origin/main
 pnpm nx affected --target compile --base=origin/main
 pnpm nx affected --target test --base=origin/main

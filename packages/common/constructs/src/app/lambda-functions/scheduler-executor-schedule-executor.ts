@@ -1,11 +1,27 @@
 import { Construct } from 'constructs';
 import * as url from 'url';
-import { Code, Function, Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
+import {
+  Code,
+  Function,
+  FunctionProps,
+  Runtime,
+  Tracing,
+} from 'aws-cdk-lib/aws-lambda';
 import { Duration } from 'aws-cdk-lib';
 
+export type SchedulerExecutorProps = Pick<
+  FunctionProps,
+  'deadLetterQueue' | 'reservedConcurrentExecutions'
+>;
+
 export class SchedulerExecutorScheduleExecutor extends Function {
-  constructor(scope: Construct, id: string) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: SchedulerExecutorProps = {},
+  ) {
     super(scope, id, {
+      ...props,
       timeout: Duration.minutes(10),
       runtime: Runtime.PYTHON_3_12,
       handler:

@@ -82,32 +82,17 @@ ADMIN_ROLE
 
 Environment Setup Steps:
 
-### Prerequisites: Create datapipeline IAM User
+### Prerequisites: Use a temporary deployment role
 
-Before running any make targets, create an IAM user named `datapipeline` with `AdministratorAccess` policy. This user is used to run all deployment commands, Glue jobs, Redshift queries, and Lake Formation administration.
+Do not create or use long-lived access keys for a `datapipeline` IAM user. Run the deployment with temporary credentials for the approved deployment role (for example, `Admin` in a disposable demo account) and verify the account and region before starting.
 
-1. Go to IAM Console → Users → Create user
-2. User name: `datapipeline`
-3. Attach the `AdministratorAccess` managed policy
-4. Create access keys for CLI access
+The automated CodeBuild path creates the legacy `datapipeline` principal only where older Terraform policies still reference its ARN; it does not grant that user `AdministratorAccess` or create access keys. The CodeBuild service role performs the deployment.
 
 ### 1. Deployment Role
 
-Use the `datapipeline` IAM user credentials to configure the AWS CLI. This user will be used to run all make targets.
+Configure the AWS CLI with temporary credentials obtained through your organization's approved credential-vending or role-assumption process. Do not store static AWS access keys in the repository or local deployment files.
 
-To setup your aws-cli with the datapipeline credentials run the following command:
-
-```
-aws configure
-```
-
-Alternatively, you can manually modify the following files:
-
-`~/.aws/config`
-
-`~/.aws/credentials`
-
-Alternatively, you can manually initialize the terminal with STS credentials for the role, by obtaining temporary STS credentials from your administrator.
+Alternatively, you can manually initialize the terminal with temporary STS credentials from your administrator.
 
 ```
 export AWS_ACCESS_KEY_ID=...

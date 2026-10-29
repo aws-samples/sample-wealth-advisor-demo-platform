@@ -21,6 +21,7 @@ const mockApi = {
   clientSegments: vi.fn().mockResolvedValue({ segments: [] }),
   marketThemes: vi.fn().mockResolvedValue({ themes: [] }),
   topClients: vi.fn().mockResolvedValue({ clients: [] }),
+  reportsSummary: vi.fn().mockResolvedValue({ clientsWithReports: [] }),
 };
 
 vi.mock('../hooks/useApiClient', () => ({
@@ -42,7 +43,21 @@ vi.mock('../hooks/useApi', () => ({
     clientSegments: mockQueryOptions(mockApi.clientSegments),
     marketThemes: mockQueryOptions(mockApi.marketThemes),
     topClients: mockQueryOptions(mockApi.topClients),
+    reportsSummary: mockQueryOptions(mockApi.reportsSummary),
   }),
+}));
+
+vi.mock('../hooks/useRuntimeConfig', () => ({
+  useRuntimeConfig: () => ({
+    apis: {
+      Api: 'http://localhost:8000',
+      IntelligenceApi: 'http://localhost:8001',
+    },
+  }),
+}));
+
+vi.mock('react-oidc-context', () => ({
+  useAuth: () => ({ user: { id_token: 'test-token' } }),
 }));
 
 const queryClient = new QueryClient({

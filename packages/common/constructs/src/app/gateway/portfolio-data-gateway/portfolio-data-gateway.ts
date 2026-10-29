@@ -96,31 +96,43 @@ export class PortfolioDataGateway extends Construct {
       'Portfolio Gateway Lambda access',
     );
 
-    // VPC Endpoints — VPC-level resources, created only by the primary (sandbox) stage.
-    // Other stages sharing the same VPC reuse the existing ones.
-    const stageName = this.node.tryGetContext('stageName') ?? 'sandbox';
-    if (stageName === 'sandbox') {
-      new InterfaceVpcEndpoint(this, 'StsEndpoint', {
-        vpc,
-        service: InterfaceVpcEndpointAwsService.STS,
-        subnets: { subnets: privateSubnets },
-        securityGroups: [this.vpcEndpointSecurityGroup],
-        privateDnsEnabled: true,
-      });
+    // VPC Endpoints for Redshift Data API access from within VPC
+    new InterfaceVpcEndpoint(this, 'StsEndpoint', {
+      vpc,
+      service: InterfaceVpcEndpointAwsService.STS,
+      subnets: { subnets: privateSubnets },
+      securityGroups: [this.vpcEndpointSecurityGroup],
+      privateDnsEnabled: true,
+    });
 
-      new InterfaceVpcEndpoint(this, 'RedshiftServerlessEndpoint', {
-        vpc,
-        service: new InterfaceVpcEndpointAwsService('redshift-serverless'),
-        subnets: { subnets: privateSubnets },
-        securityGroups: [this.vpcEndpointSecurityGroup],
-        privateDnsEnabled: true,
-      });
+    new InterfaceVpcEndpoint(this, 'RedshiftServerlessEndpoint', {
+      vpc,
+      service: new InterfaceVpcEndpointAwsService('redshift-serverless'),
+      subnets: { subnets: privateSubnets },
+      securityGroups: [this.vpcEndpointSecurityGroup],
+      privateDnsEnabled: true,
+    });
 
-      // Note: CloudWatch Logs interface endpoint already created by the data-platform stack (Phase 1).
-    }
+    // Athena interface endpoint — required for the Athena data path (DATA_ENGINE=athena).
+    // The Lambda talks to Athena only via the Athena API (StartQueryExecution /
+    // GetQueryExecution / GetQueryResults); Athena reads Glue/S3 and writes results
+    // server-side, so no Glue/S3 egress is needed from the Lambda. Without this,
+    // the SG (allowAllOutbound=false, egress 443 only to the endpoint SG) has no
+    // route to Athena and every query hangs until the Lambda times out.
+    new InterfaceVpcEndpoint(this, 'AthenaEndpoint', {
+      vpc,
+      service: InterfaceVpcEndpointAwsService.ATHENA,
+      subnets: { subnets: privateSubnets },
+      securityGroups: [this.vpcEndpointSecurityGroup],
+      privateDnsEnabled: true,
+    });
 
     // Lambda function
     const environmentVariables = {
+      DATA_ENGINE: 'athena',
+      ATHENA_CATALOG: 's3tablescatalog/financial-advisor-s3table',
+      ATHENA_DATABASE: 'financial_advisor',
+      ATHENA_WORKGROUP: 's3tables',
       REDSHIFT_WORKGROUP: redshiftWorkgroup,
       REDSHIFT_DATABASE: redshiftDatabase,
       REDSHIFT_REGION: Stack.of(this).region,
@@ -141,7 +153,7 @@ export class PortfolioDataGateway extends Construct {
           ),
         ),
       ),
-      timeout: Duration.seconds(180),
+      timeout: Duration.seconds(300),
       memorySize: 512,
       tracing: Tracing.ACTIVE,
       environment: environmentVariables,
@@ -174,8 +186,72 @@ export class PortfolioDataGateway extends Construct {
           'glue:GetDatabase',
           'glue:GetDatabases',
           'glue:GetCatalog',
+          'glue:GetPartition',
+          'glue:GetPartitions',
+          // Iceberg writes (INSERT) commit by swapping the table metadata pointer,
+          // which requires Glue table/partition write actions on the S3 Tables catalog.
+          'glue:UpdateTable',
+          'glue:CreateTable',
+          'glue:BatchCreatePartition',
+          'glue:CreatePartition',
+          'glue:UpdatePartition',
+          'glue:BatchGetPartition',
         ],
         resources: ['*'],
+      }),
+    );
+
+    // Athena data path (DATA_ENGINE=athena): the Lambda runs queries via the Athena API
+    // (StartQueryExecution / GetQueryExecution / GetQueryResults) and reads results back
+    // through the API. Without these the query returns AccessDeniedException.
+    this.lambdaFunction.addToRolePolicy(
+      new PolicyStatement({
+        actions: [
+          'athena:StartQueryExecution',
+          'athena:GetQueryExecution',
+          'athena:GetQueryResults',
+          'athena:StopQueryExecution',
+          'athena:GetWorkGroup',
+          'athena:GetDataCatalog',
+        ],
+        resources: ['*'],
+      }),
+    );
+
+    // S3 access to the Athena query-results bucket (Athena writes/reads results here on
+    // behalf of the calling role). Bucket name is <account>-<app>-<region>-athena-output.
+    this.lambdaFunction.addToRolePolicy(
+      new PolicyStatement({
+        actions: [
+          's3:GetBucketLocation',
+          's3:GetObject',
+          's3:PutObject',
+          's3:ListBucket',
+          's3:ListMultipartUploadParts',
+          's3:AbortMultipartUpload',
+        ],
+        resources: [
+          `arn:aws:s3:::${Stack.of(this).account}-*-athena-output`,
+          `arn:aws:s3:::${Stack.of(this).account}-*-athena-output/*`,
+        ],
+      }),
+    );
+
+    // KMS access for SSE-KMS Athena query results (the results bucket is aws:kms
+    // encrypted, so Athena needs the caller role to use the key when writing/reading
+    // results). Gated by each key's key-policy; scoped here to the account/region.
+    this.lambdaFunction.addToRolePolicy(
+      new PolicyStatement({
+        actions: [
+          'kms:Decrypt',
+          'kms:Encrypt',
+          'kms:GenerateDataKey',
+          'kms:ReEncrypt*',
+          'kms:DescribeKey',
+        ],
+        resources: [
+          `arn:aws:kms:${Stack.of(this).region}:${Stack.of(this).account}:key/*`,
+        ],
       }),
     );
 

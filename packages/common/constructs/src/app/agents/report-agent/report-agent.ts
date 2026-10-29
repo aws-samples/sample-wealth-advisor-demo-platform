@@ -4,6 +4,7 @@ import {
   Bucket,
   BlockPublicAccess,
   BucketEncryption,
+  ObjectOwnership,
 } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 import { execSync } from 'child_process';
@@ -38,6 +39,7 @@ export class ReportAgent extends Construct {
       enforceSSL: true,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
+      objectOwnership: ObjectOwnership.BUCKET_OWNER_ENFORCED,
       removalPolicy: RemovalPolicy.RETAIN,
     });
     suppressRules(
@@ -56,9 +58,9 @@ export class ReportAgent extends Construct {
       encryption: BucketEncryption.S3_MANAGED,
       versioned: true,
       enforceSSL: true,
-      removalPolicy: RemovalPolicy.RETAIN,
       serverAccessLogsBucket: accessLogsBucket,
-      serverAccessLogsPrefix: 'report-bucket-logs/',
+      serverAccessLogsPrefix: 'reports/',
+      removalPolicy: RemovalPolicy.RETAIN,
     });
 
     this.dockerImage = AgentRuntimeArtifact.fromAsset(
@@ -86,6 +88,10 @@ export class ReportAgent extends Construct {
         REPORT_BEDROCK_MODEL_ID: this.node.tryGetContext(
           'reportBedrockModelId',
         ),
+        DATA_ENGINE: 'athena',
+        ATHENA_CATALOG: 's3tablescatalog/financial-advisor-s3table',
+        ATHENA_DATABASE: 'financial_advisor',
+        ATHENA_WORKGROUP: 's3tables',
       },
     });
 

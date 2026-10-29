@@ -44,6 +44,7 @@ dependencies = [
   "aws-lambda-powertools[parser]==3.24.0",
   "wealth_management_portal.portfolio_data_access",
   "wealth_management_portal.common_auth",
+  "wealth_management_portal.common_market_events",
   "mcp",
   "httpx",
   "strands-agents",
@@ -55,3 +56,4 @@ build-backend = "hatchling.build"
 
 [tool.uv.sources]
 "wealth_management_portal.common_auth" = { workspace = true }
+"wealth_management_portal.common_market_events" = { workspace = true }

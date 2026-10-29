@@ -1,3 +1,4 @@
+import os
 from unittest.mock import MagicMock, patch
 
 from wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway import (
@@ -49,6 +50,7 @@ def test_get_client_report_data_valid_client_returns_all_keys():
     mock_portfolio.model_dump = MagicMock(return_value={"portfolio_id": "PRT-001"})
 
     with (
+        patch.dict(os.environ, {"DATA_ENGINE": "redshift"}),
         patch(
             "wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway.create_simple_repos"
         ) as mock_repos,
@@ -107,9 +109,12 @@ def test_get_client_report_data_valid_client_returns_all_keys():
 
 def test_get_client_report_data_unknown_client_returns_error():
     """Test that get_client_report_data with unknown client returns error dict."""
-    with patch(
-        "wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway.create_simple_repos"
-    ) as mock_repos:
+    with (
+        patch.dict(os.environ, {"DATA_ENGINE": "redshift"}),
+        patch(
+            "wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway.create_simple_repos"
+        ) as mock_repos,
+    ):
         mock_repos.return_value = {"client": MagicMock(get_one=MagicMock(return_value=None))}
 
         result = _get_client_report_data({"client_id": "UNKNOWN"})
@@ -126,6 +131,7 @@ def test_get_client_report_data_no_portfolios_returns_empty_lists():
     mock_client.model_dump = MagicMock(return_value={"client_id": "CLT-001"})
 
     with (
+        patch.dict(os.environ, {"DATA_ENGINE": "redshift"}),
         patch(
             "wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway.create_simple_repos"
         ) as mock_repos,
@@ -166,6 +172,7 @@ def test_get_client_report_data_no_income_expense_returns_null():
     mock_client.model_dump = MagicMock(return_value={"client_id": "CLT-001"})
 
     with (
+        patch.dict(os.environ, {"DATA_ENGINE": "redshift"}),
         patch(
             "wealth_management_portal_portfolio_data_server.lambda_functions.portfolio_data_gateway.create_simple_repos"
         ) as mock_repos,

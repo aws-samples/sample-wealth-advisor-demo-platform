@@ -1,43 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 import { PageLayout, SearchBox } from './PageLayout';
 import { GraphSearchPage } from './GraphSearch';
 import { useApiClient } from '../hooks/useApiClient';
-import type { Api } from '../generated/api/client.gen';
-
-function ReportCell({ clientId, api }: { clientId: string; api: Api }) {
-  const [state, setState] = useState<'idle' | 'loading' | 'error'>('idle');
-
-  const handleClick = () => {
-    setState('loading');
-    api
-      .clientReport({ clientId })
-      .then((r) => {
-        if (r.status === 'complete' && r.presignedUrl) {
-          window.open(r.presignedUrl, '_blank');
-        } else {
-          alert(`Report status: ${r.status}`);
-        }
-        setState('idle');
-      })
-      .catch(() => {
-        setState('error');
-      });
-  };
-
-  if (state === 'loading')
-    return <span className="text-xs text-gray-400">Loading…</span>;
-  if (state === 'error')
-    return <span className="text-xs text-red-400">Failed</span>;
-  return (
-    <button
-      onClick={handleClick}
-      className="text-xs text-blue-600 hover:text-blue-700"
-    >
-      📋 View Report
-    </button>
-  );
-}
+import { useApi } from '../hooks/useApi';
+import { ReportCell } from './ReportCell';
 
 interface Client {
   client_id: string;
@@ -58,8 +26,16 @@ type ViewMode = 'list' | 'graph';
 export function ClientSearch() {
   const navigate = useNavigate();
   const api = useApiClient();
-  const [clients, setClients] = useState<Client[]>([]);
-  const [loading, setLoading] = useState(false);
+  const apiOptions = useApi();
+  const reportsSummaryQuery = useQuery({
+    ...apiOptions.reportsSummary.queryOptions(),
+    retry: false,
+  });
+  const clientsWithReports = new Set(
+    reportsSummaryQuery.data?.clientsWithReports ?? [],
+  );
+  const [searchResults, setSearchResults] = useState<Client[] | null>(null);
+  const [searching, setSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchQuery2, setSearchQuery2] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('list');
@@ -68,9 +44,33 @@ export function ClientSearch() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const initialLimit = 50;
 
-  useEffect(() => {
-    fetchClients();
-  }, [api]);
+  // Base client list via cached useQuery: returning to this page serves the
+  // cached rows instantly (stale-while-revalidate) instead of the old
+  // useState/useEffect that re-fetched and showed a skeleton on every mount.
+  const clientsQuery = useQuery<any>({
+    queryKey: ['clientsList', showAll],
+    queryFn: () =>
+      api.clients({ limit: showAll ? undefined : initialLimit, offset: 0 }),
+    enabled: !!api,
+  });
+  const baseClients: Client[] = (
+    (clientsQuery.data?.clients ?? []) as any[]
+  ).map((client: any) => ({
+    client_id: client.clientId,
+    customer_name: client.customerName,
+    net_worth: client.netWorth,
+    ytd_perf: client.ytdPerf,
+    goal_progress: client.goalProgress,
+    risk_tolerance: client.riskTolerance,
+    client_since: client.clientSince,
+    interaction_sentiment: client.interactionSentiment,
+    segment: client.segment,
+    aum: client.aum,
+    next_best_action: client.nextBestAction ?? null,
+  }));
+  // A run natural-language search overrides the base list until cleared.
+  const clients: Client[] = searchResults ?? baseClients;
+  const loading = searching || (!searchResults && clientsQuery.isLoading);
 
   const handleSort = (field: keyof Client) => {
     if (sortField === field) {
@@ -92,43 +92,11 @@ export function ClientSearch() {
     return String(aVal).localeCompare(String(bVal)) * modifier;
   });
 
-  // Fetch clients with optional limit
-  const fetchClients = async (loadAll = false) => {
-    if (!api) return;
-    setLoading(true);
-    try {
-      const data = await api.clients({
-        limit: loadAll ? undefined : initialLimit,
-        offset: 0,
-      });
-      console.log('Fetched clients:', data);
-      const mapped = (data.clients || []).map((client) => ({
-        client_id: client.clientId,
-        customer_name: client.customerName,
-        net_worth: client.netWorth,
-        ytd_perf: client.ytdPerf,
-        goal_progress: client.goalProgress,
-        risk_tolerance: client.riskTolerance,
-        client_since: client.clientSince,
-        interaction_sentiment: client.interactionSentiment,
-        segment: client.segment,
-        aum: client.aum,
-        next_best_action: client.nextBestAction ?? null,
-      }));
-      setClients(mapped);
-      if (loadAll) setShowAll(true);
-    } catch (error) {
-      console.error('Error fetching clients:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Natural language search
   const handleNLSearch = async () => {
     console.log('NL Search triggered with query:', searchQuery);
     if (!searchQuery.trim() || !api) return;
-    setLoading(true);
+    setSearching(true);
     try {
       const result = await api.clientSearch({ query: searchQuery });
       console.log('NL Search result:', result);
@@ -152,7 +120,7 @@ export function ClientSearch() {
           next_best_action: row.next_best_action ?? null,
         }));
         console.log('Mapped clients:', mapped);
-        setClients(mapped);
+        setSearchResults(mapped);
       } else {
         alert(`Search failed: ${result.error}`);
       }
@@ -160,14 +128,14 @@ export function ClientSearch() {
       console.error('Error searching clients:', error);
       alert(`Search failed: ${error}`);
     } finally {
-      setLoading(false);
+      setSearching(false);
     }
   };
 
   // Natural language search for second search box
   const handleNLSearch2 = async () => {
     if (!searchQuery2.trim() || !api) return;
-    setLoading(true);
+    setSearching(true);
     try {
       const result = await api.clientSearch({ query: searchQuery2 });
       if (result.success && result.data) {
@@ -189,7 +157,7 @@ export function ClientSearch() {
           aum: row.aum || 0,
           next_best_action: row.next_best_action ?? null,
         }));
-        setClients(mapped);
+        setSearchResults(mapped);
       } else {
         alert(`Search failed: ${result.error}`);
       }
@@ -197,7 +165,7 @@ export function ClientSearch() {
       console.error('Error searching clients:', error);
       alert(`Search failed: ${error}`);
     } finally {
-      setLoading(false);
+      setSearching(false);
     }
   };
 
@@ -547,7 +515,10 @@ export function ClientSearch() {
                           {client.interaction_sentiment}
                         </td>
                         <td className="px-4 py-4 text-sm text-center">
-                          <ReportCell clientId={client.client_id} api={api} />
+                          <ReportCell
+                            clientId={client.client_id}
+                            hasReport={clientsWithReports.has(client.client_id)}
+                          />
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-600 max-w-xs truncate">
                           {client.next_best_action || '—'}
@@ -556,17 +527,19 @@ export function ClientSearch() {
                     ))}
                   </tbody>
                 </table>
-                {!showAll && clients.length === initialLimit && (
-                  <div className="px-6 py-4 flex items-center justify-center border-t">
-                    <button
-                      onClick={() => fetchClients(true)}
-                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                      disabled={loading}
-                    >
-                      Load More Data
-                    </button>
-                  </div>
-                )}
+                {!searchResults &&
+                  !showAll &&
+                  baseClients.length === initialLimit && (
+                    <div className="px-6 py-4 flex items-center justify-center border-t">
+                      <button
+                        onClick={() => setShowAll(true)}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        disabled={clientsQuery.isFetching}
+                      >
+                        Load More Data
+                      </button>
+                    </div>
+                  )}
                 {clients.length === 0 && !loading && (
                   <div className="text-center py-8 text-gray-500">
                     No clients found

@@ -9,15 +9,48 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as GraphSearchRouteImport } from './routes/graph-search'
+import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DueDiligenceIndexRouteImport } from './routes/due-diligence/index'
 import { Route as ClientsIndexRouteImport } from './routes/clients/index'
+import { Route as DueDiligenceReviewIdRouteImport } from './routes/due-diligence/$reviewId'
 import { Route as ClientsClientIdRouteImport } from './routes/clients/$clientId'
+import { Route as DueDiligenceReviewIdReportRouteImport } from './routes/due-diligence/$reviewId/report'
 import { Route as ClientsClientIdReportRouteImport } from './routes/clients/$clientId/report'
 
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GraphSearchRoute = GraphSearchRouteImport.update({
   id: '/graph-search',
   path: '/graph-search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,9 +58,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DueDiligenceIndexRoute = DueDiligenceIndexRouteImport.update({
+  id: '/due-diligence/',
+  path: '/due-diligence/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClientsIndexRoute = ClientsIndexRouteImport.update({
   id: '/clients/',
   path: '/clients/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DueDiligenceReviewIdRoute = DueDiligenceReviewIdRouteImport.update({
+  id: '/due-diligence/$reviewId',
+  path: '/due-diligence/$reviewId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClientsClientIdRoute = ClientsClientIdRouteImport.update({
@@ -35,6 +78,12 @@ const ClientsClientIdRoute = ClientsClientIdRouteImport.update({
   path: '/clients/$clientId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DueDiligenceReviewIdReportRoute =
+  DueDiligenceReviewIdReportRouteImport.update({
+    id: '/report',
+    path: '/report',
+    getParentRoute: () => DueDiligenceReviewIdRoute,
+  } as any)
 const ClientsClientIdReportRoute = ClientsClientIdReportRouteImport.update({
   id: '/report',
   path: '/report',
@@ -43,64 +92,154 @@ const ClientsClientIdReportRoute = ClientsClientIdReportRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/graph-search': typeof GraphSearchRoute
+  '/messages': typeof MessagesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
   '/clients/$clientId': typeof ClientsClientIdRouteWithChildren
+  '/due-diligence/$reviewId': typeof DueDiligenceReviewIdRouteWithChildren
   '/clients/': typeof ClientsIndexRoute
+  '/due-diligence/': typeof DueDiligenceIndexRoute
   '/clients/$clientId/report': typeof ClientsClientIdReportRoute
+  '/due-diligence/$reviewId/report': typeof DueDiligenceReviewIdReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/graph-search': typeof GraphSearchRoute
+  '/messages': typeof MessagesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
   '/clients/$clientId': typeof ClientsClientIdRouteWithChildren
+  '/due-diligence/$reviewId': typeof DueDiligenceReviewIdRouteWithChildren
   '/clients': typeof ClientsIndexRoute
+  '/due-diligence': typeof DueDiligenceIndexRoute
   '/clients/$clientId/report': typeof ClientsClientIdReportRoute
+  '/due-diligence/$reviewId/report': typeof DueDiligenceReviewIdReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
   '/graph-search': typeof GraphSearchRoute
+  '/messages': typeof MessagesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
   '/clients/$clientId': typeof ClientsClientIdRouteWithChildren
+  '/due-diligence/$reviewId': typeof DueDiligenceReviewIdRouteWithChildren
   '/clients/': typeof ClientsIndexRoute
+  '/due-diligence/': typeof DueDiligenceIndexRoute
   '/clients/$clientId/report': typeof ClientsClientIdReportRoute
+  '/due-diligence/$reviewId/report': typeof DueDiligenceReviewIdReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/calendar'
     | '/graph-search'
+    | '/messages'
+    | '/portfolio'
+    | '/reports'
+    | '/settings'
     | '/clients/$clientId'
+    | '/due-diligence/$reviewId'
     | '/clients/'
+    | '/due-diligence/'
     | '/clients/$clientId/report'
+    | '/due-diligence/$reviewId/report'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/calendar'
     | '/graph-search'
+    | '/messages'
+    | '/portfolio'
+    | '/reports'
+    | '/settings'
     | '/clients/$clientId'
+    | '/due-diligence/$reviewId'
     | '/clients'
+    | '/due-diligence'
     | '/clients/$clientId/report'
+    | '/due-diligence/$reviewId/report'
   id:
     | '__root__'
     | '/'
+    | '/calendar'
     | '/graph-search'
+    | '/messages'
+    | '/portfolio'
+    | '/reports'
+    | '/settings'
     | '/clients/$clientId'
+    | '/due-diligence/$reviewId'
     | '/clients/'
+    | '/due-diligence/'
     | '/clients/$clientId/report'
+    | '/due-diligence/$reviewId/report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalendarRoute: typeof CalendarRoute
   GraphSearchRoute: typeof GraphSearchRoute
+  MessagesRoute: typeof MessagesRoute
+  PortfolioRoute: typeof PortfolioRoute
+  ReportsRoute: typeof ReportsRoute
+  SettingsRoute: typeof SettingsRoute
   ClientsClientIdRoute: typeof ClientsClientIdRouteWithChildren
+  DueDiligenceReviewIdRoute: typeof DueDiligenceReviewIdRouteWithChildren
   ClientsIndexRoute: typeof ClientsIndexRoute
+  DueDiligenceIndexRoute: typeof DueDiligenceIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/graph-search': {
       id: '/graph-search'
       path: '/graph-search'
       fullPath: '/graph-search'
       preLoaderRoute: typeof GraphSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -110,11 +249,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/due-diligence/': {
+      id: '/due-diligence/'
+      path: '/due-diligence'
+      fullPath: '/due-diligence/'
+      preLoaderRoute: typeof DueDiligenceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clients/': {
       id: '/clients/'
       path: '/clients'
       fullPath: '/clients/'
       preLoaderRoute: typeof ClientsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/due-diligence/$reviewId': {
+      id: '/due-diligence/$reviewId'
+      path: '/due-diligence/$reviewId'
+      fullPath: '/due-diligence/$reviewId'
+      preLoaderRoute: typeof DueDiligenceReviewIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clients/$clientId': {
@@ -123,6 +276,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/clients/$clientId'
       preLoaderRoute: typeof ClientsClientIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/due-diligence/$reviewId/report': {
+      id: '/due-diligence/$reviewId/report'
+      path: '/report'
+      fullPath: '/due-diligence/$reviewId/report'
+      preLoaderRoute: typeof DueDiligenceReviewIdReportRouteImport
+      parentRoute: typeof DueDiligenceReviewIdRoute
     }
     '/clients/$clientId/report': {
       id: '/clients/$clientId/report'
@@ -146,11 +306,29 @@ const ClientsClientIdRouteWithChildren = ClientsClientIdRoute._addFileChildren(
   ClientsClientIdRouteChildren,
 )
 
+interface DueDiligenceReviewIdRouteChildren {
+  DueDiligenceReviewIdReportRoute: typeof DueDiligenceReviewIdReportRoute
+}
+
+const DueDiligenceReviewIdRouteChildren: DueDiligenceReviewIdRouteChildren = {
+  DueDiligenceReviewIdReportRoute: DueDiligenceReviewIdReportRoute,
+}
+
+const DueDiligenceReviewIdRouteWithChildren =
+  DueDiligenceReviewIdRoute._addFileChildren(DueDiligenceReviewIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalendarRoute: CalendarRoute,
   GraphSearchRoute: GraphSearchRoute,
+  MessagesRoute: MessagesRoute,
+  PortfolioRoute: PortfolioRoute,
+  ReportsRoute: ReportsRoute,
+  SettingsRoute: SettingsRoute,
   ClientsClientIdRoute: ClientsClientIdRouteWithChildren,
+  DueDiligenceReviewIdRoute: DueDiligenceReviewIdRouteWithChildren,
   ClientsIndexRoute: ClientsIndexRoute,
+  DueDiligenceIndexRoute: DueDiligenceIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

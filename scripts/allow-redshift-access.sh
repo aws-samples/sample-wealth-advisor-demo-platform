@@ -5,13 +5,17 @@
 
 set -e
 
-REGION="us-west-2"
-EC2_VPC="vpc-0f0128eb9043b8bbb"
-REDSHIFT_VPC="vpc-0a9c92e6fe62049c1"
-REDSHIFT_SG="sg-059143ee0ef106a87"
-EC2_IP="10.0.3.187"
-REDSHIFT_PORT="5439"
-REDSHIFT_ENDPOINT="financial-advisor-wg.507139572291.us-west-2.redshift-serverless.amazonaws.com"
+# Environment-specific values — provide via environment (no real resource IDs committed).
+REGION="${REGION:-us-west-2}"
+EC2_VPC="${EC2_VPC:?EC2_VPC env var is required (e.g. export EC2_VPC=vpc-xxxxxxxx)}"
+REDSHIFT_VPC="${REDSHIFT_VPC:?REDSHIFT_VPC env var is required (e.g. export REDSHIFT_VPC=vpc-xxxxxxxx)}"
+REDSHIFT_SG="${REDSHIFT_SG:?REDSHIFT_SG env var is required (e.g. export REDSHIFT_SG=sg-xxxxxxxx)}"
+EC2_IP="${EC2_IP:?EC2_IP env var is required (private IP/CIDR of the EC2 dev machine, e.g. export EC2_IP=10.0.0.0/24)}"
+REDSHIFT_PORT="${REDSHIFT_PORT:-5439}"
+# Derive the Redshift Serverless endpoint from the account/region unless overridden.
+AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:-$(aws sts get-caller-identity --query Account --output text)}"
+REDSHIFT_WORKGROUP="${REDSHIFT_WORKGROUP:-financial-advisor-wg}"
+REDSHIFT_ENDPOINT="${REDSHIFT_ENDPOINT:-${REDSHIFT_WORKGROUP}.${AWS_ACCOUNT_ID}.${REGION}.redshift-serverless.amazonaws.com}"
 
 echo "Step 1: Creating VPC peering connection..."
 PEERING_ID=$(aws ec2 create-vpc-peering-connection \

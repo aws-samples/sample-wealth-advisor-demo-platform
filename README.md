@@ -37,6 +37,66 @@ The future of wealth management, featuring:
 Overall architecture for Wealth and Financial Advisor Demo Platform
 ![alt text](images/overall_architecture.png)
 
+### Data Lake Architecture (Athena / Lake Formation / S3 Tables)
+
+The platform implements a dual data engine — Redshift Serverless for high-throughput writes and Amazon Athena over S3 Tables (Apache Iceberg) for serverless reads. The `DATA_ENGINE` environment variable controls which path Lambda functions use at runtime.
+
+#### Redshift Serverless — Primary Write Path
+
+![Redshift Architecture](images/redshift-architecture.drawio)
+
+**Write path:** CSV source files → S3 (fa-data bucket) → COPY command → Redshift Serverless (workgroup: financial-advisor-wg, database: dev). Redshift hosts 24 core tables (clients, advisors, accounts, portfolios, holdings, securities, transactions, market_data), AI/feature tables (themes, articles, client_reports), analytics views (client_portfolio_holdings, advisor_dashboard_summary, aum_trends), and QuickSight snapshot tables. Lambda functions access Redshift via `RedshiftClient` using IAM auth over VPC endpoints. A bastion host (EC2 t4g.nano) provides SSM port-forwarding for local development (port 5439).
+
+#### Athena / S3 Tables — Serverless Read Path
+
+![Data Lake Architecture](images/data-lake-architecture.drawio)
+
+**Data flow:** CSV source files → AWS Glue ETL (24 jobs, Spark on Glue 5.0) → S3 Tables (Iceberg) → Glue Data Catalog (federated) → Lake Formation (fine-grained row/column permissions) → Athena queries. Lambda functions access data via `DataApiBaseRepository` which delegates to either `AthenaBaseRepository` or Redshift depending on configuration.
+
+### Agentic Flows (Amazon Bedrock AgentCore Runtime)
+
+All AI agents run on **Amazon Bedrock AgentCore Runtime** using the **Strands SDK** with Amazon Bedrock (Claude Sonnet) as the foundation model. Each agent is deployed as a Docker container via ECR.
+
+#### Advisor Chat — A2A Multi-Agent System
+
+The Smart Chat feature uses an Agent-to-Agent (A2A) architecture where a Routing Agent analyzes user intent and dispatches to specialist agents.
+
+![Advisor Chat Agentic Flow](images/advisor-chat-agentic-flow.drawio)
+
+**Agents:** Routing Agent → Database Agent (Redshift/Athena queries), Stock Data Agent (Yahoo Finance), Web Search Agent (Tavily), Market Insights Agent (AI themes), Client Report Agent (PDF generation), Knowledge Base Agent (RAG). **Voice:** Nova Sonic bidirectional audio streaming. **MCP Gateways:** Portfolio Data, Scheduler, Email Sender, Neptune Analytics, Web Crawler.
+
+#### Due Diligence — Multi-Agent Pipeline
+
+The Due Diligence feature runs a supervised pipeline of specialist agents that analyze investment fund documents.
+
+![Due Diligence Agentic Flow](images/due-diligence-agentic-flow.drawio)
+
+**Pipeline:** Supervisor Agent orchestrates → Evidence Gatherer (PDF extraction from S3 source docs) → Quant Analyst (returns, volatility, Sharpe, drawdown) → Framework Assessor (scores against DD criteria: governance, investment process, risk, operations, ESG, fees) → QA Agent (validates consistency) → Report Drafter (generates HTML report with scorecard).
+
+#### Market Events Coordinator — Theme Generation
+
+Daily automated pipeline that crawls financial news and generates AI-powered market themes.
+
+![Market Events Agentic Flow](images/market-events-agentic-flow.drawio)
+
+**Flow:** EventBridge Scheduler (daily 2AM UTC) → Step Functions → GenerateGeneralThemes Lambda (crawls via Web Crawler MCP, then generates themes via Bedrock) + GeneratePortfolioThemes Lambda (per-client top holdings → relevant articles → personalized themes).
+
+#### Report Generation — Client Briefing
+
+On-demand client report generation combining deterministic data with AI narratives.
+
+![Report Generation Agentic Flow](images/report-generation-agentic-flow.drawio)
+
+**Flow:** Report Agent fetches client data via Athena → generates next-best-action via Bedrock → generates narrative sections (market outlook, portfolio analysis, risk assessment, recommendations) via Bedrock Converse tool-use → assembles Markdown → converts to PDF (WeasyPrint) → uploads to S3.
+
+#### Graph Search — Natural Language to openCypher
+
+Natural language queries translated to graph database queries for relationship discovery.
+
+![Graph Search Agentic Flow](images/graph-search-agentic-flow.drawio)
+
+**Flow:** User NL query → Graph Search Agent uses Bedrock to generate openCypher → executes against Neptune Analytics (knowledge graph: Advisor, Client, Company, City, Stock, RiskProfile nodes) → returns SSE-streamed results → UI enriches with connection backfill and explanations.
+
 ## Tech Stack & AWS Services
 
 ### Frontend
@@ -340,6 +400,13 @@ Two CodeBuild projects automate the full deployment. A developer can go from a f
 ```
 
 The script prompts for app name, env name, regions, and other settings — with smart defaults for each. It also creates the `Admin` IAM role for Lake Formation if it doesn't exist.
+
+Before any deployment, set the exact target account and region. The upload and build helpers stop if the active AWS identity does not match:
+
+```bash
+export EXPECTED_AWS_ACCOUNT_ID="<12-digit-account-id>"
+export AWS_REGION="us-west-2"
+```
 
 #### **Step 2**: Deploy CI Infrastructure
 

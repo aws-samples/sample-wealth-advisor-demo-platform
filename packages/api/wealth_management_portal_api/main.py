@@ -33,12 +33,20 @@ from .client_segments_handler import (  # noqa: E402
 )
 from .holdings_handler import HoldingsListResponse, get_client_holdings  # noqa: E402
 from .init import app, lambda_handler, logger, tracer  # noqa: E402
-from .market_themes_handler import MarketThemesResponse, get_market_themes  # noqa: E402
+from ._cache import ttl_cache  # noqa: E402
+from .market_themes_handler import MarketThemesResponse, RefreshThemesResponse, get_market_themes, refresh_market_themes  # noqa: E402
 from .portfolio_themes_handler import (  # noqa: E402
     PortfolioThemesResponse,
     get_portfolio_themes as get_portfolio_themes_v2,
 )
-from .report_handler import ReportStatusResponse, get_client_report  # noqa: E402
+from .portfolio_handler import PortfolioSummaryResponse, get_portfolio_summary  # noqa: E402
+from .report_handler import (
+    ReportStatusResponse,
+    ReportsSummaryResponse,
+    generate_client_report,
+    get_client_report,
+    get_reports_summary,
+)  # noqa: E402
 from .top_clients_handler import TopClientsResponse, get_top_clients  # noqa: E402
 from .transactions_handler import (  # noqa: E402
     TransactionsListResponse,
@@ -60,6 +68,7 @@ def echo(message: str) -> EchoOutput:
 
 @app.get("/aum-trends")
 @tracer.capture_method
+@ttl_cache()
 def aum_trends(advisor_id: str = "", limit: int = Query(default=12, ge=1, le=100)) -> AUMTrendsResponse:
     """Get AUM trends data from Redshift"""
     return get_aum_trends(advisor_id or None, limit)
@@ -67,6 +76,7 @@ def aum_trends(advisor_id: str = "", limit: int = Query(default=12, ge=1, le=100
 
 @app.get("/dashboard-summary")
 @tracer.capture_method
+@ttl_cache()
 def dashboard_summary() -> DashboardSummaryResponse:
     """Get dashboard summary metrics from Redshift"""
     return get_dashboard_summary()
@@ -74,6 +84,7 @@ def dashboard_summary() -> DashboardSummaryResponse:
 
 @app.get("/client-segments")
 @tracer.capture_method
+@ttl_cache()
 def client_segments() -> ClientSegmentsResponse:
     """Get client segment distribution from Redshift"""
     return get_client_segments()
@@ -81,6 +92,7 @@ def client_segments() -> ClientSegmentsResponse:
 
 @app.get("/clients")
 @tracer.capture_method
+@ttl_cache()
 def clients(limit: int = Query(default=50, ge=1, le=100), offset: int = Query(default=0, ge=0)) -> ClientListResponse:
     """Get all clients from Redshift"""
     return get_clients(limit, offset)
@@ -88,9 +100,18 @@ def clients(limit: int = Query(default=50, ge=1, le=100), offset: int = Query(de
 
 @app.get("/top-clients")
 @tracer.capture_method
+@ttl_cache()
 def top_clients() -> TopClientsResponse:
     """Get top 5 clients by AUM"""
     return get_top_clients()
+
+
+@app.get("/portfolio-summary")
+@tracer.capture_method
+@ttl_cache()
+def portfolio_summary() -> PortfolioSummaryResponse:
+    """Get aggregate portfolio summary across all clients"""
+    return get_portfolio_summary()
 
 
 @app.post("/clients/search")
@@ -158,6 +179,7 @@ def client_themes(client_id: str, limit: int = Query(default=15, ge=1, le=50)) -
 
 @app.get("/market-themes")
 @tracer.capture_method
+@ttl_cache()
 def market_themes(limit: int = Query(default=6, ge=1, le=50)) -> MarketThemesResponse:
     """Get market themes from Redshift via RedshiftClient"""
     return get_market_themes(limit)
@@ -203,7 +225,21 @@ def theme_articles(theme_id: str):
         return {"success": False, "error": str(e), "theme_id": theme_id, "articles": []}
 
 
+@app.post("/market-themes/refresh")
+@tracer.capture_method
+def market_themes_refresh() -> RefreshThemesResponse:
+    """Trigger the theme generation batch."""
+    return refresh_market_themes()
+
+
 # --- Client Report ---
+
+
+@app.get("/reports/summary")
+@tracer.capture_method
+def reports_summary() -> ReportsSummaryResponse:
+    """Return which clients have completed reports."""
+    return get_reports_summary()
 
 
 @app.get("/clients/{client_id}/report")
@@ -211,3 +247,10 @@ def theme_articles(theme_id: str):
 def client_report(client_id: str) -> ReportStatusResponse:
     """Get latest report status and presigned download URL for a client."""
     return get_client_report(client_id)
+
+
+@app.post("/clients/{client_id}/report/generate")
+@tracer.capture_method
+def generate_report(client_id: str) -> ReportStatusResponse:
+    """Trigger on-demand report generation for a client."""
+    return generate_client_report(client_id)

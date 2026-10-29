@@ -23,7 +23,8 @@ import sys
 os.environ.setdefault("AWS_REGION", "us-west-2")
 os.environ.setdefault("REDSHIFT_WORKGROUP", "financial-advisor-wg")
 os.environ.setdefault("REDSHIFT_DATABASE", "financial-advisor-db")
-os.environ.setdefault("AWS_ACCOUNT_ID", "507139572291")
+# AWS_ACCOUNT_ID is resolved from the environment / AWS profile at runtime.
+# Set it explicitly if a tool requires it: export AWS_ACCOUNT_ID=<your-account-id>
 
 # Use profile-based auth — clear any stale hardcoded keys from .env
 for key in ("AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN"):
@@ -250,8 +251,8 @@ class _DirectThemeProcessor(_ThemeProcessor):
         self.bedrock = boto3.client("bedrock-runtime", config=config)
         self.use_cross_region = use_cross_region
         self.model_id = (
-            "us.anthropic.claude-3-5-sonnet-20241022-v2:0" if use_cross_region
-            else "anthropic.claude-3-5-sonnet-20241022-v2:0"
+            "us.anthropic.claude-sonnet-5-v1:0" if use_cross_region
+            else "au.anthropic.claude-sonnet-5-v1:0"
         )
         self.mcp_client = None  # not used
 

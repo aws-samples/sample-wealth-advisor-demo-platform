@@ -4,6 +4,7 @@ Uses AWS Bedrock Claude for intelligent query understanding
 """
 
 import json
+import os
 import re
 from dataclasses import dataclass
 
@@ -26,7 +27,7 @@ class ParsedQuery:
 class QueryParser:
     """Parse natural language stock queries using LLM"""
 
-    def __init__(self, region: str = "us-east-1"):
+    def __init__(self, region: str = os.environ.get("AWS_REGION", "us-west-2")):
         """
         Initialize query parser
 
@@ -35,7 +36,7 @@ class QueryParser:
         """
         config = Config(region_name=region, retries={"max_attempts": 3, "mode": "adaptive"})
         self.bedrock = boto3.client("bedrock-runtime", config=config)
-        self.model_id = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+        self.model_id = os.environ.get("CLIENT_SEARCH_MODEL_ID", "us.anthropic.claude-sonnet-5")
 
         # Common stock symbols for reference
         self.common_stocks = {

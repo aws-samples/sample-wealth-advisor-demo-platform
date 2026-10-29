@@ -16,14 +16,10 @@ class SigV4HTTPXAuth(httpx.Auth):
         self.region = region
         self.signer = SigV4Auth(credentials, self.service, region)
 
-    def auth_flow(
-        self, request: httpx.Request
-    ) -> Generator[httpx.Request, httpx.Response, None]:
+    def auth_flow(self, request: httpx.Request) -> Generator[httpx.Request, httpx.Response, None]:
         headers = dict(request.headers)
         headers.pop("connection", None)
-        headers["x-amz-content-sha256"] = hashlib.sha256(
-            request.content if request.content else b""
-        ).hexdigest()
+        headers["x-amz-content-sha256"] = hashlib.sha256(request.content if request.content else b"").hexdigest()
         aws_request = AWSRequest(
             method=request.method,
             url=str(request.url),

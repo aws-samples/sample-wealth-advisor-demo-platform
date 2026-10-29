@@ -4,6 +4,14 @@
   "sourceRoot": "packages/infra/src",
   "projectType": "application",
   "tags": [],
+  "implicitDependencies": [
+    "@wealth-management-portal/ui",
+    "wealth_management_portal.due_diligence",
+    "wealth_management_portal.graph_search_api",
+    "wealth_management_portal.graph_search_engine",
+    "wealth_management_portal.intelligence_api",
+    "wealth_management_portal.api"
+  ],
   "metadata": {
     "generator": "ts#infra"
   },

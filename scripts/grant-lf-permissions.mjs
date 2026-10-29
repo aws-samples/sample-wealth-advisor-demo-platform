@@ -23,6 +23,9 @@ const ROLE_PATTERNS = [
   'GetClientListServiceRole',
   'GenerateGeneralThemesServ',
   'GeneratePortfolioThemesSe',
+  'IntelligenceApiRouterHand',
+  'DDQuantAnalystExecutionRo',
+  'ReportAgentExecutionRole',
   // Redshift namespace role (created by DataZone/SageMaker environment blueprint)
   'datazone_usr_role',
 ];
@@ -109,12 +112,12 @@ function grantPermissions(region, roleArn, catalogId, parentCatalogId) {
     `--permissions DESCRIBE`
   );
 
-  // 3. SELECT + DESCRIBE on all tables (wildcard)
+  // 3. SELECT + DESCRIBE + INSERT + ALTER on all tables (wildcard)
   exec(
     `aws lakeformation grant-permissions --region "${region}" ` +
     `--principal "${principal}" ` +
     `--resource '{"Table": {"CatalogId": "${catalogId}", "DatabaseName": "${LF_DATABASE}", "TableWildcard": {}}}' ` +
-    `--permissions SELECT DESCRIBE`
+    `--permissions SELECT DESCRIBE INSERT ALTER`
   );
 }
 

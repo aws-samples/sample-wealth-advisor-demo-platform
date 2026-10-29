@@ -1,0 +1,132 @@
+<mxfile host="Electron">
+  <diagram id="report-flow" name="Report Generation">
+    <mxGraphModel dx="2054" dy="1272" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#232F3E;" value="Report Generation &amp;mdash; Client Briefing (Strands SDK + MCP Gateway)" vertex="1">
+          <mxGeometry height="30" width="600" x="300" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="user" parent="1" style="shape=mxgraph.aws4.user;fillColor=#232F3E;strokeColor=none;fontColor=#232F3E;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Financial&#xa;Advisor" vertex="1">
+          <mxGeometry height="75" width="60" x="59" y="322" as="geometry" />
+        </mxCell>
+        <mxCell id="apigw" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" value="API Gateway&#xa;POST /clients/{id}/&#xa;report/generate" vertex="1">
+          <mxGeometry height="60" width="60" x="195" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="runtime" parent="1" style="swimlane;startSize=36;fillColor=#f0fdf4;strokeColor=#01A88D;fontStyle=1;fontSize=13;fontColor=#01A88D;html=1;rounded=0;" value="AgentCore Runtime" vertex="1">
+          <mxGeometry height="490" width="480" x="330" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="badge" parent="runtime" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock_agentcore;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="4" y="4" as="geometry" />
+        </mxCell>
+        <mxCell id="agent" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" value="Report Agent (Strands SDK)" vertex="1">
+          <mxGeometry height="50" width="360" x="60" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="1) get_client_report_data (MCP)&#xa;Fetches client profile, holdings,&#xa;performance, transactions, themes" vertex="1">
+          <mxGeometry height="60" width="240" x="120" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="2) generate_next_best_action&#xa;Bedrock invoke_model" vertex="1">
+          <mxGeometry height="50" width="240" x="120" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="3) generate_report_narratives&#xa;Bedrock Converse (forced tool-use)&#xa;7 narrative sections" vertex="1">
+          <mxGeometry height="60" width="240" x="120" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="4) assemble_and_upload_pdf&#xa;WeasyPrint &amp;rarr; PDF &amp;rarr; S3" vertex="1">
+          <mxGeometry height="50" width="240" x="120" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" parent="runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="5) save_report (MCP)&#xa;Persist report record to Athena" vertex="1">
+          <mxGeometry height="45" width="240" x="120" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="runtime" source="agent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="t1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="runtime" source="t1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;" target="t2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="runtime" source="t2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;" target="t3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="runtime" source="t3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;" target="t4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="runtime" source="t4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;" target="t5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KGL4xtMjVMK-_HQ0MRfd-6" parent="runtime" style="shape=image;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;aspect=fixed;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOTAiIGhlaWdodD0iNDYzIiB2aWV3Qm94PSIwIDAgMjkwIDQ2MyIgZmlsbD0ibm9uZSI+JiN4YTs8cGF0aCBkPSJNOTcuMjkwMiA1Mi43ODg0Qzg1LjA2NzQgNDkuMTY2NyA3Mi4yMjM0IDU2LjEzODkgNjguNjAxNyA2OC4zNjE2QzY0Ljk4MDEgODAuNTg0MyA3MS45NTI0IDkzLjQyODMgODQuMTc0OSA5Ny4wNTAxTDIzNS4xMTcgMTM5Ljc3NUMyNDUuMjIzIDE0Mi43NjkgMjQ2LjM1NyAxNTYuNjI4IDIzNi44NzQgMTYxLjIyNkwzMi41NDYgMjYwLjI5MUMtMTQuOTQzOSAyODMuMzE2IC05LjE2MTA3IDM1Mi43NCA0MS40ODM1IDM2Ny41OTFMMTg5LjU1MSA0MTEuMDA5TDE5MC4xMjUgNDExLjE2OUMyMDIuMTgzIDQxNC4zNzYgMjE0LjY2NSA0MDcuMzk2IDIxOC4xOTYgMzk1LjM1NUMyMjEuNzg0IDM4My4xMjIgMjE0Ljc3NCAzNzAuMjk2IDIwMi41NDEgMzY2LjcwOUw1NC40NzM4IDMyMy4yOTFDNDQuMzQ0NyAzMjAuMzIxIDQzLjE4NzkgMzA2LjQzNiA1Mi42ODU3IDMwMS44MzFMMjU3LjAxNCAyMDIuNzY2QzMwNC40MzIgMTc5Ljc3NiAyOTguNzU4IDExMC40ODMgMjQ4LjIzMyA5NS41MTJMOTcuMjkwMiA1Mi43ODg0WiIgZmlsbD0iIzk4OTg5OCIvPiYjeGE7PHBhdGggZD0iTTI1OS4xNDcgMC45ODE4MTJDMjcxLjM4OSAtMi41NzQ5OCAyODQuMTk3IDQuNDY1NzEgMjg3Ljc1NCAxNi43MDc0QzI5MS4zMTEgMjguOTQ5MiAyODQuMjcgNDEuNzU3IDI3Mi4wMjggNDUuMzEzOEw3MS4xNzI3IDEwMy42NzFDNDAuNzE0MiAxMTIuNTIxIDM3LjE5NzYgMTU0LjI2MiA2NS43NDU5IDE2OC4wODNMMjQxLjM0MyAyNTMuMDkzQzMwNy44NzIgMjg1LjMwMiAyOTkuNzk0IDM4Mi41NDYgMjI4Ljg2MiA0MDMuMzM2TDMwLjQwNDEgNDYxLjUwMkMxOC4xNzA3IDQ2NS4wODggNS4zNDcwOCA0NTguMDc4IDEuNzYxNTMgNDQ1Ljg0NEMtMS44MjM5IDQzMy42MTEgNS4xODYzNyA0MjAuNzg3IDE3LjQxOTcgNDE3LjIwMkwyMTUuODc4IDM1OS4wMzVDMjQ2LjI3NyAzNTAuMTI1IDI0OS43MzkgMzA4LjQ0OSAyMjEuMjI2IDI5NC42NDVMNDUuNjI5NyAyMDkuNjM1Qy0yMC45ODM0IDE3Ny4zODYgLTEyLjc3NzIgNzkuOTg5MyA1OC4yOTI4IDU5LjM0MDJMMjU5LjE0NyAwLjk4MTgxMloiIGZpbGw9IiMwMEZGNzciLz4mI3hhOzwvc3ZnPg==" value="" vertex="1">
+          <mxGeometry height="25" width="15.66" x="104.34000000000003" y="62.5" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp" parent="1" style="swimlane;startSize=36;fillColor=#f0fdf4;strokeColor=#01A88D;fontStyle=1;fontSize=13;fontColor=#01A88D;html=1;rounded=0;" value="Portfolio Data MCP Gateway (AgentCore)" vertex="1">
+          <mxGeometry height="90" width="480" x="330" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp-badge" parent="mcp" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock_agentcore;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="4" y="4" as="geometry" />
+        </mxCell>
+        <mxCell id="mcp-node" parent="mcp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="get_client_report_data" vertex="1">
+          <mxGeometry height="40" width="190" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KGL4xtMjVMK-_HQ0MRfd-1" parent="mcp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f9f4;strokeColor=#01A88D;fontSize=11;" value="save_report" vertex="1">
+          <mxGeometry height="40" width="190" x="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bedrock" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#01A88D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock;" value="Amazon Bedrock&#xa;Claude Sonnet&#xa;Converse API" vertex="1">
+          <mxGeometry height="60" width="60" x="880" y="89" as="geometry" />
+        </mxCell>
+        <mxCell id="athena" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.athena;" value="Amazon Athena&amp;nbsp;&lt;div&gt;(Iceberg)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="60" x="880" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;fillColor=#7AA116;strokeColor=none;fontColor=#232F3E;verticalLabelPosition=bottom;verticalAlign=top;html=1;labelBackgroundColor=none;fontSize=11;" value="Amazon S3&#xa;Report PDF storage" vertex="1">
+          <mxGeometry height="60" width="60" x="880" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="ex1" edge="1" parent="1" source="agent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;dashed=1;" target="bedrock" value="Converse API">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ex2" edge="1" parent="1" source="mcp-node" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8C4FFF;dashed=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" value="query">
+          <mxGeometry relative="1" x="-0.0002" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="435.03" y="690" />
+              <mxPoint x="910" y="690" />
+            </Array>
+            <mxPoint x="910" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ex3" edge="1" parent="1" source="t4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#7AA116;dashed=1;" target="s3" value="upload PDF">
+          <mxGeometry relative="1" x="0.7333" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="740" y="430" />
+              <mxPoint x="740" y="360" />
+              <mxPoint x="910" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ex-mcp" edge="1" parent="1" source="runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#01A88D;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="mcp" value="MCP tool call">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu1" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#232F3E;" target="apigw" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu2" edge="1" parent="1" source="apigw" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#232F3E;" target="runtime" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KGL4xtMjVMK-_HQ0MRfd-3" parent="1" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;fillColor=#7AA116;strokeColor=none;fontColor=#232F3E;verticalLabelPosition=bottom;verticalAlign=top;html=1;labelBackgroundColor=none;fontSize=11;" value="Amazon S3 Tables&lt;div&gt;client data + reports&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="60" x="880" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="KGL4xtMjVMK-_HQ0MRfd-4" edge="1" parent="1" source="athena" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#7AA116;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="KGL4xtMjVMK-_HQ0MRfd-3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="470" as="sourcePoint" />
+            <mxPoint x="930" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KGL4xtMjVMK-_HQ0MRfd-5" edge="1" parent="1" source="KGL4xtMjVMK-_HQ0MRfd-1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#8C4FFF;dashed=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="write">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="640" />
+            </Array>
+            <mxPoint x="445" y="670" as="sourcePoint" />
+            <mxPoint x="910" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
